@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>INCENDIO · monquits</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #1d1bff; }
+  body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+</style>
+</head>
+<body>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="project-entry.jsx"></script>
+
+<div id="root"></div>
+
+<script type="text/babel" data-presets="react">
+  // Datos del proyecto. Esto es lo que el .exe genera por cada entrada nueva.
+  const PROJECT = {
+    id: "monquits",
+    title: "monquits",
+    template: "object-text",   // ← elige plantilla
+    year: "2026",
+    category: "ILLUSTRATION",
+    client: "personal",
+    role: "ilustración + concepto",
+    tools: ["Procreate", "Photoshop"],
+    tags: ["monquit", "personaje", "criatura", "rosa", "digital"],
+
+    // específicos de "object-text":
+    image: "assets/projects/monquits/monquit.png",
+    headline: "criaturas que _aparecen sin avisar_.",
+    paragraphs: [
+      "los monquits son una serie abierta de personajes que dibujo cuando una idea no encaja en otro sitio.",
+      "no tienen lore. no tienen nombre. son lo que parezcan ese día."
+    ],
+    specs: {
+      formato: "digital · 2400×3000px",
+      edición: "abierta",
+      precio: "consultar"
+    },
+
+    // navegación
+    prev: "veoveo",
+    next: "gradient-generator"
+  };
+
+  ReactDOM.createRoot(document.getElementById("root")).render(
+    <window.ProjectEntry data={PROJECT} palette="electric" />
+  );
+</script>
+
+</body>
+</html>
