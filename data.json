@@ -1,0 +1,113 @@
+{
+  "site": {
+    "name": "INCENDIO",
+    "year": "1987",
+    "email": "incendio1987@protonmail.com",
+    "city": "Madrid",
+    "defaultLang": "es",
+    "defaultPalette": "electric"
+  },
+  "i18n": {
+    "es": {
+      "hola": "HOLA",
+      "soy": "SOY",
+      "hero_tag_a": "Diseño, ilustración, código y caos curado.",
+      "hero_tag_b": "Si te gusta lo que ves, hablemos.",
+      "ultimo": "PENÚLTIMO",
+      "proyectos": "PROYECTOS",
+      "shop_arrow": "SHOP →",
+      "trabajos_recientes": "TRABAJOS RECIENTES",
+      "cosas_bonitas": "cosas\nbonitas.",
+      "cosas_sub": "selección personal de mis trabajos favoritos.",
+      "todo_archivo": "todo el\narchivo.",
+      "buscar": "Buscar proyecto…",
+      "ilustracion": "ilustración",
+      "webdev": "web/dev",
+      "branding": "branding",
+      "shop": "shop",
+      "work": "WORK",
+      "about": "ABOUT",
+      "contact": "CONTACT",
+      "paleta": "PALETA",
+      "madrid": "MADRID · ES"
+    },
+    "en": {
+      "hola": "HELLO",
+      "soy": "I'M",
+      "hero_tag_a": "Design, illustration, code & curated chaos.",
+      "hero_tag_b": "If you like what you see, let's talk.",
+      "ultimo": "LATEST",
+      "proyectos": "PROJECTS",
+      "shop_arrow": "SHOP →",
+      "trabajos_recientes": "LATEST WORK",
+      "cosas_bonitas": "cool\nstuff.",
+      "cosas_sub": "personal selection of my favourite works.",
+      "todo_archivo": "full\narchive.",
+      "buscar": "Search project…",
+      "ilustracion": "illustration",
+      "webdev": "web/dev",
+      "branding": "branding",
+      "shop": "shop",
+      "work": "WORK",
+      "about": "ABOUT",
+      "contact": "CONTACT",
+      "paleta": "PALETTE",
+      "madrid": "MADRID · ES"
+    }
+  },
+  "palettes": {
+    "electric": {
+      "bg": "#1d1bff",
+      "paper": "#fffaee",
+      "ink": "#0a0a0a",
+      "accent1": "#ffd000",
+      "accent2": "#ff8de0",
+      "accent3": "#5ae3a4"
+    },
+    "sunset": {
+      "bg": "#ff5e9e",
+      "paper": "#fff7d6",
+      "ink": "#0a0a0a",
+      "accent1": "#ffd000",
+      "accent2": "#1d1bff",
+      "accent3": "#ff7a59"
+    },
+    "acid": {
+      "bg": "#16a34a",
+      "paper": "#fffaee",
+      "ink": "#0a0a0a",
+      "accent1": "#ffd000",
+      "accent2": "#ff5e9e",
+      "accent3": "#1d4ed8"
+    },
+    "noir": {
+      "bg": "#0a0a0a",
+      "paper": "#f4f1ea",
+      "ink": "#fffaee",
+      "accent1": "#ff1d58",
+      "accent2": "#ffd000",
+      "accent3": "#5ae3a4"
+    },
+    "cream": {
+      "bg": "#f6efde",
+      "paper": "#fffaee",
+      "ink": "#0c2340",
+      "accent1": "#c0392b",
+      "accent2": "#1e3a8a",
+      "accent3": "#d4a017"
+    }
+  },
+  "heroStickers": [],
+  "projects": [],
+  "about": {
+    "headline": "soy INCENDIO. hago muchas cosas.",
+    "blocks": []
+  },
+  "contact": {
+    "email": "incendio1987@protonmail.com",
+    "social": []
+  },
+  "shop": {
+    "items": []
+  }
+}
