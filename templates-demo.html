@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>INCENDIO · plantillas de proyecto</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #1d1bff; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  .demo-nav {
+    position: fixed; top: 12px; left: 50%; transform: translateX(-50%);
+    z-index: 999; display: flex; gap: 4px;
+    background: #fffaee; border: 2px solid #0a0a0a;
+    padding: 4px; box-shadow: 4px 4px 0 #0a0a0a;
+  }
+  .demo-nav button {
+    border: none; background: transparent; cursor: pointer;
+    padding: 6px 10px; font-family: inherit; font-weight: 900;
+    font-size: 10px; letter-spacing: 0.2em;
+    transition: background 0.15s;
+  }
+  .demo-nav button:hover { background: #ffd000; }
+  .demo-nav button.on { background: #0a0a0a; color: #fffaee; }
+</style>
+</head>
+<body>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="project-entry.jsx"></script>
+
+<div id="root"></div>
+
+<script type="text/babel" data-presets="react">
+  const SAMPLES = {
+    "single-image": {
+      id: "demo-1", title: "monquits", template: "single-image",
+      year: "2026", category: "ILLUSTRATION", role: "ilustración",
+      tools: ["Procreate"], tags: ["personaje"],
+      image: "assets/projects/monquits/monquit.png",
+      caption: "una imagen, sin más. cuando la pieza habla sola."
+    },
+    "gallery": {
+      id: "demo-2", title: "veoveo", template: "gallery",
+      year: "2026", category: "TYPE STUDY", role: "ilustración",
+      tools: ["Procreate"], tags: ["type", "experimento"],
+      images: [
+        { src: "assets/projects/veoveo/veo_20260429_103026.png", variant: "tall" },
+        "assets/projects/veoveo/veo_20260429_100017.png",
+        "assets/projects/monquits/monquit3.png",
+        { src: "assets/projects/veoveo/veo_20260429_103026.png", variant: "wide" },
+        "assets/projects/monquits/monquit.png"
+      ]
+    },
+    "object-text": {
+      id: "demo-3", title: "monquits", template: "object-text",
+      year: "2026", category: "ILLUSTRATION", role: "ilustración + concepto",
+      tools: ["Procreate", "Photoshop"], tags: ["personaje"],
+      image: "assets/projects/monquits/monquit.png",
+      headline: "criaturas que _aparecen sin avisar_.",
+      paragraphs: [
+        "los monquits son personajes que dibujo cuando una idea no encaja en otro sitio.",
+        "no tienen lore. no tienen nombre. son lo que parezcan ese día."
+      ],
+      specs: { formato: "digital · 2400×3000", edición: "abierta", precio: "consultar" }
+    },
+    "long-read": {
+      id: "demo-4", title: "gradient generator", template: "long-read",
+      year: "2026", category: "WEB / DEV", role: "diseño + dev",
+      tools: ["JS", "WebGL"], tags: ["herramienta"],
+      link: "https://example.com", linkLabel: "Probar tool →",
+      blocks: [
+        { heading: "el problema",
+          paragraphs: ["los gradientes que vienen por defecto en design tools son aburridos. siempre los mismos. quería algo que generase combinaciones que no se me ocurrirían."] },
+        { type: "pull", text: "no es un _generador random_, es un _curador con dados_." },
+        { heading: "el proceso",
+          paragraphs: ["empecé con un set de paletas favoritas. luego añadí ruido controlado y reglas de armonía. el resultado son gradientes que sorprenden pero no chillan."],
+          image: "assets/projects/gradient-generator/gradient-1920x1080.png" },
+        { heading: "lo aprendido", full: true,
+          paragraphs: ["a veces la herramienta más útil es la que reduce decisiones. no genera infinitas opciones — genera buenas opciones. eso es trabajo de diseño, no de algoritmo."] }
+      ]
+    },
+    "showcase": {
+      id: "demo-5", title: "palette finder", template: "showcase",
+      year: "2026", category: "WEB / DEV", role: "diseño + dev",
+      tools: ["JS"], tags: ["herramienta"],
+      rows: [
+        { heading: "extracción", text: "subes una imagen y extrae una paleta limpia, sin colores muertos.", image: "assets/projects/palette-finder/palette-1777475649612.png" },
+        { heading: "armonía", text: "calcula complementarios, tríadas y análogos automáticamente.", image: "assets/projects/gradient-generator/gradient-1920x1080.png" },
+        { heading: "exportar", text: "exporta a CSS variables, Tailwind config o Figma vars con un click.", image: "assets/projects/palette-finder/palette-1777475649612.png" }
+      ]
+    },
+    "video": {
+      id: "demo-6", title: "veo loop", template: "video",
+      year: "2026", category: "MOTION", role: "animación",
+      tools: ["DaVinci Resolve"], tags: ["motion"],
+      embed: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      caption: "loop tipográfico de 20 segundos. va con la camiseta."
+    }
+  };
+
+  function Demo() {
+    const keys = Object.keys(SAMPLES);
+    const [k, setK] = React.useState(keys[0]);
+    return (
+      <React.Fragment>
+        <div className="demo-nav">
+          {keys.map(key => (
+            <button key={key} className={k === key ? "on" : ""} onClick={() => setK(key)}>
+              {key}
+            </button>
+          ))}
+        </div>
+        <window.ProjectEntry data={SAMPLES[k]} palette="electric" />
+      </React.Fragment>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById("root")).render(<Demo />);
+</script>
+
+</body>
+</html>
