@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>INCENDIO · refresh — 3 direcciones</title>
+<style>
+  body { margin: 0; background: #d8d3c5; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+</style>
+</head>
+<body>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="directions/max-type.jsx"></script>
+<script type="text/babel" src="directions/happy-grid.jsx"></script>
+<script type="text/babel" src="directions/character-stage.jsx"></script>
+
+<div id="root"></div>
+
+<script type="text/babel" data-presets="react">
+  function App() {
+    return (
+      <window.DesignCanvas title="INCENDIO · 1987 — index refresh">
+        <window.DCSection id="indexes" title="Index — 3 direcciones">
+          <window.DCArtboard id="max-type" label="01 / MAX TYPE — tipografía gigante, archivo de cards" width={1280} height={820}>
+            <MaxType />
+          </window.DCArtboard>
+          <window.DCArtboard id="happy-grid" label="02 / HAPPY GRID — gradients y mosaico happy" width={1280} height={820}>
+            <HappyGrid />
+          </window.DCArtboard>
+          <window.DCArtboard id="character-stage" label="03 / CHARACTER STAGE — un monquit de protagonista" width={1280} height={820}>
+            <CharacterStage />
+          </window.DCArtboard>
+        </window.DCSection>
+      </window.DesignCanvas>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+
+</body>
+</html>
