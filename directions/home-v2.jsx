@@ -11,7 +11,7 @@ const STRINGS = {
                     en: "I make faces, gradients, and keep learning to flip the script." },
   hero_tag_b:     { es: "Si te gusta lo que ves, hablemos.",
                     en: "If you like what you see, let's chat." },
-  ultimo:         { es: "ÚLTIMO",                        en: "LATEST" },
+  ultimo:         { es: "PENÚLTIMO",                     en: "PENULTIMATE" },
   fresh:          { es: "FRESH '26",                     en: "FRESH '26" },
   proyectos:      { es: "PROYECTOS",                     en: "PROJECTS" },
   vibe_code:      { es: "VIBE CODE ✦",                   en: "VIBE CODE ✦" },
@@ -225,7 +225,7 @@ function HomeV2() {
     .h2-tag b { font-weight: 900; }
 
     /* center — hero auto-aspect */
-    .h2-center { position: relative; display: flex; align-items: center; justify-content: center; z-index: 2; padding: 70px 100px 40px 30px; margin-left: -80px; }
+    .h2-center { position: relative; display: flex; align-items: center; justify-content: center; z-index: 2; padding: 70px 60px 40px 60px; margin-left: -40px; margin-right: -90px; }
     .h2-hero {
       --aspect: ${heroAspect};
       width: min(640px, 50vw);
@@ -235,6 +235,7 @@ function HomeV2() {
       filter: drop-shadow(0 18px 0 rgba(0,0,0,0.35));
       animation: h2Float 4.5s ease-in-out infinite;
       position: relative; cursor: pointer;
+      z-index: 1; /* por debajo de las pegatinas y categorías si chocaran */
     }
     .h2-hero .inner {
       position: absolute; inset: 0; overflow: hidden;
@@ -291,27 +292,27 @@ function HomeV2() {
 
     a.h2-stk { cursor: pointer; transition: filter 0.2s ease; }
     a.h2-stk:hover { filter: brightness(1.06); animation-play-state: paused; }
-    /* hover — cada pegatina tiene su propio "kick" interactivo */
-    a.h2-stk.dance-wiggle:hover { animation: stkKickWiggle 0.5s ease-in-out infinite; }
-    a.h2-stk.dance-spin:hover   { animation: stkKickSpin   0.6s ease-in-out infinite; }
-    a.h2-stk.dance-bob:hover    { animation: stkKickBob    0.4s ease-in-out infinite; }
-    a.h2-stk.dance-swing:hover  { animation: stkKickSwing  0.45s ease-in-out infinite; }
-    @keyframes stkKickWiggle {
-      0%, 100% { transform: rotate(calc(var(--rot, 0deg) - 6deg)) scale(1.06); }
-      50%      { transform: rotate(calc(var(--rot, 0deg) + 6deg)) scale(1.10) translateY(-4px); }
+    /* hover — muy sutil (softness 15) */
+    a.h2-stk:hover { animation-play-state: paused; }
+    a.h2-stk.dance-wiggle:hover { animation: stkSoftWiggle 1.4s ease-in-out infinite; }
+    a.h2-stk.dance-spin:hover   { animation: stkSoftSpin   1.6s ease-in-out infinite; }
+    a.h2-stk.dance-bob:hover    { animation: stkSoftBob    1.2s ease-in-out infinite; }
+    a.h2-stk.dance-swing:hover  { animation: stkSoftSwing  1.3s ease-in-out infinite; }
+    @keyframes stkSoftWiggle {
+      0%, 100% { transform: rotate(calc(var(--rot, 0deg) - 1.2deg)) scale(1.015); }
+      50%      { transform: rotate(calc(var(--rot, 0deg) + 1.2deg)) scale(1.025) translateY(-1.5px); }
     }
-    @keyframes stkKickSpin {
-      0%   { transform: rotate(calc(var(--rot, 0deg) - 12deg)) scale(1.08); }
-      50%  { transform: rotate(calc(var(--rot, 0deg) + 12deg)) scale(1.12); }
-      100% { transform: rotate(calc(var(--rot, 0deg) - 12deg)) scale(1.08); }
+    @keyframes stkSoftSpin {
+      0%, 100% { transform: rotate(calc(var(--rot, 0deg) - 2deg)) scale(1.02); }
+      50%      { transform: rotate(calc(var(--rot, 0deg) + 2deg)) scale(1.03); }
     }
-    @keyframes stkKickBob {
-      0%, 100% { transform: rotate(var(--rot, 0deg)) translateY(-2px) scale(1.06); }
-      50%      { transform: rotate(var(--rot, 0deg)) translateY(-10px) scale(1.10); }
+    @keyframes stkSoftBob {
+      0%, 100% { transform: rotate(var(--rot, 0deg)) translateY(-1px) scale(1.02); }
+      50%      { transform: rotate(var(--rot, 0deg)) translateY(-3px) scale(1.025); }
     }
-    @keyframes stkKickSwing {
-      0%, 100% { transform: rotate(calc(var(--rot, 0deg) + 10deg)) scale(1.06); }
-      50%      { transform: rotate(calc(var(--rot, 0deg) - 10deg)) scale(1.06); }
+    @keyframes stkSoftSwing {
+      0%, 100% { transform: rotate(calc(var(--rot, 0deg) + 1.5deg)) scale(1.02); }
+      50%      { transform: rotate(calc(var(--rot, 0deg) - 1.5deg)) scale(1.02); }
     }
 
     /* bailes independientes — cada uno con su propio ritmo */
@@ -644,7 +645,7 @@ function HomeV2() {
       <section className="h2-bonitas">
         <div className="h2-bonitas-head">
           <h2 className="ttl">{t("cosas_bonitas")}</h2>
-          <p className="sub">{t("cosas_sub")} <b>— TOP {featured.length} · '26</b></p>
+          <p className="sub">{t("cosas_sub")}</p>
         </div>
         <div className="h2-carousel-wrap"
              onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
