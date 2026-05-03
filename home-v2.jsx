@@ -43,7 +43,6 @@ function makeT(lang) {
 }
 
 const HOME_PROJECTS = [
-  { id: "veo-100", title: "veo loop", cat: "TYPE STUDY", year: "2026", cover: "assets/projects/veoveo/veo_20260429_100017.png", contain: true, featured: true },
 ];
 
 /* ─── PEGATINAS DEL HERO ───
