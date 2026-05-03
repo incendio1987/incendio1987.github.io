@@ -254,7 +254,7 @@ function ProjectEntry({ data, palette = "electric" }) {
       <style>{css}</style>
 
       <header className="pe-top">
-        <a className="back" href="index.html">← INCENDIO·1987</a>
+        <a className="back" href="#/">← INCENDIO·1987</a>
         <div className="meta-mini">
           <span>{data.category}</span>
           <span>{data.year}</span>
@@ -292,8 +292,8 @@ function ProjectEntry({ data, palette = "electric" }) {
       <footer className="pe-foot">
         <span>© INCENDIO 1987</span>
         <div className="nav">
-          {data.prev && <a href={`${data.prev}.html`}>← anterior</a>}
-          {data.next && <a href={`${data.next}.html`}>siguiente →</a>}
+          {data.prev && <a href={`#/project/${data.prev}`}>← anterior</a>}
+          {data.next && <a href={`#/project/${data.next}`}>siguiente →</a>}
         </div>
       </footer>
     </div>
