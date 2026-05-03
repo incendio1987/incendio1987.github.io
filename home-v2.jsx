@@ -43,6 +43,7 @@ function makeT(lang) {
 }
 
 const HOME_PROJECTS = [
+  { id: "mandarinas", title: "mandarinas", cat: "ILLUSTRATION", year: "2026", cover: "assets/projects/project/mandarinas.png", contain: false, featured: false },
 ];
 
 /* ─── PEGATINAS DEL HERO ───
