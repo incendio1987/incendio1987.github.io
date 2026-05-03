@@ -43,7 +43,6 @@ function makeT(lang) {
 }
 
 const HOME_PROJECTS = [
-  { id: "gradient-generator", title: "gradient generator", cat: "WEB/DEV", year: "2026", cover: "assets/projects/gradient-generator/gradient-1920x1080.png", contain: false, featured: true },
   { id: "palette-finder", title: "palette finder", cat: "WEB/DEV", year: "2026", cover: "assets/projects/palette-finder/palette-1777475649612.png", contain: false, featured: true },
   { id: "monquits-2", title: "monquit #03", cat: "ILLUSTRATION", year: "2026", cover: "assets/projects/monquits/monquit3.png", contain: true, featured: true },
   { id: "veo-100", title: "veo loop", cat: "TYPE STUDY", year: "2026", cover: "assets/projects/veoveo/veo_20260429_100017.png", contain: true, featured: true },
