@@ -98,7 +98,20 @@
     }
   },
   "heroStickers": [],
-  "projects": [],
+  "projects": [
+    {
+      "id": "mandarinas",
+      "title": "mandarinas",
+      "category": "ILLUSTRATION",
+      "year": "2026",
+      "cover": "assets/projects/project/mandarinas.png",
+      "contain": false,
+      "featured": false,
+      "template": "single-image",
+      "data": {},
+      "tags": []
+    }
+  ],
   "about": {
     "headline": "soy INCENDIO. hago muchas cosas.",
     "blocks": [
