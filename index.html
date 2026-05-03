@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>INCENDIO · home v2</title>
+<title>INCENDIO · portfolio</title>
 <style>
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; background: #1d1bff; }
@@ -16,13 +16,19 @@
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 
+<!-- Motor de plantillas de proyecto (necesario para ver proyectos inline) -->
+<script type="text/babel" src="project-entry.jsx"></script>
+<!-- Panel de tweaks (usado por HomeV2) -->
 <script type="text/babel" src="tweaks-panel.jsx"></script>
+<!-- Home principal -->
 <script type="text/babel" src="directions/home-v2.jsx"></script>
+<!-- Router + páginas (about, contact, shop, category) -->
+<script type="text/babel" src="directions/router.jsx"></script>
 
 <div id="root"></div>
 
 <script type="text/babel" data-presets="react">
-  ReactDOM.createRoot(document.getElementById("root")).render(<window.HomeV2 />);
+  ReactDOM.createRoot(document.getElementById("root")).render(<window.IncendioRouter />);
 </script>
 
 </body>
