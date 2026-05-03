@@ -98,10 +98,111 @@
     }
   },
   "heroStickers": [],
-  "projects": [],
+  "projects": [
+    {
+      "id": "monquits",
+      "title": "monquits",
+      "category": "ILLUSTRATION",
+      "year": "2026",
+      "cover": "assets/projects/monquits/monquit.png",
+      "contain": true,
+      "featured": true,
+      "template": "object-text",
+      "data": {
+        "image": "assets/projects/monquits/monquit.png",
+        "headline": "criaturas que _aparecen sin avisar_.",
+        "paragraphs": [
+          "los monquits son una serie abierta de personajes que dibujo cuando una idea no encaja en otro sitio.",
+          "no tienen lore. no tienen nombre. son lo que parezcan ese día."
+        ],
+        "specs": {
+          "formato": "digital · 2400×3000px",
+          "edición": "abierta"
+        }
+      },
+      "tags": ["personaje", "criatura", "rosa", "digital"]
+    },
+    {
+      "id": "veoveo",
+      "title": "veoveo",
+      "category": "TYPE STUDY",
+      "year": "2026",
+      "cover": "assets/projects/veoveo/veo_20260429_103026.png",
+      "contain": true,
+      "featured": true,
+      "template": "gallery",
+      "data": {
+        "images": [
+          "assets/projects/veoveo/veo_20260429_103026.png",
+          "assets/projects/veoveo/veo_20260429_100017.png"
+        ]
+      },
+      "tags": ["tipografía", "type", "estudio"]
+    },
+    {
+      "id": "gradient-generator",
+      "title": "gradient generator",
+      "category": "WEB/DEV",
+      "year": "2026",
+      "cover": "assets/projects/gradient-generator/gradient-1920x1080.png",
+      "featured": true,
+      "template": "single-image",
+      "data": {
+        "image": "assets/projects/gradient-generator/gradient-1920x1080.png",
+        "caption": "Generador de gradients procedurales con control de ruido y paleta."
+      },
+      "tags": ["web", "dev", "gradient", "generativo", "herramienta"]
+    },
+    {
+      "id": "palette-finder",
+      "title": "palette finder",
+      "category": "WEB/DEV",
+      "year": "2026",
+      "cover": "assets/projects/palette-finder/palette-1777475649612.png",
+      "featured": true,
+      "template": "single-image",
+      "data": {
+        "image": "assets/projects/palette-finder/palette-1777475649612.png",
+        "caption": "Herramienta para explorar y extraer paletas de color de cualquier imagen."
+      },
+      "tags": ["web", "dev", "color", "paleta", "herramienta"]
+    },
+    {
+      "id": "monquits-2",
+      "title": "monquit #03",
+      "category": "ILLUSTRATION",
+      "year": "2026",
+      "cover": "assets/projects/monquits/monquit3.png",
+      "contain": true,
+      "featured": true,
+      "template": "single-image",
+      "data": {
+        "image": "assets/projects/monquits/monquit3.png"
+      },
+      "tags": ["personaje", "criatura", "monquit"]
+    },
+    {
+      "id": "veo-100",
+      "title": "veo loop",
+      "category": "TYPE STUDY",
+      "year": "2026",
+      "cover": "assets/projects/veoveo/veo_20260429_100017.png",
+      "contain": true,
+      "featured": true,
+      "template": "single-image",
+      "data": {
+        "image": "assets/projects/veoveo/veo_20260429_100017.png"
+      },
+      "tags": ["tipografía", "type", "loop"]
+    }
+  ],
   "about": {
     "headline": "soy INCENDIO. hago muchas cosas.",
-    "blocks": []
+    "blocks": [
+      { "kind": "intro", "text": "Diseño, ilustración, código y caos curado. Desde Madrid, creando cosas que mezclan lo visual con lo técnico." },
+      { "kind": "skills-cloud", "items": ["ilustración", "ia generativa", "scripts", "vídeo", "carteles", "tipografía", "web/dev", "branding"] },
+      { "kind": "tools", "items": ["Photoshop", "Illustrator", "Procreate", "DaVinci Resolve", "Python", "React", "modelos IA"] }
+    ]
   },
   "contact": {
     "email": "incendio1987@protonmail.com",
