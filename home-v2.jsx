@@ -130,6 +130,7 @@ function HomeV2() {
   }, []);
 
   const featured = projects.filter(p => p.featured);
+  const carouselItems = featured.length > 0 ? featured : projects;
   const latest = projects.slice(0, 3);
   const heroImg = projects[0] || { id: "", title: "INCENDIO", cat: "", year: "2026", cover: "", contain: false };
   const totalProjects = projects.length;
@@ -263,7 +264,7 @@ function HomeV2() {
       position: absolute; inset: 0;
       background-size: ${heroImg.contain ? "contain" : "cover"};
       background-position: center; background-repeat: no-repeat;
-      background-image: url(${heroImg.cover});
+      background-image: url("${heroImg.cover}");
       background-color: ${heroImg.contain ? pal.accent1 : "transparent"};
     }
     .h2-hero .ribbon {
@@ -669,9 +670,9 @@ function HomeV2() {
         <div className="h2-carousel-wrap"
              onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
           <div className="h2-carousel" ref={carRef}>
-            {featured.map((p, i) => (
+            {carouselItems.map((p, i) => (
               <a className="h2-cb" key={p.id} href={`#/project/${p.id}`}>
-                <div className={`img ${p.contain ? "contain" : ""}`} style={{ backgroundImage: `url(${p.cover})` }} />
+                <div className={`img ${p.contain ? "contain" : ""}`} style={{ backgroundImage: `url("${p.cover}")` }} />
                 <span className="num">★ {String(i+1).padStart(2, "0")}</span>
                 <div className="meta">
                   <span className="t">{p.title}</span>
