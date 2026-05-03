@@ -100,26 +100,6 @@
   "heroStickers": [],
   "projects": [
     {
-      "id": "veoveo",
-      "title": "veoveo",
-      "category": "TYPE STUDY",
-      "year": "2026",
-      "cover": "assets/projects/veoveo/veo_20260429_103026.png",
-      "contain": true,
-      "featured": true,
-      "template": "gallery",
-      "data": {
-        "images": [
-          "assets/projects/veoveo/veo_20260429_103026.png",
-          "assets/projects/veoveo/veo_20260429_100017.png"
-        ]
-      },
-      "tags": [
-        "tipografía",
-        "type"
-      ]
-    },
-    {
       "id": "gradient-generator",
       "title": "gradient generator",
       "category": "WEB/DEV",
