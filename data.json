@@ -98,20 +98,7 @@
     }
   },
   "heroStickers": [],
-  "projects": [
-    {
-      "id": "ey",
-      "title": "ey",
-      "category": "BRANDING",
-      "year": "2026",
-      "cover": "assets/projects/project/3circles.png",
-      "contain": false,
-      "featured": false,
-      "template": "long-read",
-      "data": {},
-      "tags": []
-    }
-  ],
+  "projects": [],
   "about": {
     "headline": "soy INCENDIO. hago muchas cosas.",
     "blocks": [
