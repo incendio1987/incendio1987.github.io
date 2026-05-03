@@ -119,24 +119,6 @@
       ]
     },
     {
-      "id": "monquits-2",
-      "title": "monquit #03",
-      "category": "ILLUSTRATION",
-      "year": "2026",
-      "cover": "assets/projects/monquits/monquit3.png",
-      "contain": true,
-      "featured": true,
-      "template": "single-image",
-      "data": {
-        "image": "assets/projects/monquits/monquit3.png"
-      },
-      "tags": [
-        "personaje",
-        "criatura",
-        "monquit"
-      ]
-    },
-    {
       "id": "veo-100",
       "title": "veo loop",
       "category": "TYPE STUDY",
