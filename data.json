@@ -98,25 +98,7 @@
     }
   },
   "heroStickers": [],
-  "projects": [
-    {
-      "id": "veo-100",
-      "title": "veo loop",
-      "category": "TYPE STUDY",
-      "year": "2026",
-      "cover": "assets/projects/veoveo/veo_20260429_100017.png",
-      "contain": true,
-      "featured": true,
-      "template": "single-image",
-      "data": {
-        "image": "assets/projects/veoveo/veo_20260429_100017.png"
-      },
-      "tags": [
-        "tipografía",
-        "type"
-      ]
-    }
-  ],
+  "projects": [],
   "about": {
     "headline": "soy INCENDIO. hago muchas cosas.",
     "blocks": [
