@@ -100,25 +100,6 @@
   "heroStickers": [],
   "projects": [
     {
-      "id": "gradient-generator",
-      "title": "gradient generator",
-      "category": "WEB/DEV",
-      "year": "2026",
-      "cover": "assets/projects/gradient-generator/gradient-1920x1080.png",
-      "featured": true,
-      "template": "single-image",
-      "data": {
-        "image": "assets/projects/gradient-generator/gradient-1920x1080.png",
-        "caption": "Generador de gradients procedurales con control de ruido y paleta."
-      },
-      "tags": [
-        "web",
-        "dev",
-        "gradient",
-        "herramienta"
-      ]
-    },
-    {
       "id": "palette-finder",
       "title": "palette finder",
       "category": "WEB/DEV",
