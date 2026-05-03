@@ -104,22 +104,10 @@
       "title": "ey",
       "category": "BRANDING",
       "year": "2026",
-      "cover": "assets/projects/ey/3circles.jpg",
+      "cover": "assets/projects/project/3circles.png",
       "contain": false,
       "featured": false,
       "template": "long-read",
-      "data": {},
-      "tags": []
-    },
-    {
-      "id": "mandarinas",
-      "title": "mandarinas",
-      "category": "ILLUSTRATION",
-      "year": "2026",
-      "cover": "assets/projects/mandarinas/mandarinas.jpg",
-      "contain": false,
-      "featured": false,
-      "template": "single-image",
       "data": {},
       "tags": []
     }
