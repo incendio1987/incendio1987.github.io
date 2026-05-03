@@ -42,9 +42,7 @@ function makeT(lang) {
   };
 }
 
-const HOME_PROJECTS = [
-  { id: "mandarinas", title: "mandarinas", cat: "ILLUSTRATION", year: "2026", cover: "assets/projects/project/mandarinas.png", contain: false, featured: false },
-];
+const HOME_PROJECTS = []; // Legacy — now loaded dynamically from data.json
 
 /* ─── PEGATINAS DEL HERO ───
    Editables desde el .exe. Cada una:
@@ -105,10 +103,36 @@ function HomeV2() {
 
   const t = makeT(tweaks.lang || "es");
   const pal = PALETTES_HOME[tweaks.palette] || PALETTES_HOME.electric;
-  const featured = HOME_PROJECTS.filter(p => p.featured);
-  const latest = HOME_PROJECTS.slice(0, 3);
-  const heroImg = HOME_PROJECTS[0];
-  const totalProjects = HOME_PROJECTS.length;
+
+  /* ─── Load projects from data.json (via router's loadSiteData) ─── */
+  const [projects, setProjects] = React.useState([]);
+  React.useEffect(() => {
+    (async () => {
+      let data = window.__INCENDIO_DATA;
+      if (!data) {
+        try {
+          const resp = await fetch("data.json");
+          data = await resp.json();
+          window.__INCENDIO_DATA = data;
+        } catch(e) { data = {}; }
+      }
+      const projs = (data.projects || []).map(p => ({
+        id: p.id,
+        title: p.title || p.id,
+        cat: p.category || "",
+        year: p.year || "",
+        cover: p.cover || "",
+        contain: !!p.contain,
+        featured: !!p.featured,
+      }));
+      setProjects(projs);
+    })();
+  }, []);
+
+  const featured = projects.filter(p => p.featured);
+  const latest = projects.slice(0, 3);
+  const heroImg = projects[0] || { id: "", title: "INCENDIO", cat: "", year: "2026", cover: "", contain: false };
+  const totalProjects = projects.length;
 
   const [latestOpen, setLatestOpen] = React.useState(false);
   const [heroAspect, setHeroAspect] = React.useState(4/5);
@@ -536,10 +560,10 @@ function HomeV2() {
     { id: "shop",         title: t("shop"), isPage: true },
   ];
   const browseCats = [
-    { ...cats[0], bg: pal.accent2, img: HOME_PROJECTS[4].cover },
-    { ...cats[1], bg: pal.accent3, img: HOME_PROJECTS[2].cover },
-    { ...cats[2], bg: pal.accent1, img: HOME_PROJECTS[1].cover },
-    { ...cats[3], bg: pal.paper,   img: HOME_PROJECTS[3].cover },
+    { ...cats[0], bg: pal.accent2, img: (projects.find(p => /ILLUS/i.test(p.cat)) || {}).cover || "" },
+    { ...cats[1], bg: pal.accent3, img: (projects.find(p => /WEB|DEV/i.test(p.cat)) || {}).cover || "" },
+    { ...cats[2], bg: pal.accent1, img: (projects.find(p => /BRAND/i.test(p.cat)) || {}).cover || "" },
+    { ...cats[3], bg: pal.paper,   img: (projects[0] || {}).cover || "" },
   ];
   const cascadeRotations = ["-3deg", "2deg", "-2deg"];
 
