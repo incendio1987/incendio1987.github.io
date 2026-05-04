@@ -98,7 +98,22 @@
     }
   },
   "heroStickers": [],
-  "projects": [],
+  "projects": [
+    {
+      "id": "lalalala",
+      "title": "lalalala",
+      "category": "ILLUSTRATION",
+      "year": "2026",
+      "cover": "assets/projects/lalalala/3circles.jpg",
+      "contain": false,
+      "featured": false,
+      "template": "gallery",
+      "data": {
+        "image": "assets/projects/lalalala/3circles.jpg"
+      },
+      "tags": []
+    }
+  ],
   "about": {
     "headline": "soy INCENDIO. hago muchas cosas.",
     "blocks": [
