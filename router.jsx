@@ -1,16 +1,9 @@
 /* ============================================================
    INCENDIO · Router + Pages — REDESIGN
    Hash-based SPA router. Swiss minimal aesthetic.
-   Routes:
-     #/                     → HomeV2
-     #/project/<id>         → ProjectDetail
-     #/category/<slug>      → CategoryPage
-     #/about                → AboutPage
-     #/contact              → ContactPage
-     #/shop                 → ShopPage
+   No @import (font loaded in index.html).
    ============================================================ */
 
-/* ─── SITE DATA ─── */
 window.__INCENDIO_DATA = null;
 
 async function loadSiteData() {
@@ -25,7 +18,6 @@ async function loadSiteData() {
   return window.__INCENDIO_DATA;
 }
 
-/* ─── SHARED PALETTES & i18n ─── */
 const PALETTES_SHARED = {
   electric: { bg: "#1d1bff", paper: "#fffaee", ink: "#0a0a0a", accent1: "#ffd000", accent2: "#ff8de0", accent3: "#5ae3a4" },
   sunset:   { bg: "#ff5e9e", paper: "#fff7d6", ink: "#0a0a0a", accent1: "#ffd000", accent2: "#1d1bff", accent3: "#ff7a59" },
@@ -40,22 +32,13 @@ const STRINGS_SHARED = {
   about:       { es: "ABOUT",    en: "ABOUT" },
   contact:     { es: "CONTACT",  en: "CONTACT" },
   shop:        { es: "SHOP",     en: "SHOP" },
-  paleta:      { es: "PALETA",   en: "PALETTE" },
   volver:      { es: "← VOLVER", en: "← BACK" },
   home:        { es: "HOME",     en: "HOME" },
   todos:       { es: "TODOS",    en: "ALL" },
   proyectos:   { es: "PROYECTOS", en: "PROJECTS" },
-  ver_proyecto:{ es: "VER →",    en: "VIEW →" },
   no_proyectos:{ es: "Aún no hay proyectos en esta categoría.", en: "No projects in this category yet." },
-  hablemos:    { es: "HABLEMOS", en: "LET'S TALK" },
-  enviar:      { es: "ENVIAR →", en: "SEND →" },
-  nombre:      { es: "NOMBRE",   en: "NAME" },
-  mensaje:     { es: "MENSAJE",  en: "MESSAGE" },
-  asunto:      { es: "ASUNTO",   en: "SUBJECT" },
-  sobre_mi:    { es: "SOBRE MÍ", en: "ABOUT ME" },
   skills:      { es: "HABILIDADES", en: "SKILLS" },
   herramientas:{ es: "HERRAMIENTAS", en: "TOOLS" },
-  tienda:      { es: "TIENDA",   en: "SHOP" },
   comprar:     { es: "COMPRAR →", en: "BUY →" },
   sin_items:   { es: "La tienda está vacía por ahora.", en: "Shop is empty for now." },
 };
@@ -65,11 +48,9 @@ function _t(key, lang) {
   return e[lang] || e.es || key;
 }
 
-/* ─── Page CSS (shared) ─── */
+/* ─── Page CSS ─── */
 function pageStyles(pal) {
   return `
-    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
-
     .page-wrap {
       width: 100%; min-height: 100vh;
       background: ${pal.bg}; color: ${pal.paper};
@@ -77,7 +58,6 @@ function pageStyles(pal) {
       font-weight: 400;
     }
     .page-wrap a { color: inherit; text-decoration: none; }
-
     .page-nav {
       position: sticky; top: 0; z-index: 50;
       display: flex; justify-content: space-between; align-items: center;
@@ -90,57 +70,32 @@ function pageStyles(pal) {
     .page-nav .logo { transition: color 0.2s; }
     .page-nav .logo:hover { color: ${pal.accent1}; }
     .page-nav nav { display: flex; gap: 16px; }
-    .page-nav nav a {
-      opacity: 0.5; transition: opacity 0.2s, color 0.2s;
-    }
-    .page-nav nav a:hover, .page-nav nav a.active {
-      opacity: 1; color: ${pal.accent1};
-    }
+    .page-nav nav a { opacity: 0.5; transition: opacity 0.2s, color 0.2s; }
+    .page-nav nav a:hover, .page-nav nav a.active { opacity: 1; color: ${pal.accent1}; }
     .page-nav .nav-right { display: flex; gap: 8px; align-items: center; }
     .page-nav .nav-right button {
       background: none; border: none; color: ${pal.paper};
       font-family: inherit; font-size: 10px; letter-spacing: 0.15em;
-      cursor: pointer; opacity: 0.4; transition: opacity 0.2s;
-      font-weight: 700; padding: 2px 4px;
+      cursor: pointer; opacity: 0.4; transition: opacity 0.2s; font-weight: 700; padding: 2px 4px;
     }
     .page-nav .nav-right button:hover, .page-nav .nav-right button.on { opacity: 1; }
-
-    @media (max-width: 768px) {
-      .page-nav nav { display: none; }
-    }
-
+    @media (max-width: 768px) { .page-nav nav { display: none; } }
     .page-foot {
       padding: 24px;
       border-top: 1px solid rgba(255,255,255,0.06);
       display: flex; justify-content: space-between; align-items: center;
-      font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
-      opacity: 0.3;
+      font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.3;
     }
-    .page-foot .pal { display: flex; gap: 4px; align-items: center; }
-    .page-foot .pal i {
-      width: 10px; height: 10px; cursor: pointer;
-      border: 1px solid rgba(255,255,255,0.3);
-      display: inline-block; transition: transform 0.2s;
-    }
-    .page-foot .pal i:hover { transform: scale(1.3); }
-
     .page-content {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 60px 24px 80px;
+      max-width: 900px; margin: 0 auto; padding: 60px 24px 80px;
     }
     .page-content h1 {
-      font-size: clamp(36px, 6vw, 72px);
-      font-weight: 700;
-      line-height: 0.9;
-      letter-spacing: -0.04em;
-      margin: 0 0 40px;
-      text-transform: uppercase;
+      font-size: clamp(36px, 6vw, 72px); font-weight: 700;
+      line-height: 0.9; letter-spacing: -0.04em; margin: 0 0 40px; text-transform: uppercase;
     }
   `;
 }
 
-/* ─── SHARED NAV BAR ─── */
 function NavBar({ pal, lang, setLang, active }) {
   return (
     <header className="page-nav">
@@ -159,78 +114,38 @@ function NavBar({ pal, lang, setLang, active }) {
   );
 }
 
-/* ─── SHARED FOOTER ─── */
-function SiteFooter({ pal, lang, palette, setPalette }) {
-  const palEntries = Object.entries(PALETTES_SHARED);
+function SiteFooter({ pal }) {
   return (
     <footer className="page-foot">
       <span>© INCENDIO 1987</span>
-      <div className="pal">
-        {palEntries.map(([key, p]) => (
-          <i key={key}
-             style={{
-               background: p.bg,
-               outline: palette === key ? `2px solid ${pal.accent1}` : "none",
-               outlineOffset: 2,
-             }}
-             onClick={() => setPalette(key)} title={key} />
-        ))}
-      </div>
     </footer>
   );
 }
 
-/* ─── PAGE WRAPPER ─── */
 function PageWrap({ pal, lang, setLang, palette, setPalette, active, children }) {
   return (
     <div className="page-wrap">
       <style>{pageStyles(pal)}</style>
       <NavBar pal={pal} lang={lang} setLang={setLang} active={active} />
       {children}
-      <SiteFooter pal={pal} lang={lang} palette={palette} setPalette={setPalette} />
+      <SiteFooter pal={pal} />
     </div>
   );
 }
 
-
-/* ============================================================
-   PAGE: ABOUT
-   ============================================================ */
+/* ── ABOUT ── */
 function AboutPage({ pal, lang, setLang, palette, setPalette, siteData }) {
   const about = siteData.about || {};
   const blocks = about.blocks || [];
-
   const css = `
-    .about-page .headline {
-      font-size: clamp(24px, 3vw, 36px);
-      font-weight: 700;
-      line-height: 1.15;
-      margin-bottom: 48px;
-      letter-spacing: -0.02em;
-    }
+    .about-page .headline { font-size: clamp(24px, 3vw, 36px); font-weight: 700; line-height: 1.15; margin-bottom: 48px; letter-spacing: -0.02em; }
     .about-page .block { margin-bottom: 36px; }
-    .about-page .block-label {
-      font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase;
-      opacity: 0.4; margin-bottom: 12px; font-weight: 700;
-    }
-    .about-page .block-text {
-      font-size: 14px; line-height: 1.7; opacity: 0.8;
-    }
-    .about-page .tag-cloud {
-      display: flex; flex-wrap: wrap; gap: 8px;
-    }
-    .about-page .tag {
-      font-size: 11px; letter-spacing: 0.1em;
-      padding: 6px 12px;
-      border: 1px solid rgba(255,255,255,0.12);
-      transition: all 0.2s;
-    }
-    .about-page .tag:hover {
-      background: ${pal.accent1}; color: ${pal.ink};
-      border-color: ${pal.accent1};
-    }
+    .about-page .block-label { font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; opacity: 0.4; margin-bottom: 12px; font-weight: 700; }
+    .about-page .block-text { font-size: 14px; line-height: 1.7; opacity: 0.8; }
+    .about-page .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+    .about-page .tag { font-size: 11px; letter-spacing: 0.1em; padding: 6px 12px; border: 1px solid rgba(255,255,255,0.12); transition: all 0.2s; }
+    .about-page .tag:hover { background: ${pal.accent1}; color: ${pal.ink}; border-color: ${pal.accent1}; }
   `;
-
   return (
     <PageWrap pal={pal} lang={lang} setLang={setLang} palette={palette} setPalette={setPalette} active="about">
       <style>{css}</style>
@@ -239,28 +154,9 @@ function AboutPage({ pal, lang, setLang, palette, setPalette, siteData }) {
         {about.headline && <p className="headline">{about.headline}</p>}
         {blocks.map((b, i) => (
           <div key={i} className="block">
-            {b.kind === "intro" && (
-              <>
-                <div className="block-label">Intro</div>
-                <div className="block-text">{b.text}</div>
-              </>
-            )}
-            {b.kind === "skills-cloud" && (
-              <>
-                <div className="block-label">{_t("skills", lang)}</div>
-                <div className="tag-cloud">
-                  {(b.items || []).map((s, j) => <span key={j} className="tag">{s}</span>)}
-                </div>
-              </>
-            )}
-            {b.kind === "tools" && (
-              <>
-                <div className="block-label">{_t("herramientas", lang)}</div>
-                <div className="tag-cloud">
-                  {(b.items || []).map((s, j) => <span key={j} className="tag">{s}</span>)}
-                </div>
-              </>
-            )}
+            {b.kind === "intro" && (<><div className="block-label">Intro</div><div className="block-text">{b.text}</div></>)}
+            {b.kind === "skills-cloud" && (<><div className="block-label">{_t("skills", lang)}</div><div className="tag-cloud">{(b.items || []).map((s, j) => <span key={j} className="tag">{s}</span>)}</div></>)}
+            {b.kind === "tools" && (<><div className="block-label">{_t("herramientas", lang)}</div><div className="tag-cloud">{(b.items || []).map((s, j) => <span key={j} className="tag">{s}</span>)}</div></>)}
           </div>
         ))}
       </div>
@@ -268,191 +164,88 @@ function AboutPage({ pal, lang, setLang, palette, setPalette, siteData }) {
   );
 }
 
-
-/* ============================================================
-   PAGE: CONTACT
-   ============================================================ */
+/* ── CONTACT ── */
 function ContactPage({ pal, lang, setLang, palette, setPalette, siteData }) {
   const contact = siteData.contact || {};
   const social = contact.social || [];
-
   const css = `
-    .contact-page .email-link {
-      font-size: clamp(16px, 2.5vw, 28px);
-      font-weight: 700;
-      display: inline-block;
-      padding-bottom: 4px;
-      border-bottom: 2px solid ${pal.accent1};
-      transition: color 0.2s;
-      letter-spacing: -0.01em;
-    }
+    .contact-page .email-link { font-size: clamp(16px, 2.5vw, 28px); font-weight: 700; display: inline-block; padding-bottom: 4px; border-bottom: 2px solid ${pal.accent1}; transition: color 0.2s; letter-spacing: -0.01em; }
     .contact-page .email-link:hover { color: ${pal.accent1}; }
-    .contact-page .social-list {
-      margin-top: 32px;
-      display: flex; flex-direction: column; gap: 8px;
-    }
-    .contact-page .social-link {
-      font-size: 12px; letter-spacing: 0.1em;
-      opacity: 0.6; transition: opacity 0.2s, color 0.2s;
-    }
+    .contact-page .social-list { margin-top: 32px; display: flex; flex-direction: column; gap: 8px; }
+    .contact-page .social-link { font-size: 12px; letter-spacing: 0.1em; opacity: 0.6; transition: opacity 0.2s, color 0.2s; }
     .contact-page .social-link:hover { opacity: 1; color: ${pal.accent1}; }
   `;
-
   return (
     <PageWrap pal={pal} lang={lang} setLang={setLang} palette={palette} setPalette={setPalette} active="contact">
       <style>{css}</style>
       <div className="page-content contact-page">
         <h1>{_t("contact", lang)}</h1>
-        {contact.email && (
-          <a className="email-link" href={`mailto:${contact.email}`}>{contact.email}</a>
-        )}
-        {social.length > 0 && (
-          <div className="social-list">
-            {social.map((s, i) => (
-              <a key={i} className="social-link" href={s.href} target="_blank" rel="noreferrer">{s.label}</a>
-            ))}
-          </div>
-        )}
+        {contact.email && <a className="email-link" href={`mailto:${contact.email}`}>{contact.email}</a>}
+        {social.length > 0 && (<div className="social-list">{social.map((s, i) => (<a key={i} className="social-link" href={s.href} target="_blank" rel="noreferrer">{s.label}</a>))}</div>)}
       </div>
     </PageWrap>
   );
 }
 
-
-/* ============================================================
-   PAGE: SHOP
-   ============================================================ */
+/* ── SHOP ── */
 function ShopPage({ pal, lang, setLang, palette, setPalette, siteData }) {
   const shop = siteData.shop || {};
   const items = shop.items || [];
-
   const css = `
-    .shop-page .shop-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 16px;
-    }
-    .shop-page .shop-card {
-      border: 1px solid rgba(255,255,255,0.08);
-      transition: border-color 0.2s;
-      overflow: hidden;
-    }
+    .shop-page .shop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+    .shop-page .shop-card { border: 1px solid rgba(255,255,255,0.08); transition: border-color 0.2s; overflow: hidden; }
     .shop-page .shop-card:hover { border-color: rgba(255,255,255,0.2); }
-    .shop-page .shop-card .img {
-      aspect-ratio: 1;
-      background-size: cover; background-position: center;
-    }
-    .shop-page .shop-card .info {
-      padding: 12px;
-    }
-    .shop-page .shop-card .info .title {
-      font-size: 12px; font-weight: 700; letter-spacing: 0.05em;
-    }
-    .shop-page .shop-card .info .price {
-      font-size: 11px; opacity: 0.5; margin-top: 4px;
-    }
-    .shop-page .shop-card .info .buy {
-      display: inline-block; margin-top: 8px;
-      font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
-      padding: 4px 10px;
-      border: 1px solid ${pal.accent1};
-      color: ${pal.accent1};
-      transition: all 0.2s;
-    }
-    .shop-page .shop-card .info .buy:hover {
-      background: ${pal.accent1}; color: ${pal.ink};
-    }
-    .shop-page .empty {
-      font-size: 14px; opacity: 0.5; line-height: 1.6;
-    }
+    .shop-page .shop-card .img { aspect-ratio: 1; background-size: cover; background-position: center; }
+    .shop-page .shop-card .info { padding: 12px; }
+    .shop-page .shop-card .info .title { font-size: 12px; font-weight: 700; letter-spacing: 0.05em; }
+    .shop-page .shop-card .info .price { font-size: 11px; opacity: 0.5; margin-top: 4px; }
+    .shop-page .shop-card .info .buy { display: inline-block; margin-top: 8px; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; padding: 4px 10px; border: 1px solid ${pal.accent1}; color: ${pal.accent1}; transition: all 0.2s; }
+    .shop-page .shop-card .info .buy:hover { background: ${pal.accent1}; color: ${pal.ink}; }
+    .shop-page .empty { font-size: 14px; opacity: 0.5; }
   `;
-
   return (
     <PageWrap pal={pal} lang={lang} setLang={setLang} palette={palette} setPalette={setPalette} active="shop">
       <style>{css}</style>
       <div className="page-content shop-page">
         <h1>{_t("shop", lang)}</h1>
         {items.length > 0 ? (
-          <div className="shop-grid">
-            {items.map(item => (
-              <div key={item.id} className="shop-card">
-                {item.image && <div className="img" style={{ backgroundImage: `url(${item.image})` }} />}
-                <div className="info">
-                  <div className="title">{item.title}</div>
-                  {item.price && <div className="price">{item.price}</div>}
-                  {item.buyHref && <a className="buy" href={item.buyHref} target="_blank" rel="noreferrer">{_t("comprar", lang)}</a>}
-                </div>
+          <div className="shop-grid">{items.map(item => (
+            <div key={item.id} className="shop-card">
+              {item.image && <div className="img" style={{ backgroundImage: `url(${item.image})` }} />}
+              <div className="info">
+                <div className="title">{item.title}</div>
+                {item.price && <div className="price">{item.price}</div>}
+                {item.buyHref && <a className="buy" href={item.buyHref} target="_blank" rel="noreferrer">{_t("comprar", lang)}</a>}
               </div>
-            ))}
-          </div>
-        ) : (
-          <p className="empty">{_t("sin_items", lang)}</p>
-        )}
+            </div>
+          ))}</div>
+        ) : (<p className="empty">{_t("sin_items", lang)}</p>)}
       </div>
     </PageWrap>
   );
 }
 
-
-/* ============================================================
-   PAGE: CATEGORY
-   ============================================================ */
+/* ── CATEGORY ── */
 function CategoryPage({ pal, lang, setLang, palette, setPalette, siteData, categorySlug }) {
   const projects = siteData.projects || [];
-
-  const filtered = categorySlug === "all"
-    ? projects
-    : projects.filter(p => {
-        const cat = (p.category || "").toLowerCase().replace(/[^a-z0-9]/g, "-");
-        return cat === categorySlug || cat.includes(categorySlug);
-      });
-
+  const filtered = categorySlug === "all" ? projects : projects.filter(function(p) {
+    const cat = (p.category || "").toLowerCase().replace(/[^a-z0-9]/g, "-");
+    return cat === categorySlug || cat.indexOf(categorySlug) !== -1;
+  });
   const css = `
-    .cat-page .cat-label {
-      font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase;
-      opacity: 0.4; margin-bottom: 8px;
-    }
-    .cat-page .cat-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 8px;
-      margin-top: 32px;
-    }
-    .cat-page .cat-card {
-      border: 1px solid rgba(255,255,255,0.08);
-      overflow: hidden;
-      transition: border-color 0.2s;
-    }
+    .cat-page .cat-label { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; opacity: 0.4; margin-bottom: 8px; }
+    .cat-page .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 8px; margin-top: 32px; }
+    .cat-page .cat-card { border: 1px solid rgba(255,255,255,0.08); overflow: hidden; transition: border-color 0.2s; display: block; }
     .cat-page .cat-card:hover { border-color: rgba(255,255,255,0.2); }
-    .cat-page .cat-card .img {
-      aspect-ratio: 4/3;
-      background-size: cover; background-position: center;
-      transition: transform 0.3s;
-    }
+    .cat-page .cat-card .img { aspect-ratio: 4/3; background-size: cover; background-position: center; transition: transform 0.3s; }
     .cat-page .cat-card:hover .img { transform: scale(1.02); }
-    .cat-page .cat-card .img.contain {
-      background-size: contain; background-repeat: no-repeat;
-    }
-    .cat-page .cat-card .meta {
-      padding: 10px 12px;
-      display: flex; justify-content: space-between; align-items: center;
-    }
-    .cat-page .cat-card .meta .t {
-      font-size: 11px; font-weight: 700; letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-    .cat-page .cat-card .meta .y {
-      font-size: 9px; opacity: 0.4; letter-spacing: 0.15em;
-    }
-    .cat-page .cat-empty {
-      font-size: 14px; opacity: 0.5; margin-top: 24px;
-    }
+    .cat-page .cat-card .img.contain { background-size: contain; background-repeat: no-repeat; }
+    .cat-page .cat-card .meta { padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; }
+    .cat-page .cat-card .meta .t { font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
+    .cat-page .cat-card .meta .y { font-size: 9px; opacity: 0.4; letter-spacing: 0.15em; }
+    .cat-page .cat-empty { font-size: 14px; opacity: 0.5; margin-top: 24px; }
   `;
-
-  const displayName = categorySlug === "all"
-    ? _t("todos", lang)
-    : categorySlug.replace(/-/g, " ").toUpperCase();
-
+  const displayName = categorySlug === "all" ? _t("todos", lang) : categorySlug.replace(/-/g, " ").toUpperCase();
   return (
     <PageWrap pal={pal} lang={lang} setLang={setLang} palette={palette} setPalette={setPalette} active="work">
       <style>{css}</style>
@@ -460,30 +253,22 @@ function CategoryPage({ pal, lang, setLang, palette, setPalette, siteData, categ
         <div className="cat-label">{_t("proyectos", lang)}</div>
         <h1>{displayName}</h1>
         {filtered.length > 0 ? (
-          <section className="cat-grid">
-            {filtered.map(p => (
-              <a key={p.id} className="cat-card" href={`#/project/${p.id}`}>
-                <div className={`img ${p.contain ? "contain" : ""}`}
-                     style={{ backgroundImage: `url(${p.cover})` }} />
-                <div className="meta">
-                  <span className="t">{p.title}</span>
-                  <span className="y">{p.category} · '{(p.year||"").slice(-2)}</span>
-                </div>
-              </a>
-            ))}
-          </section>
-        ) : (
-          <div className="cat-empty">{_t("no_proyectos", lang)}</div>
-        )}
+          <section className="cat-grid">{filtered.map(p => (
+            <a key={p.id} className="cat-card" href={`#/project/${p.id}`}>
+              <div className={`img ${p.contain ? "contain" : ""}`} style={{ backgroundImage: `url(${p.cover})` }} />
+              <div className="meta">
+                <span className="t">{p.title}</span>
+                <span className="y">{p.category} · '{(p.year||"").slice(-2)}</span>
+              </div>
+            </a>
+          ))}</section>
+        ) : (<div className="cat-empty">{_t("no_proyectos", lang)}</div>)}
       </div>
     </PageWrap>
   );
 }
 
-
-/* ============================================================
-   PAGE: PROJECT DETAIL
-   ============================================================ */
+/* ── PROJECT DETAIL ── */
 function ProjectDetailPage({ pal, lang, setLang, palette, setPalette, siteData, projectId }) {
   const projects = siteData.projects || [];
   const idx = projects.findIndex(p => p.id === projectId);
@@ -493,9 +278,7 @@ function ProjectDetailPage({ pal, lang, setLang, palette, setPalette, siteData, 
     return (
       <PageWrap pal={pal} lang={lang} setLang={setLang} palette={palette} setPalette={setPalette} active="work">
         <div className="page-content">
-          <p style={{ opacity: 0.5 }}>
-            Proyecto no encontrado. <a href="#/" style={{ color: pal.accent1 }}>{_t("home", lang)}</a>
-          </p>
+          <p style={{ opacity: 0.5 }}>Proyecto no encontrado. <a href="#/" style={{ color: pal.accent1 }}>{_t("home", lang)}</a></p>
         </div>
       </PageWrap>
     );
@@ -508,31 +291,20 @@ function ProjectDetailPage({ pal, lang, setLang, palette, setPalette, siteData, 
 
   switch (tmpl) {
     case "single-image":
-      if (!td.image) defaults.image = cover;
-      break;
+      if (!td.image) defaults.image = cover; break;
     case "gallery":
-      if (!td.images || td.images.length === 0) defaults.images = cover ? [cover] : [];
-      break;
+      if (!td.images || td.images.length === 0) defaults.images = cover ? [cover] : []; break;
     case "object-text":
-      if (!td.image) defaults.image = cover;
-      break;
+      if (!td.image) defaults.image = cover; break;
     case "long-read":
-      if (!td.blocks || td.blocks.length === 0)
-        defaults.blocks = cover ? [{ image: cover, full: true }] : [];
-      break;
+      if (!td.blocks || td.blocks.length === 0) defaults.blocks = cover ? [{ image: cover, full: true }] : []; break;
     case "showcase":
-      if (!td.rows || td.rows.length === 0)
-        defaults.rows = cover ? [{ image: cover, heading: project.title, text: "" }] : [];
-      break;
+      if (!td.rows || td.rows.length === 0) defaults.rows = cover ? [{ image: cover, heading: project.title, text: "" }] : []; break;
     case "video":
-      if (!td.poster && cover) defaults.poster = cover;
-      break;
+      if (!td.poster && cover) defaults.poster = cover; break;
   }
 
-  const entryData = {
-    ...project,
-    ...defaults,
-    ...td,
+  const entryData = { ...project, ...defaults, ...td,
     prev: idx > 0 ? projects[idx - 1].id : null,
     next: idx < projects.length - 1 ? projects[idx + 1].id : null,
   };
@@ -544,29 +316,22 @@ function ProjectDetailPage({ pal, lang, setLang, palette, setPalette, siteData, 
         if (!a) return;
         const href = a.getAttribute("href");
         if (href === "index.html" || href === "#/") {
-          e.preventDefault();
-          window.location.hash = "#/";
-          window.scrollTo(0, 0);
+          e.preventDefault(); window.location.hash = "#/"; window.scrollTo(0, 0);
         } else if (href && href.endsWith(".html") && !href.startsWith("http")) {
           e.preventDefault();
           const pid = href.replace(/\.html$/, "").replace(/^\.\.\/projects\//, "");
-          window.location.hash = `#/project/${pid}`;
-          window.scrollTo(0, 0);
+          window.location.hash = "#/project/" + pid; window.scrollTo(0, 0);
         }
       }}>
         <window.ProjectEntry data={entryData} palette={palette} />
       </div>
     );
-  } else {
-    window.location.href = `projects/${projectId}.html`;
-    return null;
   }
+  window.location.href = "projects/" + projectId + ".html";
+  return null;
 }
 
-
-/* ============================================================
-   ROUTER
-   ============================================================ */
+/* ── ROUTER ── */
 function IncendioRouter() {
   const [route, setRoute] = React.useState(window.location.hash || "#/");
   const [lang, setLang] = React.useState("es");
@@ -576,36 +341,28 @@ function IncendioRouter() {
   React.useEffect(() => {
     loadSiteData().then(data => {
       setSiteData(data);
-      if (data.site?.defaultLang) setLang(data.site.defaultLang);
-      if (data.site?.defaultPalette) setPalette(data.site.defaultPalette);
+      if (data.site && data.site.defaultLang) setLang(data.site.defaultLang);
+      if (data.site && data.site.defaultPalette) setPalette(data.site.defaultPalette);
     });
   }, []);
 
   React.useEffect(() => {
-    const handler = () => {
-      setRoute(window.location.hash || "#/");
-      window.scrollTo(0, 0);
-    };
+    const handler = () => { setRoute(window.location.hash || "#/"); window.scrollTo(0, 0); };
     window.addEventListener("hashchange", handler);
     return () => window.removeEventListener("hashchange", handler);
   }, []);
 
   if (!siteData) {
-    return (
-      <div style={{
-        background: "#1d1bff", color: "#fffaee", height: "100vh",
-        display: "flex", alignItems: "center", justifyContent: "center",
-        fontFamily: '"Space Mono", monospace', fontSize: 12,
-        letterSpacing: "0.3em", fontWeight: 700
-      }}>
-        LOADING…
-      </div>
-    );
+    return <div style={{
+      background: "#1d1bff", color: "#fffaee", height: "100vh",
+      display: "flex", alignItems: "center", justifyContent: "center",
+      fontFamily: '"Space Mono", monospace', fontSize: 12,
+      letterSpacing: "0.3em", fontWeight: 700
+    }}>LOADING…</div>;
   }
 
   const pal = PALETTES_SHARED[palette] || PALETTES_SHARED.electric;
   const shared = { pal, lang, setLang, palette, setPalette, siteData };
-
   const hash = route.replace(/^#\/?/, "");
   const parts = hash.split("/");
 
@@ -617,7 +374,7 @@ function IncendioRouter() {
   if (parts[0] === "category" && parts[1]) return <CategoryPage {...shared} categorySlug={parts[1]} />;
   if (parts[0] === "project" && parts[1]) return <ProjectDetailPage {...shared} projectId={parts[1]} />;
 
-  /* Default: HOME */
+  document.body.style.background = pal.bg;
   if (window.HomeV2) return <window.HomeV2 />;
   return <div style={{ padding: 60, color: pal.paper }}>Loading…</div>;
 }
