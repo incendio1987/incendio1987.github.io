@@ -621,10 +621,46 @@ function ProjectDetailPage({ pal, lang, setLang, palette, setPalette, siteData, 
     );
   }
 
-  /* Build the data shape that ProjectEntry expects */
+  /* Build the data shape that ProjectEntry expects.
+     Each template needs specific fields — if the user only uploaded
+     images via the manager (which stores them as cover + uploaded files),
+     we auto-fill the template fields from cover so every template works. */
+  const td = project.data || {};
+  const cover = project.cover || "";
+  const tmpl = project.template || "single-image";
+
+  /* Collect all uploaded images for this project from data */
+  const allImages = td.images || (td.image ? [td.image] : (cover ? [cover] : []));
+
+  const defaults = {};
+  switch (tmpl) {
+    case "single-image":
+      if (!td.image) defaults.image = cover;
+      break;
+    case "gallery":
+      if (!td.images || td.images.length === 0) defaults.images = cover ? [cover] : [];
+      break;
+    case "object-text":
+      if (!td.image) defaults.image = cover;
+      break;
+    case "long-read":
+      if (!td.blocks || td.blocks.length === 0)
+        defaults.blocks = cover ? [{ image: cover, full: true }] : [];
+      break;
+    case "showcase":
+      if (!td.rows || td.rows.length === 0)
+        defaults.rows = cover ? [{ image: cover, heading: project.title, text: "" }] : [];
+      break;
+    case "video":
+      /* video needs explicit embed/video url, cover can be poster */
+      if (!td.poster && cover) defaults.poster = cover;
+      break;
+  }
+
   const entryData = {
     ...project,
-    ...(project.data || {}),
+    ...defaults,
+    ...td,
     prev: idx > 0 ? projects[idx - 1].id : null,
     next: idx < projects.length - 1 ? projects[idx + 1].id : null,
   };
