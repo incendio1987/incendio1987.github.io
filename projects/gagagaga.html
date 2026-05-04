@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>INCENDIO · gagagaga</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: #1d1bff; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  </style>
+</head>
+<body>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+
+  <script type="text/babel" src="../project-entry.jsx"></script>
+
+  <div id="root"></div>
+
+  <script type="text/babel" data-presets="react">
+    const PROJECT = /*PROJECT-DATA-BEGIN*/{
+    "id": "gagagaga",
+    "title": "gagagaga",
+    "category": "WEB/DEV",
+    "year": "2026",
+    "cover": "../assets/projects/gagagaga/bestmomaward.jpg",
+    "contain": false,
+    "featured": false,
+    "template": "object-text",
+    "tags": []
+}/*PROJECT-DATA-END*/;
+
+    ReactDOM.createRoot(document.getElementById("root")).render(
+      <window.ProjectEntry data={PROJECT} palette="electric" />
+    );
+  </script>
+</body>
+</html>
