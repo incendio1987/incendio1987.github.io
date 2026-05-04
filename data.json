@@ -100,18 +100,6 @@
   "heroStickers": [],
   "projects": [
     {
-      "id": "aaaa",
-      "title": "aaaa",
-      "category": "ILLUSTRATION",
-      "year": "2026",
-      "cover": "assets/projects/aaaa/abece.jpg",
-      "contain": false,
-      "featured": true,
-      "template": "long-read",
-      "data": {},
-      "tags": []
-    },
-    {
       "id": "eeeee",
       "title": "eeeee",
       "category": "ILLUSTRATION",
