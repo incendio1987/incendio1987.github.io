@@ -1,16 +1,10 @@
-/* INCENDIO · Project entry templates
+/* INCENDIO · Project entry templates — REDESIGN
  *
- * Sistema de plantillas reutilizables para entradas individuales de proyecto.
- * Cada proyecto elige una plantilla y le pasa su data.
+ * Clean, minimal Swiss-inspired project pages.
+ * 6 templates: single-image, gallery, object-text, long-read, showcase, video
  *
- * Uso:
- *   <window.ProjectEntry data={projectData} />
- *
- * projectData = {
- *   id, title, year, category, tags (invisibles para search),
- *   template: "single-image" | "gallery" | "object-text" | "long-read" | "showcase" | "video",
- *   ... campos según plantilla
- * }
+ * Usage:
+ *   <window.ProjectEntry data={projectData} palette="electric" />
  */
 
 const PALETTES_PE = {
@@ -26,227 +20,245 @@ function ProjectEntry({ data, palette = "electric" }) {
   const T = TEMPLATES[data.template] || TEMPLATES["single-image"];
 
   const css = `
+    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+
     .pe { --bg: ${pal.bg}; --paper: ${pal.paper}; --ink: ${pal.ink}; --a1: ${pal.a1}; --a2: ${pal.a2}; --a3: ${pal.a3}; }
     .pe {
       width: 100%; min-height: 100vh;
-      font-family: "Helvetica Neue", "Helvetica", Arial, sans-serif;
-      font-weight: 900; letter-spacing: -0.01em;
+      font-family: "Space Mono", "Courier New", monospace;
+      font-weight: 400;
       color: var(--paper); background: var(--bg);
     }
     .pe a { color: inherit; text-decoration: none; cursor: pointer; }
     .pe img { display: block; max-width: 100%; }
 
-    /* TOP bar — coherente con home */
+    /* TOP bar */
     .pe-top {
       position: sticky; top: 0; z-index: 50;
       display: flex; justify-content: space-between; align-items: center;
-      padding: 18px 36px;
-      font-size: 11px; letter-spacing: 0.3em; font-weight: 700;
+      padding: 16px 24px;
+      font-size: 11px; letter-spacing: 0.15em; font-weight: 700;
       background: var(--bg);
-      border-bottom: 1.5px solid rgba(255,255,255,0.12);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
     }
-    .pe-top .back { display: flex; align-items: center; gap: 10px; transition: transform 0.2s; }
-    .pe-top .back:hover { transform: translateX(-3px); color: var(--a1); }
-    .pe-top .meta-mini { display: flex; gap: 14px; opacity: 0.7; }
+    .pe-top .back { 
+      display: flex; align-items: center; gap: 8px; 
+      transition: color 0.2s;
+      text-transform: uppercase;
+    }
+    .pe-top .back:hover { color: var(--a1); }
+    .pe-top .meta-mini { display: flex; gap: 14px; opacity: 0.5; font-size: 10px; }
 
-    /* HERO header común a todas las plantillas */
+    /* HERO header */
     .pe-head {
-      padding: 70px 56px 50px;
-      display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px;
-      align-items: end;
-      border-bottom: 2px solid rgba(255,255,255,0.15);
+      padding: 80px 24px 60px;
+      max-width: 1200px;
+      margin: 0 auto;
     }
     .pe-head h1 {
-      font-size: clamp(56px, 7.4vw, 132px);
-      line-height: 0.84; letter-spacing: -0.05em;
-      margin: 0;
+      font-family: "Space Mono", monospace;
+      font-size: clamp(48px, 8vw, 120px);
+      line-height: 0.9;
+      letter-spacing: -0.04em;
+      margin: 0 0 40px;
+      font-weight: 700;
+      text-transform: uppercase;
     }
-    .pe-head h1 .y { color: var(--a1); }
     .pe-head .info {
-      display: grid; grid-template-columns: auto 1fr; gap: 6px 16px;
-      font-size: 11px; letter-spacing: 0.25em; font-weight: 700;
-      align-self: end;
-      padding-bottom: 18px;
+      display: flex; flex-wrap: wrap; gap: 24px;
+      font-size: 10px; letter-spacing: 0.2em; font-weight: 400;
+      opacity: 0.6;
+      text-transform: uppercase;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.1);
     }
-    .pe-head .info dt { opacity: 0.55; }
-    .pe-head .info dd { margin: 0; }
-    .pe-head .info dd a { border-bottom: 1px solid var(--a1); padding-bottom: 1px; }
+    .pe-head .info .pair { display: flex; gap: 8px; }
+    .pe-head .info .pair dt { opacity: 0.5; }
+    .pe-head .info .pair dd { margin: 0; }
+    .pe-head .info dd a { border-bottom: 1px solid var(--a1); }
     .pe-head .info dd a:hover { color: var(--a1); }
 
-    /* FOOTER común */
+    /* FOOTER */
     .pe-foot {
-      padding: 60px 56px 40px;
-      border-top: 2px solid rgba(255,255,255,0.15);
+      padding: 40px 24px;
+      border-top: 1px solid rgba(255,255,255,0.08);
       display: flex; justify-content: space-between; align-items: center;
-      font-size: 11px; letter-spacing: 0.3em; font-weight: 700;
+      font-size: 10px; letter-spacing: 0.15em; font-weight: 400;
+      text-transform: uppercase;
+      max-width: 1200px; margin: 0 auto;
     }
-    .pe-foot .nav { display: flex; gap: 20px; }
-    .pe-foot .nav a { padding: 8px 14px; border: 1.5px solid var(--paper); transition: all 0.2s; }
+    .pe-foot .nav { display: flex; gap: 16px; }
+    .pe-foot .nav a { 
+      padding: 8px 16px; 
+      border: 1px solid rgba(255,255,255,0.15); 
+      transition: all 0.3s;
+      font-size: 10px;
+    }
     .pe-foot .nav a:hover { background: var(--a1); color: var(--ink); border-color: var(--a1); }
 
-    /* ────── PLANTILLA: single-image ────── */
+    /* ── single-image ── */
     .pe-single {
-      padding: 60px 56px 80px;
+      padding: 40px 24px 80px;
       display: flex; flex-direction: column; align-items: center;
+      max-width: 1200px; margin: 0 auto;
     }
     .pe-single .frame {
-      max-width: 1100px; width: 100%;
-      border: 3px solid var(--ink); background: var(--paper);
-      filter: drop-shadow(0 18px 0 rgba(0,0,0,0.3));
+      width: 100%;
+      overflow: hidden;
     }
     .pe-single .frame img { width: 100%; height: auto; }
     .pe-single .caption {
-      margin-top: 32px;
+      margin-top: 24px;
       max-width: 600px; text-align: center;
-      font-size: 16px; line-height: 1.5; font-weight: 400;
-      letter-spacing: 0.01em;
+      font-size: 14px; line-height: 1.6; font-weight: 400;
+      opacity: 0.7;
     }
 
-    /* ────── PLANTILLA: gallery ────── */
+    /* ── gallery ── */
     .pe-gallery {
-      padding: 50px 56px 80px;
+      padding: 40px 24px 80px;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 8px;
+      max-width: 1400px; margin: 0 auto;
     }
     .pe-gallery .item {
-      border: 3px solid var(--ink); background: var(--paper);
       overflow: hidden;
-      filter: drop-shadow(0 8px 0 rgba(0,0,0,0.3));
-      transition: transform 0.25s ease;
+      transition: opacity 0.3s;
     }
-    .pe-gallery .item:hover { transform: translateY(-4px); }
+    .pe-gallery .item:hover { opacity: 0.85; }
     .pe-gallery .item.tall { grid-row: span 2; }
     .pe-gallery .item.wide { grid-column: span 2; }
     .pe-gallery .item img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-    /* ────── PLANTILLA: object-text ────── */
+    /* ── object-text ── */
     .pe-object {
-      padding: 60px 56px 80px;
-      display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
-      align-items: center; min-height: 70vh;
+      padding: 40px 24px 80px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+      align-items: center;
+      max-width: 1200px; margin: 0 auto;
     }
     .pe-object .photo {
-      border: 3px solid var(--ink); background: var(--paper);
-      aspect-ratio: 4/5;
-      filter: drop-shadow(0 18px 0 rgba(0,0,0,0.3));
       overflow: hidden;
     }
-    .pe-object .photo img { width: 100%; height: 100%; object-fit: cover; }
+    .pe-object .photo img { width: 100%; height: auto; }
     .pe-object .copy h2 {
-      font-size: clamp(32px, 4vw, 56px);
-      line-height: 0.95; letter-spacing: -0.04em;
-      margin: 0 0 24px;
+      font-family: "Space Mono", monospace;
+      font-size: clamp(24px, 3vw, 40px);
+      line-height: 1.05; letter-spacing: -0.02em;
+      margin: 0 0 20px;
+      font-weight: 700;
     }
     .pe-object .copy h2 em { font-style: normal; color: var(--a1); }
     .pe-object .copy p {
-      font-size: 17px; line-height: 1.55; font-weight: 400;
-      max-width: 500px;
-      margin: 0 0 18px;
+      font-size: 14px; line-height: 1.6; font-weight: 400;
+      max-width: 500px; margin: 0 0 14px; opacity: 0.8;
     }
     .pe-object .copy .specs {
-      margin-top: 30px;
-      font-size: 11px; letter-spacing: 0.25em; font-weight: 700;
-      display: grid; grid-template-columns: auto 1fr; gap: 6px 16px;
+      margin-top: 24px;
+      font-size: 10px; letter-spacing: 0.2em;
+      display: grid; grid-template-columns: auto 1fr; gap: 4px 16px;
+      text-transform: uppercase;
     }
-    .pe-object .copy .specs dt { opacity: 0.6; }
+    .pe-object .copy .specs dt { opacity: 0.4; }
     .pe-object .copy .specs dd { margin: 0; }
 
-    /* ────── PLANTILLA: long-read ────── */
+    /* ── long-read ── */
     .pe-long {
-      padding: 60px 56px 80px;
+      padding: 40px 24px 80px;
       display: flex; flex-direction: column; align-items: center;
+      max-width: 1200px; margin: 0 auto;
     }
     .pe-long .block {
-      max-width: 760px; width: 100%;
-      margin-bottom: 60px;
+      max-width: 680px; width: 100%;
+      margin-bottom: 48px;
     }
-    .pe-long .block.full { max-width: 1200px; }
+    .pe-long .block.full { max-width: 1100px; }
     .pe-long .block h2 {
-      font-size: clamp(28px, 3.4vw, 44px);
-      letter-spacing: -0.03em; line-height: 1;
-      margin: 0 0 18px;
+      font-family: "Space Mono", monospace;
+      font-size: clamp(20px, 2.5vw, 32px);
+      letter-spacing: -0.02em; line-height: 1.1;
+      margin: 0 0 16px;
       color: var(--a1);
+      font-weight: 700;
     }
     .pe-long .block p {
-      font-size: 17px; line-height: 1.6; font-weight: 400;
-      margin: 0 0 14px;
+      font-size: 14px; line-height: 1.7; font-weight: 400;
+      margin: 0 0 12px; opacity: 0.8;
     }
-    .pe-long .block .img {
-      border: 3px solid var(--ink); background: var(--paper);
-      filter: drop-shadow(0 12px 0 rgba(0,0,0,0.3));
-      margin-top: 18px;
-    }
+    .pe-long .block .img { margin-top: 16px; }
     .pe-long .block .img img { width: 100%; height: auto; }
     .pe-long .pull {
-      font-size: clamp(28px, 3.6vw, 48px);
-      line-height: 1.05; letter-spacing: -0.03em;
-      max-width: 860px; text-align: center;
-      margin: 40px auto;
-      color: var(--paper);
+      font-family: "Space Mono", monospace;
+      font-size: clamp(22px, 3vw, 36px);
+      line-height: 1.15; letter-spacing: -0.02em;
+      max-width: 800px; text-align: center;
+      margin: 32px auto;
+      font-weight: 700;
     }
-    .pe-long .pull em { font-style: normal; background: var(--a1); color: var(--ink); padding: 0 10px; }
+    .pe-long .pull em { font-style: normal; background: var(--a1); color: var(--ink); padding: 0 6px; }
 
-    /* ────── PLANTILLA: showcase ────── */
-    .pe-show {
-      padding: 0;
-    }
+    /* ── showcase ── */
+    .pe-show { padding: 0; }
     .pe-show .row {
       display: grid; grid-template-columns: 1fr 1fr; gap: 0;
-      border-bottom: 2px solid rgba(255,255,255,0.12);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
     }
     .pe-show .row.swap { direction: rtl; }
     .pe-show .row.swap > * { direction: ltr; }
     .pe-show .row .visual {
       aspect-ratio: 4/3;
-      background-color: var(--paper);
       background-size: cover; background-position: center;
-      border-right: 2px solid rgba(255,255,255,0.12);
     }
-    .pe-show .row .visual.contain {
-      background-size: contain; background-repeat: no-repeat;
-    }
+    .pe-show .row .visual.contain { background-size: contain; background-repeat: no-repeat; }
     .pe-show .row .text {
-      padding: 50px 56px;
+      padding: 40px 32px;
       display: flex; flex-direction: column; justify-content: center;
     }
     .pe-show .row .text h3 {
-      font-size: clamp(24px, 2.8vw, 36px);
-      letter-spacing: -0.03em; line-height: 1;
-      margin: 0 0 14px;
+      font-family: "Space Mono", monospace;
+      font-size: clamp(18px, 2vw, 28px);
+      letter-spacing: -0.02em; line-height: 1.1;
+      margin: 0 0 12px;
       color: var(--a1);
+      font-weight: 700;
     }
     .pe-show .row .text p {
-      font-size: 15px; line-height: 1.55; font-weight: 400;
-      max-width: 460px;
-      margin: 0;
+      font-size: 14px; line-height: 1.6; font-weight: 400;
+      max-width: 420px; margin: 0; opacity: 0.8;
     }
 
-    /* ────── PLANTILLA: video ────── */
+    /* ── video ── */
     .pe-video {
-      padding: 60px 56px 80px;
+      padding: 40px 24px 80px;
       display: flex; flex-direction: column; align-items: center;
+      max-width: 1200px; margin: 0 auto;
     }
     .pe-video .frame {
-      max-width: 1100px; width: 100%;
-      border: 3px solid var(--ink); background: var(--ink);
-      filter: drop-shadow(0 18px 0 rgba(0,0,0,0.3));
+      width: 100%;
       aspect-ratio: 16/9;
       overflow: hidden;
-      position: relative;
+      background: var(--ink);
     }
-    .pe-video .frame video,
-    .pe-video .frame iframe {
+    .pe-video .frame video, .pe-video .frame iframe {
       width: 100%; height: 100%; display: block; border: 0;
     }
     .pe-video .caption {
-      margin-top: 32px;
-      max-width: 720px; text-align: center;
-      font-size: 16px; line-height: 1.55; font-weight: 400;
+      margin-top: 24px;
+      max-width: 600px; text-align: center;
+      font-size: 14px; line-height: 1.6; font-weight: 400;
+      opacity: 0.7;
     }
 
-    /* tags invisibles para search (renderizados pero ocultos visualmente) */
     .pe-tags { position: absolute; left: -9999px; opacity: 0; pointer-events: none; }
+
+    @media (max-width: 768px) {
+      .pe-head { padding: 48px 16px 32px; }
+      .pe-head h1 { font-size: clamp(36px, 10vw, 64px); }
+      .pe-object { grid-template-columns: 1fr; }
+      .pe-show .row { grid-template-columns: 1fr; }
+      .pe-show .row .visual { aspect-ratio: 16/9; }
+    }
   `;
 
   return (
@@ -262,48 +274,37 @@ function ProjectEntry({ data, palette = "electric" }) {
       </header>
 
       <section className="pe-head">
-        <h1>
-          {data.title.split(" ").map((w, i, arr) => (
-            <React.Fragment key={i}>
-              {i === arr.length - 1 ? <span className="y">{w}</span> : w}
-              {i < arr.length - 1 && " "}
-            </React.Fragment>
-          ))}
-        </h1>
-        <dl className="info">
-          {data.year && <><dt>AÑO</dt><dd>{data.year}</dd></>}
-          {data.category && <><dt>CATEGORÍA</dt><dd>{data.category}</dd></>}
-          {data.client && <><dt>CLIENTE</dt><dd>{data.client}</dd></>}
-          {data.role && <><dt>ROL</dt><dd>{data.role}</dd></>}
-          {data.tools && <><dt>HERRAMIENTAS</dt><dd>{data.tools.join(", ")}</dd></>}
-          {data.link && <><dt>LINK</dt><dd><a href={data.link} target="_blank" rel="noreferrer">{data.linkLabel || "Ver →"}</a></dd></>}
-        </dl>
+        <h1>{data.title}</h1>
+        <div className="info">
+          {data.year && <div className="pair"><dt>Year</dt><dd>{data.year}</dd></div>}
+          {data.category && <div className="pair"><dt>Category</dt><dd>{data.category}</dd></div>}
+          {data.client && <div className="pair"><dt>Client</dt><dd>{data.client}</dd></div>}
+          {data.role && <div className="pair"><dt>Role</dt><dd>{data.role}</dd></div>}
+          {data.tools && <div className="pair"><dt>Tools</dt><dd>{data.tools.join(", ")}</dd></div>}
+          {data.link && <div className="pair"><dt>Link</dt><dd><a href={data.link} target="_blank" rel="noreferrer">{data.linkLabel || "View →"}</a></dd></div>}
+        </div>
       </section>
 
       <T data={data} />
 
-      {/* tags invisibles para indexar — ayudan a la búsqueda sin ensuciar la UI */}
       {data.tags && data.tags.length > 0 && (
-        <div className="pe-tags" aria-hidden="false">
-          {data.tags.join(" ")}
-        </div>
+        <div className="pe-tags" aria-hidden="false">{data.tags.join(" ")}</div>
       )}
 
       <footer className="pe-foot">
         <span>© INCENDIO 1987</span>
         <div className="nav">
-          {data.prev && <a href={`#/project/${data.prev}`}>← anterior</a>}
-          {data.next && <a href={`#/project/${data.next}`}>siguiente →</a>}
+          {data.prev && <a href={`#/project/${data.prev}`}>← prev</a>}
+          {data.next && <a href={`#/project/${data.next}`}>next →</a>}
         </div>
       </footer>
     </div>
   );
 }
 
-/* ────────── PLANTILLAS ────────── */
+/* ── TEMPLATES ── */
 
 const TEMPLATES = {
-  /* Una imagen grande + caption corto */
   "single-image": ({ data }) => (
     <section className="pe-single">
       <div className="frame">
@@ -313,7 +314,6 @@ const TEMPLATES = {
     </section>
   ),
 
-  /* Galería de imágenes — soporta variants tall/wide para masonry */
   "gallery": ({ data }) => (
     <section className="pe-gallery">
       {(data.images || []).map((img, i) => {
@@ -328,7 +328,6 @@ const TEMPLATES = {
     </section>
   ),
 
-  /* Foto de objeto + texto al lado */
   "object-text": ({ data }) => (
     <section className="pe-object">
       <div className="photo">
@@ -352,7 +351,6 @@ const TEMPLATES = {
     </section>
   ),
 
-  /* Caso de estudio largo: bloques de texto + imágenes intercaladas */
   "long-read": ({ data }) => (
     <section className="pe-long">
       {(data.blocks || []).map((b, i) => {
@@ -370,7 +368,6 @@ const TEMPLATES = {
     </section>
   ),
 
-  /* Filas alternadas imagen+texto (para mostrar varias piezas con explicación) */
   "showcase": ({ data }) => (
     <section className="pe-show">
       {(data.rows || []).map((r, i) => (
@@ -386,7 +383,6 @@ const TEMPLATES = {
     </section>
   ),
 
-  /* Video destacado (puede ser <video src> o iframe de youtube/vimeo) */
   "video": ({ data }) => (
     <section className="pe-video">
       <div className="frame">
