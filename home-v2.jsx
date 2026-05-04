@@ -1,6 +1,6 @@
 /* ============================================================
    HOME v2 — Swiss Minimal Grid
-   Interactive tile grid that reveals project thumbnails on hover/touch.
+   Interactive tile grid with spin+gradient reveal.
    INCENDIO 1987 portfolio.
    ============================================================ */
 
@@ -12,7 +12,6 @@ const PALETTES_HOME = {
   cream:    { bg: "#f6efde", paper: "#fffaee", ink: "#0c2340", accent1: "#c0392b", accent2: "#1e3a8a", accent3: "#d4a017" },
 };
 
-/* ─── i18n ─── */
 const STRINGS = {
   works:    { es: "WORKS",    en: "WORKS" },
   shop:     { es: "SHOP",     en: "SHOP" },
@@ -20,7 +19,6 @@ const STRINGS = {
   about:    { es: "ABOUT",    en: "ABOUT" },
   hero_sub: { es: "Diseño, ilustración, código y caos curado.",
               en: "Design, illustration, code & curated chaos." },
-  paleta:   { es: "PALETA",   en: "PALETTE" },
   page:     { es: "PÁG",      en: "PAGE" },
 };
 function makeT(lang) {
@@ -30,57 +28,63 @@ function makeT(lang) {
   };
 }
 
-/* ─── Grid Cell — reveals project on hover/touch with color trail ─── */
-function GridCell({ project, index, revealedSet, onReveal, pal, totalInPage }) {
-  const cellRef = React.useRef(null);
+/* ─── Grid Cell ───
+   States:
+   1. Default: small dot
+   2. Hover/touch: dot spins right + gradient color, shows project NAME
+   3. Leave: reverts to dot (no name)
+   4. Click: reveals thumbnail (stays open)
+   5. Double-click or click on open thumbnail: navigate to project
+*/
+function GridCell({ project, index, openSet, onOpen, pal }) {
   const [hovered, setHovered] = React.useState(false);
-  const isRevealed = revealedSet.has(index);
+  const isOpen = openSet.has(index);
   const hasProject = !!project;
 
-  /* Color cycle for the trail effect */
   const colors = [pal.accent1, pal.accent2, pal.accent3];
-  const trailColor = colors[index % colors.length];
+  const c1 = colors[index % colors.length];
+  const c2 = colors[(index + 1) % colors.length];
 
-  const handleInteraction = () => {
-    if (hasProject) {
-      onReveal(index);
+  const handleClick = () => {
+    if (!hasProject) return;
+    if (isOpen) {
+      window.location.hash = `#/project/${project.id}`;
+    } else {
+      onOpen(index);
     }
   };
 
-  const handleClick = () => {
-    if (hasProject && isRevealed) {
-      window.location.hash = `#/project/${project.id}`;
-    } else {
-      handleInteraction();
-    }
+  const handleDoubleClick = () => {
+    if (!hasProject) return;
+    window.location.hash = `#/project/${project.id}`;
   };
 
   return (
     <div
-      ref={cellRef}
-      className={`grid-cell ${isRevealed ? 'revealed' : ''} ${hovered ? 'hovered' : ''} ${!hasProject ? 'empty' : ''}`}
+      className={`grid-cell ${isOpen ? 'open' : ''} ${hovered ? 'hovered' : ''} ${!hasProject ? 'empty' : ''}`}
       style={{
-        '--trail-color': trailColor,
+        '--c1': c1,
+        '--c2': c2,
         '--cell-bg': hasProject && project.cover ? `url("${project.cover}")` : 'none',
       }}
-      onMouseEnter={() => { setHovered(true); handleInteraction(); }}
+      onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      onTouchStart={handleInteraction}
+      onTouchStart={() => setHovered(true)}
+      onTouchEnd={() => setTimeout(() => setHovered(false), 600)}
       onClick={handleClick}
+      onDoubleClick={handleDoubleClick}
     >
-      <div className="cell-inner">
-        {/* Default state: small square */}
-        <div className="cell-dot" />
-        {/* Revealed state: project thumbnail */}
-        {hasProject && (
-          <div className="cell-reveal">
-            <div className="cell-img" />
-            <div className="cell-meta">
-              <span className="cell-title">{project.title}</span>
-            </div>
-          </div>
-        )}
-      </div>
+      <div className="cell-dot" />
+
+      {hasProject && hovered && !isOpen && (
+        <div className="cell-name">{project.title}</div>
+      )}
+
+      {hasProject && isOpen && (
+        <div className="cell-thumb">
+          <div className="cell-img" />
+        </div>
+      )}
     </div>
   );
 }
@@ -96,7 +100,6 @@ function HomeV2() {
   const t = makeT(tweaks.lang || "es");
   const pal = PALETTES_HOME[tweaks.palette] || PALETTES_HOME.electric;
 
-  /* Load projects */
   const [projects, setProjects] = React.useState([]);
   const [siteData, setSiteData] = React.useState(null);
   React.useEffect(() => {
@@ -123,10 +126,8 @@ function HomeV2() {
     })();
   }, []);
 
-  /* i18n from data.json */
   const i18n = siteData?.i18n?.[tweaks.lang] || siteData?.i18n?.es || {};
 
-  /* Pagination */
   const [isMobile, setIsMobile] = React.useState(window.innerWidth < 768);
   React.useEffect(() => {
     const handler = () => setIsMobile(window.innerWidth < 768);
@@ -143,29 +144,17 @@ function HomeV2() {
   const pageProjects = React.useMemo(() => {
     const start = page * PER_PAGE;
     const slice = projects.slice(start, start + PER_PAGE);
-    /* Pad to fill the grid */
     while (slice.length < PER_PAGE) slice.push(null);
     return slice;
   }, [projects, page, PER_PAGE]);
 
-  /* Revealed cells tracking */
-  const [revealedSet, setRevealedSet] = React.useState(new Set());
-  React.useEffect(() => {
-    setRevealedSet(new Set());
-  }, [page]);
+  const [openSet, setOpenSet] = React.useState(new Set());
+  React.useEffect(() => { setOpenSet(new Set()); }, [page]);
 
-  const handleReveal = (index) => {
-    setRevealedSet(prev => {
-      const next = new Set(prev);
-      next.add(index);
-      return next;
-    });
+  const handleOpen = (index) => {
+    setOpenSet(prev => { const n = new Set(prev); n.add(index); return n; });
   };
 
-  /* Palette entries for footer */
-  const palEntries = Object.entries(PALETTES_HOME);
-
-  /* Works dropdown */
   const [worksOpen, setWorksOpen] = React.useState(false);
   const worksRef = React.useRef(null);
   React.useEffect(() => {
@@ -182,12 +171,22 @@ function HomeV2() {
     };
   }, []);
 
-  /* Get unique categories */
   const categories = React.useMemo(() => {
     const cats = new Set();
     projects.forEach(p => { if (p.cat) cats.add(p.cat); });
     return Array.from(cats);
   }, [projects]);
+
+  const palEntries = Object.entries(PALETTES_HOME);
+
+  const [touchedLetters, setTouchedLetters] = React.useState(new Set());
+  const letterColors = [pal.accent1, pal.accent2, pal.accent3];
+  const handleLetterHover = (idx) => {
+    setTouchedLetters(prev => { const n = new Set(prev); n.add(idx); return n; });
+    setTimeout(() => {
+      setTouchedLetters(prev => { const n = new Set(prev); n.delete(idx); return n; });
+    }, 800);
+  };
 
   const css = `
     @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
@@ -195,85 +194,85 @@ function HomeV2() {
     .incendio-home {
       --bg: ${pal.bg}; --paper: ${pal.paper}; --ink: ${pal.ink};
       --a1: ${pal.accent1}; --a2: ${pal.accent2}; --a3: ${pal.accent3};
-      width: 100%; min-height: 100vh;
+      width: 100%; height: 100vh;
       background: var(--bg); color: var(--paper);
       font-family: "Space Mono", "Courier New", monospace;
       display: flex; flex-direction: column;
-      overflow-x: hidden;
+      overflow: hidden;
     }
     .incendio-home a { color: inherit; text-decoration: none; }
 
     /* ═══ HEADER ═══ */
     .ih-header {
-      padding: 24px;
+      padding: 16px 20px 8px;
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
+      gap: 16px;
+      flex-shrink: 0;
     }
 
-    .ih-brand {
-      flex: 1;
-    }
+    .ih-brand { flex-shrink: 0; }
 
     .ih-title {
-      font-size: clamp(48px, 10vw, 120px);
+      font-size: clamp(52px, 11vw, 130px);
       font-weight: 700;
-      line-height: 0.85;
-      letter-spacing: -0.04em;
+      line-height: 0.82;
+      letter-spacing: -0.05em;
       margin: 0;
       text-transform: uppercase;
       cursor: default;
-      position: relative;
     }
+    .ih-title-row { display: block; }
 
-    /* Rainbow trail on title letters */
     .ih-title-letter {
       display: inline-block;
-      position: relative;
       transition: color 0.3s ease;
       cursor: crosshair;
     }
     .ih-title-letter.touched {
-      animation: letterGlow 0.8s ease-out forwards;
+      animation: letterPop 0.8s ease-out forwards;
     }
-    @keyframes letterGlow {
-      0% { filter: brightness(1); }
-      30% { filter: brightness(1.5); }
-      100% { filter: brightness(1); }
+    @keyframes letterPop {
+      0% { transform: scale(1); }
+      20% { transform: scale(1.1); }
+      100% { transform: scale(1); }
     }
 
     .ih-subtitle {
-      font-size: clamp(10px, 1.4vw, 14px);
+      font-size: clamp(8px, 1vw, 11px);
       font-weight: 400;
-      letter-spacing: 0.05em;
-      margin-top: 16px;
-      opacity: 0.5;
-      max-width: 400px;
+      letter-spacing: 0.06em;
+      margin-top: 8px;
+      opacity: 0.35;
+      max-width: 300px;
       line-height: 1.5;
     }
 
+    /* ═══ NAV ═══ */
     .ih-nav {
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      gap: 6px;
-      padding-top: 8px;
+      gap: 0;
+      padding-top: 4px;
     }
 
     .ih-nav-link {
-      font-size: 11px;
+      font-size: clamp(16px, 3vw, 24px);
       font-weight: 700;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      opacity: 0.6;
+      opacity: 0.65;
       transition: opacity 0.2s, color 0.2s;
       cursor: pointer;
-      position: relative;
       background: none;
       border: none;
       color: var(--paper);
       font-family: inherit;
-      padding: 4px 0;
+      padding: 1px 0;
+      text-align: right;
+      line-height: 1.2;
     }
     .ih-nav-link:hover { opacity: 1; color: var(--a1); }
 
@@ -281,13 +280,13 @@ function HomeV2() {
     .ih-works-wrap { position: relative; }
     .ih-works-dropdown {
       position: absolute;
-      top: 100%;
+      top: calc(100% + 2px);
       right: 0;
       background: var(--paper);
       color: var(--ink);
-      padding: 8px 0;
-      min-width: 160px;
-      z-index: 100;
+      padding: 4px 0;
+      min-width: 180px;
+      z-index: 200;
       opacity: 0;
       transform: translateY(-4px);
       pointer-events: none;
@@ -300,85 +299,105 @@ function HomeV2() {
     }
     .ih-works-dropdown a {
       display: block;
-      padding: 6px 16px;
-      font-size: 10px;
-      letter-spacing: 0.15em;
+      padding: 8px 16px;
+      font-size: 12px;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--ink);
+      font-weight: 700;
       transition: background 0.15s;
     }
-    .ih-works-dropdown a:hover {
-      background: var(--a1);
-    }
+    .ih-works-dropdown a:hover { background: var(--a1); }
 
     /* ═══ GRID ═══ */
     .ih-grid-wrap {
       flex: 1;
-      padding: 16px 24px;
+      padding: 4px 20px;
       display: flex;
       flex-direction: column;
+      justify-content: center;
+      min-height: 0;
     }
 
     .ih-grid {
       display: grid;
       grid-template-columns: repeat(${COLS}, 1fr);
       grid-template-rows: repeat(${ROWS}, 1fr);
-      gap: 6px;
-      flex: 1;
-      min-height: 0;
-      aspect-ratio: ${COLS}/${ROWS};
-      max-height: calc(100vh - 320px);
+      gap: 3px;
       width: 100%;
-      max-width: 900px;
+      max-width: 760px;
       margin: 0 auto;
     }
 
-    /* ── Grid Cell ── */
     .grid-cell {
       position: relative;
       overflow: hidden;
       cursor: pointer;
-      border: 1px solid rgba(255,255,255,0.08);
-      transition: border-color 0.3s;
+      border: 1px solid rgba(255,255,255,0.05);
       aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.3s;
     }
-    .grid-cell:hover { border-color: rgba(255,255,255,0.2); }
-    .grid-cell.empty { cursor: default; opacity: 0.3; }
-
-    .cell-inner {
-      width: 100%; height: 100%;
-      position: relative;
-    }
+    .grid-cell.hovered { border-color: rgba(255,255,255,0.15); }
+    .grid-cell.empty { cursor: default; opacity: 0.12; }
 
     .cell-dot {
-      position: absolute;
-      top: 50%; left: 50%;
-      width: 6px; height: 6px;
-      transform: translate(-50%, -50%);
+      width: 4px; height: 4px;
       background: var(--paper);
-      opacity: 0.25;
-      transition: opacity 0.3s, transform 0.5s, background 0.3s;
-    }
-    .grid-cell:hover .cell-dot {
-      opacity: 0.6;
-      background: var(--trail-color);
-      transform: translate(-50%, -50%) scale(1.5);
-    }
-    .grid-cell.revealed .cell-dot {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(0);
+      opacity: 0.18;
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+                  background 0.4s,
+                  opacity 0.3s;
     }
 
-    .cell-reveal {
+    .grid-cell.hovered .cell-dot {
+      opacity: 0.95;
+      transform: rotate(90deg) scale(2);
+      background: linear-gradient(135deg, var(--c1), var(--c2));
+    }
+    .grid-cell:not(.hovered):not(.open) .cell-dot {
+      transform: rotate(0deg) scale(1);
+      opacity: 0.18;
+      background: var(--paper);
+    }
+
+    .grid-cell.open .cell-dot {
+      opacity: 0;
+      transform: rotate(180deg) scale(0);
+    }
+
+    .cell-name {
+      position: absolute;
+      bottom: 3px; left: 3px; right: 3px;
+      font-size: 6px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-align: center;
+      color: var(--paper);
+      opacity: 0.75;
+      pointer-events: none;
+      animation: nameIn 0.15s ease-out;
+      line-height: 1.2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    @keyframes nameIn {
+      from { opacity: 0; transform: translateY(2px); }
+      to { opacity: 0.75; transform: translateY(0); }
+    }
+
+    .cell-thumb {
       position: absolute;
       inset: 0;
-      opacity: 0;
-      transform: scale(0.85);
-      transition: opacity 0.4s ease, transform 0.4s ease;
+      animation: thumbIn 0.3s ease-out forwards;
     }
-    .grid-cell.revealed .cell-reveal {
-      opacity: 1;
-      transform: scale(1);
+    @keyframes thumbIn {
+      from { opacity: 0; transform: scale(0.7) rotate(3deg); }
+      to { opacity: 1; transform: scale(1) rotate(0deg); }
     }
 
     .cell-img {
@@ -387,31 +406,10 @@ function HomeV2() {
       background-image: var(--cell-bg);
       background-size: cover;
       background-position: center;
-      transition: transform 0.4s ease;
+      transition: transform 0.3s ease;
     }
-    .grid-cell.revealed:hover .cell-img {
-      transform: scale(1.05);
-    }
-
-    .cell-meta {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      padding: 6px 8px;
-      background: linear-gradient(transparent, rgba(0,0,0,0.7));
-      opacity: 0;
-      transform: translateY(4px);
-      transition: opacity 0.3s, transform 0.3s;
-    }
-    .grid-cell.revealed:hover .cell-meta {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .cell-title {
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: #fff;
+    .grid-cell.open:hover .cell-img {
+      transform: scale(1.06);
     }
 
     /* ═══ PAGINATION ═══ */
@@ -419,139 +417,134 @@ function HomeV2() {
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 24px;
-      padding: 16px 24px;
-      font-size: 10px;
-      letter-spacing: 0.2em;
+      gap: 18px;
+      padding: 8px 20px;
+      font-size: 9px;
+      letter-spacing: 0.15em;
       font-weight: 700;
-      text-transform: uppercase;
+      flex-shrink: 0;
     }
     .ih-page-btn {
       background: none;
-      border: 1px solid rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.1);
       color: var(--paper);
       font-family: inherit;
       font-size: 11px;
-      padding: 6px 12px;
+      padding: 4px 10px;
       cursor: pointer;
       transition: all 0.2s;
-      letter-spacing: 0.1em;
     }
     .ih-page-btn:hover:not(:disabled) {
-      background: var(--a1);
-      color: var(--ink);
-      border-color: var(--a1);
+      background: var(--a1); color: var(--ink); border-color: var(--a1);
     }
-    .ih-page-btn:disabled {
-      opacity: 0.2;
-      cursor: default;
-    }
-    .ih-page-num {
-      font-variant-numeric: tabular-nums;
-      opacity: 0.5;
-    }
+    .ih-page-btn:disabled { opacity: 0.12; cursor: default; }
+    .ih-page-num { font-variant-numeric: tabular-nums; opacity: 0.3; }
 
     /* ═══ FOOTER ═══ */
     .ih-footer {
-      padding: 16px 24px;
+      padding: 10px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 9px;
+      font-size: 7px;
       letter-spacing: 0.2em;
       font-weight: 400;
       text-transform: uppercase;
-      opacity: 0.4;
-      border-top: 1px solid rgba(255,255,255,0.06);
+      opacity: 0.2;
+      flex-shrink: 0;
     }
-
-    .ih-palette {
-      display: flex; gap: 6px; align-items: center;
-    }
-    .ih-palette-dot {
-      width: 12px; height: 12px;
-      cursor: pointer;
-      border: 1px solid rgba(255,255,255,0.3);
-      transition: transform 0.2s;
-      display: inline-block;
-    }
-    .ih-palette-dot:hover { transform: scale(1.3); }
-    .ih-palette-dot.active { outline: 2px solid var(--a1); outline-offset: 2px; }
 
     .ih-lang {
       display: flex; gap: 4px;
     }
     .ih-lang button {
       background: none; border: none; cursor: pointer;
-      font-family: inherit; font-size: 10px; letter-spacing: 0.15em;
-      color: var(--paper); opacity: 0.4; transition: opacity 0.2s;
+      font-family: inherit; font-size: 8px; letter-spacing: 0.15em;
+      color: var(--paper); opacity: 0.5; transition: opacity 0.2s;
       padding: 2px 4px; font-weight: 700;
     }
     .ih-lang button:hover, .ih-lang button.on { opacity: 1; }
 
-    /* ═══ RESPONSIVE ═══ */
+    /* ═══ MOBILE ═══ */
     @media (max-width: 768px) {
-      .ih-header { padding: 16px; flex-direction: column; }
-      .ih-nav { flex-direction: row; gap: 12px; align-items: center; margin-top: 12px; }
-      .ih-grid-wrap { padding: 8px 16px; }
-      .ih-grid { max-height: calc(100vh - 280px); }
-      .ih-footer { padding: 12px 16px; flex-direction: column; gap: 8px; }
-      .ih-subtitle { margin-top: 10px; }
+      .ih-header {
+        padding: 12px 14px 6px;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .ih-title { font-size: clamp(44px, 14vw, 80px); }
+      .ih-nav {
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .ih-nav-link { font-size: 14px; }
+
+      .ih-works-dropdown {
+        position: fixed;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        min-width: 100%;
+        padding: 12px 0;
+        padding-bottom: calc(12px + env(safe-area-inset-bottom));
+        border-top: 2px solid var(--a1);
+        z-index: 9999;
+      }
+      .ih-works-dropdown a {
+        padding: 14px 20px;
+        font-size: 15px;
+      }
+
+      .ih-grid-wrap { padding: 2px 10px; }
+      .ih-grid { gap: 2px; }
+      .cell-name { font-size: 5px; }
+      .ih-footer { padding: 8px 14px; }
+      .ih-subtitle { margin-top: 4px; }
     }
   `;
-
-  /* Title letter animation on hover */
-  const titleText = "INCENDIO1987";
-  const [touchedLetters, setTouchedLetters] = React.useState(new Set());
-  const letterColors = [pal.accent1, pal.accent2, pal.accent3];
-
-  const handleLetterHover = (idx) => {
-    setTouchedLetters(prev => {
-      const next = new Set(prev);
-      next.add(idx);
-      return next;
-    });
-    /* Reset after animation */
-    setTimeout(() => {
-      setTouchedLetters(prev => {
-        const next = new Set(prev);
-        next.delete(idx);
-        return next;
-      });
-    }, 800);
-  };
 
   return (
     <div className="incendio-home">
       <style>{css}</style>
 
-      {/* ═══ HEADER ═══ */}
       <header className="ih-header">
         <div className="ih-brand">
           <h1 className="ih-title">
-            {titleText.split("").map((ch, i) => (
-              <span
-                key={i}
-                className={`ih-title-letter ${touchedLetters.has(i) ? 'touched' : ''}`}
-                style={{
-                  color: touchedLetters.has(i) ? letterColors[i % letterColors.length] : 'inherit',
-                }}
-                onMouseEnter={() => handleLetterHover(i)}
-                onTouchStart={() => handleLetterHover(i)}
-              >
-                {ch}
-              </span>
-            ))}
+            <span className="ih-title-row">
+              {"INCENDIO".split("").map((ch, i) => (
+                <span
+                  key={`a${i}`}
+                  className={`ih-title-letter ${touchedLetters.has(i) ? 'touched' : ''}`}
+                  style={{ color: touchedLetters.has(i) ? letterColors[i % letterColors.length] : 'inherit' }}
+                  onMouseEnter={() => handleLetterHover(i)}
+                  onTouchStart={() => handleLetterHover(i)}
+                >{ch}</span>
+              ))}
+            </span>
+            <span className="ih-title-row">
+              {"1987".split("").map((ch, i) => {
+                const gi = i + 8;
+                return (
+                  <span
+                    key={`b${i}`}
+                    className={`ih-title-letter ${touchedLetters.has(gi) ? 'touched' : ''}`}
+                    style={{ color: touchedLetters.has(gi) ? letterColors[gi % letterColors.length] : 'inherit' }}
+                    onMouseEnter={() => handleLetterHover(gi)}
+                    onTouchStart={() => handleLetterHover(gi)}
+                  >{ch}</span>
+                );
+              })}
+            </span>
           </h1>
           <p className="ih-subtitle">{i18n.hero_tag_a || t("hero_sub")}</p>
         </div>
 
         <nav className="ih-nav">
           <div className="ih-works-wrap" ref={worksRef}>
-            <button
-              className="ih-nav-link"
-              onClick={() => setWorksOpen(o => !o)}
-            >
+            <button className="ih-nav-link" onClick={() => setWorksOpen(o => !o)}>
               {t("works")} {worksOpen ? '▴' : '▾'}
             </button>
             <div className={`ih-works-dropdown ${worksOpen ? 'open' : ''}`}>
@@ -573,7 +566,6 @@ function HomeV2() {
         </nav>
       </header>
 
-      {/* ═══ GRID ═══ */}
       <div className="ih-grid-wrap">
         <div className="ih-grid">
           {pageProjects.map((proj, i) => (
@@ -581,54 +573,28 @@ function HomeV2() {
               key={`${page}-${i}`}
               project={proj}
               index={i}
-              revealedSet={revealedSet}
-              onReveal={handleReveal}
+              openSet={openSet}
+              onOpen={handleOpen}
               pal={pal}
-              totalInPage={PER_PAGE}
             />
           ))}
         </div>
       </div>
 
-      {/* ═══ PAGINATION ═══ */}
       {totalPages > 1 && (
         <div className="ih-pagination">
-          <button
-            className="ih-page-btn"
+          <button className="ih-page-btn"
             onClick={() => setPage(p => Math.max(0, p - 1))}
-            disabled={page === 0}
-          >
-            ←
-          </button>
-          <span className="ih-page-num">
-            {t("page")} {page + 1} / {totalPages}
-          </span>
-          <button
-            className="ih-page-btn"
+            disabled={page === 0}>←</button>
+          <span className="ih-page-num">{page + 1} / {totalPages}</span>
+          <button className="ih-page-btn"
             onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
-            disabled={page === totalPages - 1}
-          >
-            →
-          </button>
+            disabled={page === totalPages - 1}>→</button>
         </div>
       )}
 
-      {/* ═══ FOOTER ═══ */}
       <footer className="ih-footer">
         <span>© INCENDIO 1987</span>
-
-        <div className="ih-palette">
-          {palEntries.map(([key, p]) => (
-            <span
-              key={key}
-              className={`ih-palette-dot ${tweaks.palette === key ? 'active' : ''}`}
-              style={{ background: p.bg, borderColor: p.paper }}
-              onClick={() => setTweak('palette', key)}
-              title={key}
-            />
-          ))}
-        </div>
-
         <div className="ih-lang">
           <button className={tweaks.lang === "es" ? "on" : ""} onClick={() => setTweak('lang', 'es')}>ES</button>
           <button className={tweaks.lang === "en" ? "on" : ""} onClick={() => setTweak('lang', 'en')}>EN</button>
