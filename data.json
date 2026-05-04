@@ -98,7 +98,20 @@
     }
   },
   "heroStickers": [],
-  "projects": [],
+  "projects": [
+    {
+      "id": "gagagaga",
+      "title": "gagagaga",
+      "category": "WEB/DEV",
+      "year": "2026",
+      "cover": "assets/projects/gagagaga/bestmomaward.jpg",
+      "contain": false,
+      "featured": false,
+      "template": "object-text",
+      "data": {},
+      "tags": []
+    }
+  ],
   "about": {
     "headline": "soy INCENDIO. hago muchas cosas.",
     "blocks": [
