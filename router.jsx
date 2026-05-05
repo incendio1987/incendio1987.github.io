@@ -49,12 +49,13 @@ function _t(key, lang) {
 }
 
 /* ─── Page CSS ─── */
-function pageStyles(pal) {
+function pageStyles(pal, fontFamily) {
+  var ff = fontFamily || "Space Mono";
   return `
     .page-wrap {
       width: 100%; min-height: 100vh;
       background: ${pal.bg}; color: ${pal.paper};
-      font-family: "Space Mono", "Courier New", monospace;
+      font-family: "${ff}", "Courier New", monospace;
       font-weight: 400;
     }
     .page-wrap a { color: inherit; text-decoration: none; }
@@ -122,10 +123,11 @@ function SiteFooter({ pal }) {
   );
 }
 
-function PageWrap({ pal, lang, setLang, palette, setPalette, active, children }) {
+function PageWrap({ pal, lang, setLang, palette, setPalette, active, children, siteData }) {
+  var fontFamily = (siteData && siteData.site && siteData.site.fontFamily) ? siteData.site.fontFamily : "Space Mono";
   return (
     <div className="page-wrap">
-      <style>{pageStyles(pal)}</style>
+      <style>{pageStyles(pal, fontFamily)}</style>
       <NavBar pal={pal} lang={lang} setLang={setLang} active={active} />
       {children}
       <SiteFooter pal={pal} />
@@ -147,7 +149,7 @@ function AboutPage({ pal, lang, setLang, palette, setPalette, siteData }) {
     .about-page .tag:hover { background: ${pal.accent1}; color: ${pal.ink}; border-color: ${pal.accent1}; }
   `;
   return (
-    <PageWrap pal={pal} lang={lang} setLang={setLang} palette={palette} setPalette={setPalette} active="about">
+    <PageWrap siteData={siteData} pal={pal} lang={lang} setLang={setLang} palette={palette} setPalette={setPalette} active="about">
       <style>{css}</style>
       <div className="page-content about-page">
         <h1>{_t("about", lang)}</h1>
@@ -155,7 +157,7 @@ function AboutPage({ pal, lang, setLang, palette, setPalette, siteData }) {
         {blocks.map((b, i) => (
           <div key={i} className="block">
             {b.kind === "intro" && (<><div className="block-label">Intro</div><div className="block-text">{b.text}</div></>)}
-            {b.kind === "skills-cloud" && (<><div className="block-label">{_t("skills", lang)}</div><div className="tag-cloud">{(b.items || []).map((s, j) => <span key={j} className="tag">{s}</span>)}</div></>)}
+            {b.kind === "skills-cloud" && (<><div className="block-label">{_t("skills", lang)}</div><div className="tag-cloud">{(b.items || []).map((s, j) => <a key={j} className="tag" href={`#/category/${s.toLowerCase().replace(/[^a-z0-9]/g, '-')}`}>{s}</a>)}</div></>)}
             {b.kind === "tools" && (<><div className="block-label">{_t("herramientas", lang)}</div><div className="tag-cloud">{(b.items || []).map((s, j) => <span key={j} className="tag">{s}</span>)}</div></>)}
           </div>
         ))}
@@ -176,7 +178,7 @@ function ContactPage({ pal, lang, setLang, palette, setPalette, siteData }) {
     .contact-page .social-link:hover { opacity: 1; color: ${pal.accent1}; }
   `;
   return (
-    <PageWrap pal={pal} lang={lang} setLang={setLang} palette={palette} setPalette={setPalette} active="contact">
+    <PageWrap siteData={siteData} pal={pal} lang={lang} setLang={setLang} palette={palette} setPalette={setPalette} active="contact">
       <style>{css}</style>
       <div className="page-content contact-page">
         <h1>{_t("contact", lang)}</h1>
@@ -204,7 +206,7 @@ function ShopPage({ pal, lang, setLang, palette, setPalette, siteData }) {
     .shop-page .empty { font-size: 14px; opacity: 0.5; }
   `;
   return (
-    <PageWrap pal={pal} lang={lang} setLang={setLang} palette={palette} setPalette={setPalette} active="shop">
+    <PageWrap siteData={siteData} pal={pal} lang={lang} setLang={setLang} palette={palette} setPalette={setPalette} active="shop">
       <style>{css}</style>
       <div className="page-content shop-page">
         <h1>{_t("shop", lang)}</h1>
@@ -247,7 +249,7 @@ function CategoryPage({ pal, lang, setLang, palette, setPalette, siteData, categ
   `;
   const displayName = categorySlug === "all" ? _t("todos", lang) : categorySlug.replace(/-/g, " ").toUpperCase();
   return (
-    <PageWrap pal={pal} lang={lang} setLang={setLang} palette={palette} setPalette={setPalette} active="work">
+    <PageWrap siteData={siteData} pal={pal} lang={lang} setLang={setLang} palette={palette} setPalette={setPalette} active="work">
       <style>{css}</style>
       <div className="page-content cat-page">
         <div className="cat-label">{_t("proyectos", lang)}</div>
@@ -276,7 +278,7 @@ function ProjectDetailPage({ pal, lang, setLang, palette, setPalette, siteData, 
 
   if (!project) {
     return (
-      <PageWrap pal={pal} lang={lang} setLang={setLang} palette={palette} setPalette={setPalette} active="work">
+      <PageWrap siteData={siteData} pal={pal} lang={lang} setLang={setLang} palette={palette} setPalette={setPalette} active="work">
         <div className="page-content">
           <p style={{ opacity: 0.5 }}>Proyecto no encontrado. <a href="#/" style={{ color: pal.accent1 }}>{_t("home", lang)}</a></p>
         </div>
@@ -343,6 +345,14 @@ function IncendioRouter() {
       setSiteData(data);
       if (data.site && data.site.defaultLang) setLang(data.site.defaultLang);
       if (data.site && data.site.defaultPalette) setPalette(data.site.defaultPalette);
+      /* Dynamic Google Font loading */
+      var font = (data.site && data.site.fontFamily) ? data.site.fontFamily : "Space Mono";
+      if (font && font !== "Space Mono") {
+        var link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = "https://fonts.googleapis.com/css2?family=" + encodeURIComponent(font).replace(/%20/g, "+") + ":wght@400;700&display=swap";
+        document.head.appendChild(link);
+      }
     });
   }, []);
 

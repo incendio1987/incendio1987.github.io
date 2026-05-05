@@ -136,6 +136,32 @@ function HomeV2() {
     i18n = siteData.i18n[tweaks.lang] || siteData.i18n.es || {};
   }
 
+  /* Read design config from site */
+  var siteConfig = (siteData && siteData.site) ? siteData.site : {};
+  var fontFamily = siteConfig.fontFamily || "Space Mono";
+  var gridDotSize = siteConfig.gridDotSize || 4;
+  var gridDotColor = siteConfig.gridDotColor || "";
+  var gridTransition = siteConfig.gridTransition || "cubic-bezier(0.34, 1.56, 0.64, 1)";
+  var titleLetterColorsConfig = siteConfig.titleLetterColors || [];
+
+  /* Random palette on load */
+  var _rp = React.useRef(false);
+  React.useEffect(function() {
+    if (_rp.current) return;
+    _rp.current = true;
+    if (siteConfig.randomPalette && siteData && siteData.palettes) {
+      var palNames = Object.keys(siteData.palettes);
+      if (palNames.length > 0) {
+        var rIdx = Math.floor(Math.random() * palNames.length);
+        setTweak("palette", palNames[rIdx]);
+      }
+    }
+    if (siteConfig.randomFont) {
+      var fonts = ["Space Mono","JetBrains Mono","IBM Plex Mono","Fira Code","Syne","Outfit","DM Mono"];
+      fontFamily = fonts[Math.floor(Math.random() * fonts.length)];
+    }
+  }, [siteData]);
+
   /* Responsive */
   var _m = React.useState(window.innerWidth < 768);
   var isMobile = _m[0], setIsMobile = _m[1];
@@ -201,6 +227,8 @@ function HomeV2() {
   var _tl = React.useState({});
   var touchedLetters = _tl[0], setTouchedLetters = _tl[1];
   var letterColors = [pal.accent1, pal.accent2, pal.accent3];
+  /* Use title letter colors from config if set */
+  var useConfigColors = titleLetterColorsConfig.length > 0 && titleLetterColorsConfig.some(function(c) { return !!c; });
   var handleLetterHover = function(idx) {
     setTouchedLetters(function(prev) { var n = Object.assign({}, prev); n[idx] = true; return n; });
     setTimeout(function() {
@@ -214,7 +242,7 @@ function HomeV2() {
       --a1: " + pal.accent1 + "; --a2: " + pal.accent2 + "; --a3: " + pal.accent3 + ";\n\
       width: 100%; height: 100vh;\n\
       background: var(--bg); color: var(--paper);\n\
-      font-family: 'Space Mono', 'Courier New', monospace;\n\
+      font-family: '" + fontFamily + "', 'Courier New', monospace;\n\
       display: flex; flex-direction: column;\n\
       overflow: hidden;\n\
     }\n\
@@ -368,10 +396,10 @@ function HomeV2() {
     .grid-cell.empty { cursor: default; opacity: 0.12; }\n\
 \n\
     .cell-dot {\n\
-      width: 4px; height: 4px;\n\
-      background: var(--paper);\n\
+      width: " + gridDotSize + "px; height: " + gridDotSize + "px;\n\
+      background: " + (gridDotColor || "var(--paper)") + ";\n\
       opacity: 0.18;\n\
-      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),\n\
+      transition: transform 0.5s " + gridTransition + ",\n\
                   background 0.4s,\n\
                   opacity 0.3s;\n\
     }\n\
@@ -528,11 +556,16 @@ function HomeV2() {
     for (var i = 0; i < text.length; i++) {
       var gi = startIndex + i;
       var isTouched = !!touchedLetters[gi];
+      var hoverColor = useConfigColors && titleLetterColorsConfig[gi]
+        ? titleLetterColorsConfig[gi]
+        : letterColors[gi % letterColors.length];
+      /* If config has a static color for this letter, always show it */
+      var staticColor = useConfigColors && titleLetterColorsConfig[gi] ? titleLetterColorsConfig[gi] : null;
       els.push(
         React.createElement("span", {
           key: gi,
           className: "ih-title-letter" + (isTouched ? " touched" : ""),
-          style: { color: isTouched ? letterColors[gi % letterColors.length] : "inherit" },
+          style: { color: isTouched ? hoverColor : (staticColor || "inherit") },
           onMouseEnter: (function(idx) { return function() { handleLetterHover(idx); }; })(gi),
           onTouchStart: (function(idx) { return function() { handleLetterHover(idx); }; })(gi),
         }, text[i])
