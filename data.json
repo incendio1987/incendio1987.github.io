@@ -251,20 +251,19 @@
     }
   ],
   "about": {
-    "headline": "soy INCENDIO. dj aeropuerto",
+    "headline": "soy INCENDIO. encesto ideas",
     "blocks": [
       {
         "kind": "intro",
-        "text": "puchero de ideas"
+        "text": "little pensador de imaginaciones."
       },
       {
         "kind": "skills-cloud",
         "items": [
           "ilustración",
           "ia generativa",
-          "scripts",
           "vídeo",
-          "carteles",
+          "carteleria",
           "tipografía",
           "web/dev",
           "branding"
