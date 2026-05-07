@@ -116,6 +116,25 @@
   "heroStickers": [],
   "projects": [
     {
+      "id": "abecedario",
+      "title": "abecedario",
+      "category": "SHOP",
+      "year": "2026",
+      "cover": "assets/projects/abecedario/abece.jpg",
+      "contain": false,
+      "featured": false,
+      "template": "gallery",
+      "data": {
+        "images": [
+          "assets/projects/abecedario/abece.jpg"
+        ]
+      },
+      "tags": [],
+      "price": "15",
+      "sold": false,
+      "amount": "15.00"
+    },
+    {
       "id": "best-mom-award",
       "title": "best mom award",
       "category": "SHOP",
@@ -207,6 +226,16 @@
   },
   "shop": {
     "items": [
+      {
+        "id": "abecedario",
+        "title": "abecedario",
+        "category": "SHOP",
+        "description": "",
+        "price": "15",
+        "amount": "15.00",
+        "image": "assets/projects/abecedario/abece.jpg",
+        "sold": false
+      },
       {
         "id": "cartel-01",
         "title": "INCENDIO N1",
