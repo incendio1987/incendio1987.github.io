@@ -53,11 +53,7 @@ function GridCell(props) {
 
   var handleClick = function() {
     if (!hasProject) return;
-    if (isOpen) {
-      window.location.hash = "#/project/" + project.id;
-    } else {
-      onOpen(index);
-    }
+    window.location.hash = "#/project/" + project.id;
   };
 
   var handleDoubleClick = function() {
@@ -67,16 +63,19 @@ function GridCell(props) {
 
   return React.createElement("div", {
     className: "grid-cell" + (isOpen ? " open" : "") + (hovered ? " hovered" : "") + (!hasProject ? " empty" : ""),
-    style: { "--c1": c1, "--c2": c2, "--cell-bg": hasProject && project.cover ? 'url("' + project.cover + '")' : "none" },
-    onMouseEnter: function() { setHovered(true); },
+    style: { "--c1": c1, "--c2": c2, "--cell-bg": hasProject && project.cover ? 'url("' + project.cover + '")' : "none", "--pulse-delay": (index * 0.18) % 2.4 + "s" },
+    onMouseEnter: function() { if (hasProject) setHovered(true); },
     onMouseLeave: function() { setHovered(false); },
-    onTouchStart: function() { setHovered(true); },
-    onTouchEnd: function() { setTimeout(function() { setHovered(false); }, 600); },
+    onTouchStart: function() { if (hasProject) setHovered(true); },
+    onTouchEnd: function() { setTimeout(function() { setHovered(false); }, 800); },
     onClick: handleClick,
     onDoubleClick: handleDoubleClick,
   },
     React.createElement("div", { className: "cell-dot" }),
-    hasProject && hovered && !isOpen ? React.createElement("div", { className: "cell-name" }, project.title) : null,
+    hasProject && hovered && !isOpen ? React.createElement("div", { className: "cell-thumb" },
+      React.createElement("div", { className: "cell-img" }),
+      React.createElement("div", { className: "cell-name" }, project.title)
+    ) : null,
     hasProject && isOpen ? React.createElement("div", { className: "cell-thumb" },
       React.createElement("div", { className: "cell-img" })
     ) : null
@@ -251,9 +250,9 @@ function HomeV2() {
     .ih-header {\n\
       padding: 16px 20px 8px;\n\
       display: flex;\n\
-      justify-content: space-between;\n\
+      flex-direction: column;\n\
       align-items: flex-start;\n\
-      gap: 16px;\n\
+      gap: 0;\n\
       flex-shrink: 0;\n\
     }\n\
     .ih-brand { flex-shrink: 0; }\n\
@@ -308,13 +307,15 @@ function HomeV2() {
 \n\
     .ih-nav {\n\
       display: flex;\n\
-      flex-direction: column;\n\
-      align-items: flex-end;\n\
-      gap: 0;\n\
-      padding-top: 4px;\n\
+      flex-direction: row;\n\
+      align-items: center;\n\
+      gap: 4px;\n\
+      padding-top: 6px;\n\
+      padding-left: 2px;\n\
+      flex-wrap: wrap;\n\
     }\n\
     .ih-nav-link {\n\
-      font-size: clamp(16px, 3vw, 24px);\n\
+      font-size: clamp(12px, 2vw, 16px);\n\
       font-weight: 700;\n\
       letter-spacing: 0.08em;\n\
       text-transform: uppercase;\n\
@@ -325,11 +326,39 @@ function HomeV2() {
       border: none;\n\
       color: var(--paper);\n\
       font-family: inherit;\n\
-      padding: 1px 0;\n\
-      text-align: right;\n\
+      padding: 2px 8px;\n\
+      text-align: left;\n\
       line-height: 1.2;\n\
     }\n\
     .ih-nav-link:hover { opacity: 1; color: var(--a1); }\n\
+\n\
+    /* SHOP — animated gradient border */\n\
+    .ih-nav-shop {\n\
+      position: relative;\n\
+      opacity: 1 !important;\n\
+      padding: 3px 10px;\n\
+      color: var(--paper) !important;\n\
+      z-index: 0;\n\
+    }\n\
+    .ih-nav-shop::before {\n\
+      content: "";\n\
+      position: absolute;\n\
+      inset: 0;\n\
+      border-radius: 2px;\n\
+      padding: 1.5px;\n\
+      background: linear-gradient(90deg, var(--a1), var(--a2), var(--a3), var(--a1));\n\
+      background-size: 300% 100%;\n\
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);\n\
+      -webkit-mask-composite: xor;\n\
+      mask-composite: exclude;\n\
+      animation: shopBorderRoll 2.5s linear infinite;\n\
+      pointer-events: none;\n\
+    }\n\
+    @keyframes shopBorderRoll {\n\
+      0% { background-position: 0% 50%; }\n\
+      100% { background-position: 300% 50%; }\n\
+    }\n\
+    .ih-nav-shop:hover { color: var(--a1) !important; }\n\
 \n\
     .ih-works-wrap { position: relative; }\n\
     .ih-works-dropdown {\n\
@@ -398,42 +427,48 @@ function HomeV2() {
     .cell-dot {\n\
       width: " + gridDotSize + "px; height: " + gridDotSize + "px;\n\
       background: " + (gridDotColor || "var(--paper)") + ";\n\
-      opacity: 0.18;\n\
+      opacity: 0.55;\n\
+      animation: dotPulse 2.4s ease-in-out var(--pulse-delay, 0s) infinite;\n\
       transition: transform 0.5s " + gridTransition + ",\n\
                   background 0.4s,\n\
                   opacity 0.3s;\n\
     }\n\
+    @keyframes dotPulse {\n\
+      0%, 100% { opacity: 0.55; transform: scale(1); }\n\
+      50% { opacity: 0.9; transform: scale(1.45); }\n\
+    }\n\
     .grid-cell.hovered .cell-dot {\n\
-      opacity: 0.95;\n\
-      transform: rotate(90deg) scale(2);\n\
-      background: linear-gradient(135deg, var(--c1), var(--c2));\n\
+      opacity: 0;\n\
+      transform: rotate(90deg) scale(0);\n\
+      animation: none;\n\
     }\n\
     .grid-cell:not(.hovered):not(.open) .cell-dot {\n\
       transform: rotate(0deg) scale(1);\n\
-      opacity: 0.18;\n\
-      background: var(--paper);\n\
     }\n\
     .grid-cell.open .cell-dot {\n\
       opacity: 0;\n\
       transform: rotate(180deg) scale(0);\n\
+      animation: none;\n\
     }\n\
 \n\
     .cell-name {\n\
       position: absolute;\n\
-      bottom: 3px; left: 3px; right: 3px;\n\
+      bottom: 0; left: 0; right: 0;\n\
       font-size: 6px;\n\
       font-weight: 700;\n\
       letter-spacing: 0.06em;\n\
       text-transform: uppercase;\n\
       text-align: center;\n\
       color: var(--paper);\n\
-      opacity: 0.75;\n\
+      background: linear-gradient(transparent, rgba(0,0,0,0.55));\n\
+      padding: 6px 3px 3px;\n\
       pointer-events: none;\n\
       animation: nameIn 0.15s ease-out;\n\
       line-height: 1.2;\n\
       overflow: hidden;\n\
       text-overflow: ellipsis;\n\
       white-space: nowrap;\n\
+      z-index: 2;\n\
     }\n\
     @keyframes nameIn {\n\
       from { opacity: 0; transform: translateY(2px); }\n\
@@ -514,8 +549,6 @@ function HomeV2() {
     @media (max-width: 768px) {\n\
       .ih-header {\n\
         padding: 12px 14px 6px;\n\
-        flex-direction: column;\n\
-        gap: 6px;\n\
       }\n\
       .ih-title { font-size: clamp(40px, 14vw, 72px); }\n\
       .ih-title-row-sub { gap: 8px; }\n\
@@ -523,10 +556,10 @@ function HomeV2() {
       .ih-nav {\n\
         flex-direction: row;\n\
         align-items: center;\n\
-        gap: 8px;\n\
+        gap: 4px;\n\
         flex-wrap: wrap;\n\
       }\n\
-      .ih-nav-link { font-size: 14px; }\n\
+      .ih-nav-link { font-size: 12px; }\n\
       .ih-works-dropdown {\n\
         position: fixed;\n\
         top: auto;\n\
@@ -592,8 +625,9 @@ function HomeV2() {
         )
       ),
 
-      /* NAV */
+      /* NAV — order: SHOP (gradient border), WORKS (dropdown), ABOUT, CONTACT */
       React.createElement("nav", { className: "ih-nav" },
+        React.createElement("a", { className: "ih-nav-link ih-nav-shop", href: "#/shop" }, t("shop")),
         React.createElement("div", { className: "ih-works-wrap", ref: worksRef },
           React.createElement("button", {
             className: "ih-nav-link",
@@ -613,7 +647,6 @@ function HomeV2() {
             })
           )
         ),
-        React.createElement("a", { className: "ih-nav-link", href: "#/shop" }, t("shop")),
         React.createElement("a", { className: "ih-nav-link", href: "#/about" }, t("about")),
         React.createElement("a", { className: "ih-nav-link", href: "#/contact" }, t("contact"))
       )
