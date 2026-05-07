@@ -121,21 +121,6 @@
   "heroStickers": [],
   "projects": [
     {
-      "id": "faqw",
-      "title": "faqw",
-      "category": "WEB/DEV",
-      "year": "2026",
-      "cover": "assets/projects/faqw/captura-de-pantalla-2026-05-07-115128.jpg",
-      "contain": false,
-      "featured": false,
-      "template": "object-text",
-      "data": {
-        "image": "assets/projects/faqw/captura-de-pantalla-2026-05-07-115128.jpg"
-      },
-      "tags": [],
-      "link": "https://rimini312.github.io/audiorecorder/"
-    },
-    {
       "id": "peluche-paseando-por-el-tajmajal",
       "title": "peluche paseando por el tajmajal",
       "category": "ILLUSTRATION",
