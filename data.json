@@ -234,20 +234,6 @@
       "price": "15",
       "sold": false,
       "amount": "15.00"
-    },
-    {
-      "id": "lalalala",
-      "title": "lalalala",
-      "category": "ILLUSTRATION",
-      "year": "2026",
-      "cover": "assets/projects/lalalala/3circles.jpg",
-      "contain": false,
-      "featured": false,
-      "template": "gallery",
-      "data": {
-        "image": "assets/projects/lalalala/3circles.jpg"
-      },
-      "tags": []
     }
   ],
   "about": {
