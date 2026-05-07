@@ -251,20 +251,6 @@
       "amount": "15.00"
     },
     {
-      "id": "fedaf",
-      "title": "fedaf",
-      "category": "ILLUSTRATION",
-      "year": "2026",
-      "cover": "assets/projects/fedaf/abece.jpg",
-      "contain": false,
-      "featured": false,
-      "template": "single-image",
-      "data": {
-        "image": "assets/projects/fedaf/abece.jpg"
-      },
-      "tags": []
-    },
-    {
       "id": "lalalala",
       "title": "lalalala",
       "category": "ILLUSTRATION",
