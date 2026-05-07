@@ -108,6 +108,22 @@
   "heroStickers": [],
   "projects": [
     {
+      "id": "nomin",
+      "title": "nominá",
+      "category": "POSTER",
+      "year": "2026",
+      "cover": "assets/projects/nomin/nomina.jpg",
+      "contain": false,
+      "featured": false,
+      "template": "gallery",
+      "data": {
+        "images": [
+          "assets/projects/nomin/nomina.jpg"
+        ]
+      },
+      "tags": []
+    },
+    {
       "id": "2d-sculptures",
       "title": "2d sculptures",
       "category": "ILLUSTRATION",
