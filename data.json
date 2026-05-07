@@ -108,6 +108,22 @@
   "heroStickers": [],
   "projects": [
     {
+      "id": "best-mom-award",
+      "title": "best mom award",
+      "category": "SHOP",
+      "year": "2026",
+      "cover": "assets/projects/best-mom-award/bestmomaward.jpg",
+      "contain": false,
+      "featured": false,
+      "template": "gallery",
+      "data": {
+        "images": [
+          "assets/projects/best-mom-award/bestmomaward.jpg"
+        ]
+      },
+      "tags": []
+    },
+    {
       "id": "peluche-en-tajmajal",
       "title": "peluche en tajmajal",
       "category": "ILLUSTRATION",
