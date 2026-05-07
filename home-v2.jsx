@@ -46,6 +46,7 @@ function GridCell(props) {
   var hovered = _h[0], setHovered = _h[1];
   var isOpen = openSet.has(index);
   var hasProject = !!project;
+  var touchStartRef = React.useRef({ x: 0, y: 0, time: 0 });
 
   var colors = [pal.accent1, pal.accent2, pal.accent3];
   var c1 = colors[index % colors.length];
@@ -53,12 +54,42 @@ function GridCell(props) {
 
   var handleClick = function() {
     if (!hasProject) return;
-    window.location.hash = "#/project/" + project.id;
+    // On desktop: always navigate. On mobile: only if thumb already showing
+    if (!('ontouchstart' in window)) {
+      window.location.hash = "#/project/" + project.id;
+    } else {
+      if (hovered) {
+        window.location.hash = "#/project/" + project.id;
+      }
+    }
   };
 
-  var handleDoubleClick = function() {
+  var handleTouchStart = function(e) {
     if (!hasProject) return;
-    window.location.hash = "#/project/" + project.id;
+    touchStartRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY, time: Date.now() };
+    // Don't prevent default here — let scroll work
+  };
+
+  var handleTouchEnd = function(e) {
+    if (!hasProject) return;
+    var dx = Math.abs(e.changedTouches[0].clientX - touchStartRef.current.x);
+    var dy = Math.abs(e.changedTouches[0].clientY - touchStartRef.current.y);
+    var dt = Date.now() - touchStartRef.current.time;
+    // If it was a swipe (moved >10px) ignore completely
+    if (dx > 10 || dy > 10) return;
+    // Short tap
+    if (dt < 300) {
+      e.preventDefault();
+      if (!hovered) {
+        // First tap: show thumbnail
+        setHovered(true);
+        // Auto-hide after 2.5s if no second tap
+        setTimeout(function() { setHovered(false); }, 2500);
+      } else {
+        // Second tap on visible thumbnail: navigate
+        window.location.hash = "#/project/" + project.id;
+      }
+    }
   };
 
   return React.createElement("div", {
@@ -66,10 +97,9 @@ function GridCell(props) {
     style: { "--c1": c1, "--c2": c2, "--cell-bg": hasProject && project.cover ? 'url("' + project.cover + '")' : "none", "--pulse-delay": ((index * 0.31) % 2) + "s" },
     onMouseEnter: function() { if (hasProject) setHovered(true); },
     onMouseLeave: function() { setHovered(false); },
-    onTouchStart: function(e) { e.preventDefault(); if (hasProject) setHovered(true); },
-    onTouchEnd: function() { setTimeout(function() { setHovered(false); }, 900); },
+    onTouchStart: handleTouchStart,
+    onTouchEnd: handleTouchEnd,
     onClick: handleClick,
-    onDoubleClick: handleDoubleClick,
   },
     React.createElement("div", { className: "cell-dot" }),
     hasProject && hovered && !isOpen ? React.createElement("div", { className: "cell-thumb" },
@@ -214,8 +244,12 @@ function HomeV2() {
   var categories = React.useMemo(function() {
     var cats = [];
     var seen = {};
+    var excluded = ["shop", "SHOP", "Shop"];
     projects.forEach(function(p) {
-      if (p.cat && !seen[p.cat]) { seen[p.cat] = true; cats.push(p.cat); }
+      if (p.cat && !seen[p.cat] && excluded.indexOf(p.cat) === -1) {
+        seen[p.cat] = true;
+        cats.push(p.cat);
+      }
     });
     return cats;
   }, [projects]);

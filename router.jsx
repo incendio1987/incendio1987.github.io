@@ -189,7 +189,13 @@ function ContactPage({ pal, lang, setLang, palette, setPalette, siteData }) {
         {contact.email && <a className="email-link" href={`mailto:${contact.email}`}>{contact.email}</a>}
         {social.length > 0 && (
           <div className="social">
-            {social.map((s, i) => <a key={i} href={s.href} target="_blank" rel="noreferrer">{s.label}</a>)}
+            {social.map((s, i) => {
+              var href = s.href || "";
+              if (href && !href.startsWith("http") && !href.startsWith("mailto:")) {
+                href = "https://" + href;
+              }
+              return <a key={i} href={href} target="_blank" rel="noreferrer">{s.label}</a>;
+            })}
           </div>
         )}
       </div>
@@ -307,7 +313,7 @@ function ShopPage({ pal, lang, setLang, palette, setPalette, siteData }) {
     .shop-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 2px;
+      gap: 32px;
     }
     .shop-card {
       position: relative; cursor: pointer; overflow: hidden;
@@ -318,8 +324,10 @@ function ShopPage({ pal, lang, setLang, palette, setPalette, siteData }) {
     .shop-card.sold { cursor: default; opacity: 0.45; }
     .shop-card .card-img {
       aspect-ratio: 3/4;
-      background-size: cover; background-position: center;
-      background-color: rgba(255,255,255,0.05);
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-color: rgba(255,255,255,0.04);
     }
     .shop-card .card-meta {
       padding: 10px 12px 14px;
@@ -372,12 +380,15 @@ function ShopPage({ pal, lang, setLang, palette, setPalette, siteData }) {
     }
     @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     .shop-modal-close {
-      position: absolute; top: 12px; right: 12px;
-      background: none; border: none; color: ${pal.paper};
-      font-size: 18px; cursor: pointer; opacity: 0.5;
-      transition: opacity 0.2s; padding: 4px 8px; z-index: 2;
+      position: sticky; top: 8px; float: right;
+      margin: 8px 8px 0 0;
+      background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2);
+      color: ${pal.paper};
+      font-size: 16px; cursor: pointer; opacity: 1;
+      transition: opacity 0.2s; padding: 4px 10px; z-index: 10;
+      border-radius: 2px;
     }
-    .shop-modal-close:hover { opacity: 1; }
+    .shop-modal-close:hover { background: rgba(255,255,255,0.1); }
     .shop-modal-top {
       display: grid; grid-template-columns: 1fr 1fr; gap: 0;
     }
