@@ -250,9 +250,9 @@ function HomeV2() {
     .ih-header {
       padding: 16px 20px 8px;
       display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0;
+      flex-direction: row;
+      align-items: flex-end;
+      gap: 16px;
       flex-shrink: 0;
     }
     .ih-brand { flex-shrink: 0; }
@@ -310,9 +310,9 @@ function HomeV2() {
       flex-direction: row;
       align-items: center;
       gap: 4px;
-      padding-top: 6px;
-      padding-left: 2px;
+      padding-bottom: 3px;
       flex-wrap: wrap;
+      flex-shrink: 0;
     }
     .ih-nav-link {
       font-size: clamp(12px, 2vw, 16px);
@@ -406,8 +406,6 @@ function HomeV2() {
       grid-template-rows: repeat(${ROWS}, 1fr);
       gap: 3px;
       width: 100%;
-      max-width: 760px;
-      margin: 0 auto;
     }
 
     .grid-cell {
@@ -426,7 +424,7 @@ function HomeV2() {
 
     .cell-dot {
       width: ${gridDotSize}px; height: ${gridDotSize}px;
-      background: " + (gridDotColor || "var(--paper)") + ";
+      background: ${gridDotColor || "var(--paper)"};
       opacity: 0.55;
       animation: dotPulse 2.4s ease-in-out var(--pulse-delay, 0s) infinite;
       transition: transform 0.5s ${gridTransition},
@@ -581,8 +579,7 @@ function HomeV2() {
       .cell-name { font-size: 5px; }
       .ih-footer { padding: 8px 14px; }
     }
-  ";
-  `
+  `;
 
   /* Render title letters */
   function renderLetters(text, startIndex) {
