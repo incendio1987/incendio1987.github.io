@@ -109,7 +109,6 @@ function NavBar({ pal, lang, setLang, active }) {
         <a className={active === "work" ? "active" : ""} href="#/">{_t("work", lang)}</a>
         <a className={active === "shop" ? "active" : ""} href="#/shop">{_t("shop", lang)}</a>
         <a className={active === "about" ? "active" : ""} href="#/about">{_t("about", lang)}</a>
-        <a className={active === "contact" ? "active" : ""} href="#/contact">{_t("contact", lang)}</a>
       </nav>
       <div className="nav-right">
         <button className={lang === "es" ? "on" : ""} onClick={() => setLang("es")}>ES</button>
@@ -139,68 +138,137 @@ function PageWrap({ pal, lang, setLang, palette, setPalette, active, children, s
   );
 }
 
-/* ── ABOUT ── */
+/* ── ABOUT + CONTACT (unified) ── */
 function AboutPage({ pal, lang, setLang, palette, setPalette, siteData }) {
   const about = siteData.about || {};
+  const contact = siteData.contact || {};
   const blocks = about.blocks || [];
+  const social = contact.social || [];
+
   const css = `
-    .about-page .headline { font-size: clamp(24px, 3vw, 36px); font-weight: 700; line-height: 1.15; margin-bottom: 48px; letter-spacing: -0.02em; }
-    .about-page .block { margin-bottom: 36px; }
-    .about-page .block-label { font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; opacity: 0.4; margin-bottom: 12px; font-weight: 700; }
-    .about-page .block-text { font-size: 14px; line-height: 1.7; opacity: 0.8; }
-    .about-page .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
-    .about-page .tag { font-size: 11px; letter-spacing: 0.1em; padding: 6px 12px; border: 1px solid rgba(255,255,255,0.12); transition: all 0.2s; }
-    .about-page .tag:hover { background: ${pal.accent1}; color: ${pal.ink}; border-color: ${pal.accent1}; }
+    .about-page { max-width: 720px; margin: 0 auto; padding: 60px 24px 80px; }
+
+    .about-headline {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 700; line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin: 0 0 12px;
+    }
+    .about-headline em { font-style: normal; color: ${pal.accent1}; }
+
+    .about-intro {
+      font-size: 15px; line-height: 1.75;
+      opacity: 0.75; margin: 0 0 40px;
+      max-width: 560px;
+    }
+
+    .about-contact-block {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .about-email {
+      font-size: clamp(13px, 2vw, 18px); font-weight: 700;
+      display: inline-block; padding-bottom: 3px;
+      border-bottom: 2px solid ${pal.accent1};
+      transition: color 0.2s; letter-spacing: -0.01em;
+    }
+    .about-email:hover { color: ${pal.accent1}; }
+    .about-social { margin-top: 14px; display: flex; gap: 16px; flex-wrap: wrap; }
+    .about-social a {
+      font-size: 10px; letter-spacing: 0.2em; opacity: 0.5;
+      transition: opacity 0.2s; text-transform: uppercase;
+      border-bottom: 1px solid transparent;
+    }
+    .about-social a:hover { opacity: 1; color: ${pal.accent1}; border-bottom-color: ${pal.accent1}; }
+
+    .about-section { margin-bottom: 32px; }
+    .about-section-label {
+      font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase;
+      opacity: 0.35; margin-bottom: 12px; font-weight: 700;
+    }
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag {
+      font-size: 11px; letter-spacing: 0.08em; padding: 5px 10px;
+      border: 1px solid rgba(255,255,255,0.1); transition: all 0.2s;
+      cursor: default;
+    }
+    .tag.link { cursor: pointer; }
+    .tag.link:hover { background: ${pal.accent1}; color: ${pal.ink}; border-color: ${pal.accent1}; }
+
+    @media (max-width: 600px) {
+      .about-page { padding: 40px 16px 60px; }
+    }
   `;
+
   return (
     <PageWrap siteData={siteData} pal={pal} lang={lang} setLang={setLang} palette={palette} setPalette={setPalette} active="about">
       <style>{css}</style>
-      <div className="page-content about-page">
-        <h1>{_t("about", lang)}</h1>
-        {about.headline && <p className="headline">{about.headline}</p>}
-        {blocks.map((b, i) => (
-          <div key={i} className="block">
-            {b.kind === "intro" && (<><div className="block-label">Intro</div><div className="block-text">{b.text}</div></>)}
-            {b.kind === "skills-cloud" && (<><div className="block-label">{_t("skills", lang)}</div><div className="tag-cloud">{(b.items || []).map((s, j) => <a key={j} className="tag" href={`#/category/${s.toLowerCase().replace(/[^a-z0-9]/g, '-')}`}>{s}</a>)}</div></>)}
-            {b.kind === "tools" && (<><div className="block-label">{_t("herramientas", lang)}</div><div className="tag-cloud">{(b.items || []).map((s, j) => <span key={j} className="tag">{s}</span>)}</div></>)}
+      <div className="about-page">
+
+        {/* Headline */}
+        <h1 className="about-headline">
+          {lang === "es"
+            ? <><em>SOY INCENDIO.</em> piropeador de ideas.</>
+            : <><em>I'M INCENDIO.</em> idea whisperer.</>}
+        </h1>
+
+        {/* Intro */}
+        <p className="about-intro">
+          {lang === "es"
+            ? "Merodeador de imaginaciones. Si quieres trabajar conmigo, escríbeme."
+            : "Wanderer of imaginations. If you want to work together, reach out."}
+        </p>
+
+        {/* Contact */}
+        <div className="about-contact-block">
+          {contact.email && (
+            <a className="about-email" href={`mailto:${contact.email}`}>{contact.email}</a>
+          )}
+          {social.length > 0 && (
+            <div className="about-social">
+              {social.map((s, i) => {
+                var href = s.href || "";
+                if (href && !href.startsWith("http") && !href.startsWith("mailto:")) href = "https://" + href;
+                return <a key={i} href={href} target="_blank" rel="noreferrer">{s.label}</a>;
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* Skills */}
+        {blocks.filter(b => b.kind === "skills-cloud").map((b, i) => (
+          <div key={i} className="about-section">
+            <div className="about-section-label">{lang === "es" ? "HABILIDADES" : "SKILLS"}</div>
+            <div className="tag-cloud">
+              {(b.items || []).map((s, j) => (
+                <a key={j} className="tag link" href={`#/category/${s.toLowerCase().replace(/[^a-z0-9]/g, '-')}`}>{s}</a>
+              ))}
+            </div>
           </div>
         ))}
+
+        {/* Tools */}
+        {blocks.filter(b => b.kind === "tools").map((b, i) => (
+          <div key={i} className="about-section">
+            <div className="about-section-label">{lang === "es" ? "HERRAMIENTAS" : "TOOLS"}</div>
+            <div className="tag-cloud">
+              {(b.items || []).map((s, j) => (
+                <span key={j} className="tag">{s}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+
       </div>
     </PageWrap>
   );
 }
 
-/* ── CONTACT ── */
+/* ── CONTACT redirects to about ── */
 function ContactPage({ pal, lang, setLang, palette, setPalette, siteData }) {
-  const contact = siteData.contact || {};
-  const social = contact.social || [];
-  const css = `
-    .contact-page .email-link { font-size: clamp(16px, 2.5vw, 28px); font-weight: 700; display: inline-block; padding-bottom: 4px; border-bottom: 2px solid ${pal.accent1}; transition: color 0.2s; letter-spacing: -0.01em; }
-    .contact-page .email-link:hover { color: ${pal.accent1}; }
-    .contact-page .social { margin-top: 40px; display: flex; flex-direction: column; gap: 8px; }
-    .contact-page .social a { font-size: 12px; letter-spacing: 0.15em; opacity: 0.6; transition: opacity 0.2s; text-transform: uppercase; }
-    .contact-page .social a:hover { opacity: 1; color: ${pal.accent1}; }
-  `;
-  return (
-    <PageWrap siteData={siteData} pal={pal} lang={lang} setLang={setLang} palette={palette} setPalette={setPalette} active="contact">
-      <style>{css}</style>
-      <div className="page-content contact-page">
-        <h1>{_t("contact", lang)}</h1>
-        {contact.email && <a className="email-link" href={`mailto:${contact.email}`}>{contact.email}</a>}
-        {social.length > 0 && (
-          <div className="social">
-            {social.map((s, i) => {
-              var href = s.href || "";
-              if (href && !href.startsWith("http") && !href.startsWith("mailto:")) {
-                href = "https://" + href;
-              }
-              return <a key={i} href={href} target="_blank" rel="noreferrer">{s.label}</a>;
-            })}
-          </div>
-        )}
-      </div>
-    </PageWrap>
-  );
+  React.useEffect(() => { window.location.hash = "#/about"; }, []);
+  return null;
 }
 
 /* ── SHOP ── */

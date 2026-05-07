@@ -716,13 +716,7 @@ function HomeV2() {
           href: "#/about",
           onClick: function(e) { e.preventDefault(); window.location.hash = "#/about"; },
           onTouchEnd: function(e) { e.preventDefault(); window.location.hash = "#/about"; }
-        }, t("about")),
-        React.createElement("a", {
-          className: "ih-nav-link",
-          href: "#/contact",
-          onClick: function(e) { e.preventDefault(); window.location.hash = "#/contact"; },
-          onTouchEnd: function(e) { e.preventDefault(); window.location.hash = "#/contact"; }
-        }, t("contact"))
+        }, t("about"))
       )
     ),
 
