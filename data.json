@@ -13,54 +13,59 @@
     "gridDotSize": 4,
     "gridDotColor": "",
     "gridTransition": "cubic-bezier(0.34, 1.56, 0.64, 1)",
-    "titleLetterColors": []
+    "titleLetterColors": [],
+    "subcategories": {
+      "ILLUSTRATION": [
+        "IA"
+      ]
+    }
   },
   "i18n": {
     "es": {
-      "about": "ABOUT",
-      "branding": "branding",
-      "buscar": "Buscar proyecto\u2026",
-      "contact": "CONTACT",
+      "hola": "HOLA",
+      "soy": "SOY",
+      "hero_tag_a": "Dise\u00f1o & puchero de ideas",
+      "hero_tag_b": "Si te gusta lo que ves, hablemos.",
+      "ultimo": "PEN\u00daLTIMO",
+      "proyectos": "PROYECTOS",
+      "shop_arrow": "SHOP \u2192",
+      "trabajos_recientes": "TRABAJOS RECIENTES",
       "cosas_bonitas": "cosas\nbonitas.",
       "cosas_sub": "selecci\u00f3n personal de mis trabajos favoritos.",
-      "hero_tag_a": "Dise\u00f1o, ilustraci\u00f3n, c\u00f3digo y recorridos visuales",
-      "hero_tag_b": "Si te gusta lo que ves, hablemos.",
-      "hola": "HOLA",
-      "ilustracion": "ilustraci\u00f3n",
-      "madrid": "MADRID \u00b7 ES",
-      "paleta": "PALETA",
-      "proyectos": "PROYECTOS",
-      "shop": "shop",
-      "shop_arrow": "SHOP \u2192",
-      "soy": "SOY",
       "todo_archivo": "todo el\narchivo.",
-      "trabajos_recientes": "TRABAJOS RECIENTES",
-      "ultimo": "PEN\u00daLTIMO",
+      "buscar": "Buscar proyecto\u2026",
+      "ilustracion": "ilustraci\u00f3n",
       "webdev": "web/dev",
-      "work": "WORK"
+      "branding": "branding",
+      "shop": "shop",
+      "work": "WORK",
+      "about": "ABOUT",
+      "contact": "CONTACT",
+      "paleta": "PALETA",
+      "madrid": "MADRID \u00b7 ES"
     },
     "en": {
-      "about": "ABOUT",
-      "branding": "branding",
-      "buscar": "Search project\u2026",
-      "contact": "CONTACT",
+      "hola": "HELLO",
+      "soy": "I'M",
+      "hero_tag_a": "Design & pot of ideas",
+      "hero_tag_b": "If you like what you see, let's talk.",
+      "ultimo": "LATEST",
+      "proyectos": "PROJECTS",
+      "shop_arrow": "SHOP \u2192",
+      "trabajos_recientes": "LATEST WORK",
       "cosas_bonitas": "cool\nstuff.",
       "cosas_sub": "personal selection of my favourite works.",
-      "hero_tag_a": "Design, illustration, code & visual travels",
-      "hero_tag_b": "If you like what you see, let's talk.",
-      "hola": "HELLO",
-      "ilustracion": "illustration",
-      "madrid": "MADRID \u00b7 ES",
-      "paleta": "PALETTE",
-      "proyectos": "PROJECTS",
-      "shop": "shop",
-      "shop_arrow": "SHOP \u2192",
-      "soy": "I'M",
       "todo_archivo": "full\narchive.",
-      "trabajos_recientes": "LATEST WORK",
-      "ultimo": "LATEST",
+      "buscar": "Search project\u2026",
+      "ilustracion": "illustration",
       "webdev": "web/dev",
-      "work": "WORK"
+      "branding": "branding",
+      "shop": "shop",
+      "work": "WORK",
+      "about": "ABOUT",
+      "contact": "CONTACT",
+      "paleta": "PALETTE",
+      "madrid": "MADRID \u00b7 ES"
     }
   },
   "palettes": {
@@ -103,54 +108,148 @@
       "accent1": "#c0392b",
       "accent2": "#1e3a8a",
       "accent3": "#d4a017"
+    },
+    "tennis": {
+      "bg": "#1d1bff",
+      "paper": "#fffaee",
+      "ink": "#0a0a0a",
+      "accent1": "#ffd000",
+      "accent2": "#ff8de0",
+      "accent3": "#5ae3a4"
     }
   },
   "heroStickers": [],
   "projects": [
     {
-      "id": "fedaf",
-      "title": "fedaf",
+      "id": "peluche-paseando-por-el-tajmajal",
+      "title": "peluche paseando por el tajmajal",
       "category": "ILLUSTRATION",
       "year": "2026",
-      "cover": "assets/projects/fedaf/abece.jpg",
-      "contain": false,
-      "featured": false,
-      "template": "single-image",
-      "data": {
-        "image": "assets/projects/fedaf/abece.jpg"
-      },
-      "tags": []
-    },
-    {
-      "id": "lalalala",
-      "title": "lalalala",
-      "category": "ILLUSTRATION",
-      "year": "2026",
-      "cover": "assets/projects/lalalala/3circles.jpg",
+      "cover": "assets/projects/peluche-paseando-por-el-tajmajal/mencant.jpg",
       "contain": false,
       "featured": false,
       "template": "gallery",
       "data": {
-        "image": "assets/projects/lalalala/3circles.jpg"
+        "images": [
+          "assets/projects/peluche-paseando-por-el-tajmajal/mencant.jpg"
+        ]
       },
       "tags": []
+    },
+    {
+      "id": "dog",
+      "title": "dog",
+      "category": "ILLUSTRATION",
+      "year": "2026",
+      "cover": "assets/projects/dog/perro.jpg",
+      "contain": false,
+      "featured": false,
+      "template": "gallery",
+      "data": {
+        "images": [
+          "assets/projects/dog/perro.jpg"
+        ]
+      },
+      "tags": []
+    },
+    {
+      "id": "best-mom-award",
+      "title": "best mom award",
+      "category": "ILLUSTRATION",
+      "year": "2026",
+      "cover": "assets/projects/best-mom-award/bestmomaward.jpg",
+      "contain": false,
+      "featured": false,
+      "template": "gallery",
+      "data": {
+        "images": [
+          "assets/projects/best-mom-award/bestmomaward.jpg"
+        ]
+      },
+      "tags": []
+    },
+    {
+      "id": "nomina",
+      "title": "nomina",
+      "category": "POSTER",
+      "year": "2026",
+      "cover": "assets/projects/nomina/nomina.jpg",
+      "contain": false,
+      "featured": false,
+      "template": "gallery",
+      "data": {
+        "images": [
+          "assets/projects/nomina/nomina.jpg"
+        ]
+      },
+      "tags": []
+    },
+    {
+      "id": "pretzel",
+      "title": "pretzel",
+      "category": "ILLUSTRATION",
+      "year": "2026",
+      "cover": "assets/projects/pretzel/pretzel.jpg",
+      "contain": false,
+      "featured": false,
+      "template": "gallery",
+      "data": {
+        "images": [
+          "assets/projects/pretzel/pretzel.jpg"
+        ]
+      },
+      "tags": []
+    },
+    {
+      "id": "tennis",
+      "title": "tennis",
+      "category": "ILLUSTRATION",
+      "year": "2026",
+      "cover": "assets/projects/tennis/teniscourt.jpg",
+      "contain": false,
+      "featured": false,
+      "template": "gallery",
+      "data": {
+        "images": [
+          "assets/projects/tennis/teniscourt.jpg"
+        ]
+      },
+      "tags": []
+    },
+    {
+      "id": "abecedario",
+      "title": "abecedario",
+      "category": "SHOP",
+      "year": "2026",
+      "cover": "assets/projects/abecedario/abece.jpg",
+      "contain": false,
+      "featured": false,
+      "template": "gallery",
+      "data": {
+        "images": [
+          "assets/projects/abecedario/abece.jpg"
+        ]
+      },
+      "tags": [],
+      "price": "15",
+      "sold": false,
+      "amount": "15.00"
     }
   ],
   "about": {
-    "headline": "soy INCENDIO. piropeo ideas.",
+    "headline": "soy INCENDIO. encesto ideas",
     "blocks": [
       {
         "kind": "intro",
-        "text": "Dise\u00f1o, ilustraci\u00f3n & ideitas."
+        "text": "merodeador de imaginaciones."
       },
       {
         "kind": "skills-cloud",
         "items": [
           "ilustraci\u00f3n",
           "ia generativa",
-          "scripts",
           "v\u00eddeo",
-          "carteles",
+          "carteleria",
           "tipograf\u00eda",
           "web/dev",
           "branding"
@@ -171,18 +270,22 @@
     ]
   },
   "contact": {
-    "headline_es": "*SOY INCENDIO.* piropeador de ideas.",
+    "headline_es": "*SOY INCENDIO.* encesto ideas.",
     "headline_en": "*I'M INCENDIO.* idea whisperer.",
-    "intro_es": "Merodeador de imaginaciones. Si quieres trabajar conmigo, escribeme.",
-    "intro_en": "Wanderer of imaginations. If you want to work together, reach out.",
+    "intro_es": "merodeador de imaginaciones. si quieres trabajar conmigo, escribeme.",
+    "intro_en": "wanderer of imaginations. if you want to work together, reach out.",
     "email": "incendio1987@protonmail.com",
-    "social": [],
+    "social": [
+      {
+        "label": "Instagram",
+        "href": "www.instagram.com/incendio1987"
+      }
+    ],
     "skills": [
       "ilustraci\u00f3n",
       "ia generativa",
-      "scripts",
       "v\u00eddeo",
-      "carteles",
+      "carteleria",
       "tipograf\u00eda",
       "web/dev",
       "branding"
@@ -200,33 +303,13 @@
   "shop": {
     "items": [
       {
-        "id": "cartel-01",
-        "title": "INCENDIO N1",
-        "category": "carteles",
-        "description": "Lamina en papel de alta calidad. Edicion limitada. Firmada y numerada. Formato A3.",
-        "price": "25",
-        "amount": "25.00",
-        "image": "assets/shop/cartel-01.jpg",
-        "sold": false
-      },
-      {
-        "id": "cartel-02",
-        "title": "VECTOR FACE",
-        "category": "carteles",
-        "description": "Lamina risografia. Edicion de 30 ejemplares. Formato A4.",
-        "price": "18",
-        "amount": "18.00",
-        "image": "assets/shop/cartel-02.jpg",
-        "sold": false
-      },
-      {
-        "id": "objeto-01",
-        "title": "MONQUIT PRINT",
-        "category": "objetos",
-        "description": "Print digital en papel fotografico mate. Firmado. 20x20cm.",
+        "id": "abecedario",
+        "title": "abecedario",
+        "category": "SHOP",
+        "description": "",
         "price": "15",
         "amount": "15.00",
-        "image": "assets/projects/monquits/monquit.png",
+        "image": "assets/projects/abecedario/abece.jpg",
         "sold": false
       }
     ]
