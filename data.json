@@ -24,17 +24,17 @@
     "es": {
       "hola": "HOLA",
       "soy": "SOY",
-      "hero_tag_a": "Dise\u00f1o & puchero de ideas",
+      "hero_tag_a": "Diseño & puchero de ideas",
       "hero_tag_b": "Si te gusta lo que ves, hablemos.",
-      "ultimo": "PEN\u00daLTIMO",
+      "ultimo": "PENÚLTIMO",
       "proyectos": "PROYECTOS",
-      "shop_arrow": "SHOP \u2192",
+      "shop_arrow": "SHOP →",
       "trabajos_recientes": "TRABAJOS RECIENTES",
       "cosas_bonitas": "cosas\nbonitas.",
-      "cosas_sub": "selecci\u00f3n personal de mis trabajos favoritos.",
+      "cosas_sub": "selección personal de mis trabajos favoritos.",
       "todo_archivo": "todo el\narchivo.",
-      "buscar": "Buscar proyecto\u2026",
-      "ilustracion": "ilustraci\u00f3n",
+      "buscar": "Buscar proyecto…",
+      "ilustracion": "ilustración",
       "webdev": "web/dev",
       "branding": "branding",
       "shop": "shop",
@@ -42,7 +42,7 @@
       "about": "ABOUT",
       "contact": "CONTACT",
       "paleta": "PALETA",
-      "madrid": "MADRID \u00b7 ES"
+      "madrid": "MADRID · ES"
     },
     "en": {
       "hola": "HELLO",
@@ -51,12 +51,12 @@
       "hero_tag_b": "If you like what you see, let's talk.",
       "ultimo": "LATEST",
       "proyectos": "PROJECTS",
-      "shop_arrow": "SHOP \u2192",
+      "shop_arrow": "SHOP →",
       "trabajos_recientes": "LATEST WORK",
       "cosas_bonitas": "cool\nstuff.",
       "cosas_sub": "personal selection of my favourite works.",
       "todo_archivo": "full\narchive.",
-      "buscar": "Search project\u2026",
+      "buscar": "Search project…",
       "ilustracion": "illustration",
       "webdev": "web/dev",
       "branding": "branding",
@@ -65,7 +65,7 @@
       "about": "ABOUT",
       "contact": "CONTACT",
       "paleta": "PALETTE",
-      "madrid": "MADRID \u00b7 ES"
+      "madrid": "MADRID · ES"
     }
   },
   "palettes": {
@@ -246,11 +246,11 @@
       {
         "kind": "skills-cloud",
         "items": [
-          "ilustraci\u00f3n",
+          "ilustración",
           "ia generativa",
-          "v\u00eddeo",
+          "vídeo",
           "carteleria",
-          "tipograf\u00eda",
+          "tipografía",
           "web/dev",
           "branding"
         ]
@@ -270,10 +270,6 @@
     ]
   },
   "contact": {
-    "headline_es": "*SOY INCENDIO.* encesto ideas.",
-    "headline_en": "*I'M INCENDIO.* idea whisperer.",
-    "intro_es": "merodeador de imaginaciones. si quieres trabajar conmigo, escribeme.",
-    "intro_en": "wanderer of imaginations. if you want to work together, reach out.",
     "email": "incendio1987@protonmail.com",
     "social": [
       {
@@ -281,12 +277,16 @@
         "href": "www.instagram.com/incendio1987"
       }
     ],
+    "headline_es": "*SOY INCENDIO.* encesto ideas.",
+    "headline_en": "*I'M INCENDIO.* idea whisperer.",
+    "intro_es": "si te gusta lo que ves, escribeme",
+    "intro_en": "if u like what u see, write me",
     "skills": [
-      "ilustraci\u00f3n",
+      "ilustración",
       "ia generativa",
-      "v\u00eddeo",
+      "vídeo",
       "carteleria",
-      "tipograf\u00eda",
+      "tipografía",
       "web/dev",
       "branding"
     ],
