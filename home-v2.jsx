@@ -250,9 +250,8 @@ function HomeV2() {
     .ih-header {\n\
       padding: 16px 20px 8px;\n\
       display: flex;\n\
-      flex-direction: row;\n\
       justify-content: space-between;\n\
-      align-items: flex-end;\n\
+      align-items: flex-start;\n\
       gap: 16px;\n\
       flex-shrink: 0;\n\
     }\n\
@@ -308,15 +307,14 @@ function HomeV2() {
 \n\
     .ih-nav {\n\
       display: flex;\n\
-      flex-direction: row;\n\
-      align-items: center;\n\
-      gap: 4px;\n\
-      padding-bottom: 3px;\n\
-      flex-wrap: wrap;\n\
-      flex-shrink: 0;\n\
+      flex-direction: column;\n\
+      align-items: flex-end;\n\
+      gap: 0;\n\
+      padding-top: 4px;\n\
+      justify-content: flex-end;\n\
     }\n\
     .ih-nav-link {\n\
-      font-size: clamp(10px, 1.5vw, 14px);\n\
+      font-size: clamp(16px, 3vw, 24px);\n\
       font-weight: 700;\n\
       letter-spacing: 0.08em;\n\
       text-transform: uppercase;\n\
@@ -327,8 +325,8 @@ function HomeV2() {
       border: none;\n\
       color: var(--paper);\n\
       font-family: inherit;\n\
-      padding: 2px 6px;\n\
-      text-align: left;\n\
+      padding: 1px 0;\n\
+      text-align: right;\n\
       line-height: 1.2;\n\
     }\n\
     .ih-nav-link:hover { opacity: 1; color: var(--a1); }\n\
@@ -405,6 +403,8 @@ function HomeV2() {
       grid-template-rows: repeat(" + ROWS + ", 1fr);\n\
       gap: 3px;\n\
       width: 100%;\n\
+      max-width: 760px;\n\
+      margin: 0 auto;\n\
     }\n\
 \n\
     .grid-cell {\n\
@@ -424,14 +424,13 @@ function HomeV2() {
     .cell-dot {\n\
       width: " + gridDotSize + "px; height: " + gridDotSize + "px;\n\
       background: " + (gridDotColor || "var(--a1)") + ";\n\
-      opacity: 0.8;\n\
+      opacity: 0.75;\n\
       border-radius: 1px;\n\
       animation: dotPulse 2s ease-in-out var(--pulse-delay, 0s) infinite;\n\
-      transition: transform 0.4s " + gridTransition + ",\n\
-                  opacity 0.3s;\n\
+      transition: opacity 0.3s;\n\
     }\n\
     @keyframes dotPulse {\n\
-      0%, 100% { opacity: 0.8; transform: scale(1); }\n\
+      0%, 100% { opacity: 0.75; transform: scale(1); }\n\
       50% { opacity: 1; transform: scale(1.8); }\n\
     }\n\
     .grid-cell.hovered .cell-dot {\n\
@@ -459,7 +458,6 @@ function HomeV2() {
       color: var(--paper);\n\
       background: linear-gradient(transparent, rgba(0,0,0,0.6));\n\
       padding: 8px 3px 3px;\n\
-      opacity: 1;\n\
       pointer-events: none;\n\
       animation: nameIn 0.15s ease-out;\n\
       line-height: 1.2;\n\
@@ -627,7 +625,11 @@ function HomeV2() {
 
       /* NAV */
       React.createElement("nav", { className: "ih-nav" },
-        React.createElement("a", { className: "ih-nav-link ih-nav-shop", href: "#/shop" }, t("shop")),
+        React.createElement("a", {
+          className: "ih-nav-link ih-nav-shop",
+          href: "#/shop",
+          onClick: function(e) { e.preventDefault(); window.location.hash = "#/shop"; }
+        }, t("shop")),
         React.createElement("div", { className: "ih-works-wrap", ref: worksRef },
           React.createElement("button", {
             className: "ih-nav-link",
@@ -636,19 +638,27 @@ function HomeV2() {
           React.createElement("div", { className: "ih-works-dropdown" + (worksOpen ? " open" : "") },
             React.createElement("a", {
               href: "#/category/all",
-              onClick: function() { setWorksOpen(false); },
+              onClick: function(e) { e.preventDefault(); window.location.hash = "#/category/all"; setWorksOpen(false); },
             }, tweaks.lang === "es" ? "TODOS" : "ALL"),
             categories.map(function(cat) {
               return React.createElement("a", {
                 key: cat,
                 href: "#/category/" + cat.toLowerCase().replace(/[^a-z0-9]/g, "-"),
-                onClick: function() { setWorksOpen(false); },
+                onClick: function(e) { e.preventDefault(); window.location.hash = "#/category/" + cat.toLowerCase().replace(/[^a-z0-9]/g, "-"); setWorksOpen(false); },
               }, cat);
             })
           )
         ),
-        React.createElement("a", { className: "ih-nav-link", href: "#/about" }, t("about")),
-        React.createElement("a", { className: "ih-nav-link", href: "#/contact" }, t("contact"))
+        React.createElement("a", {
+          className: "ih-nav-link",
+          href: "#/about",
+          onClick: function(e) { e.preventDefault(); window.location.hash = "#/about"; }
+        }, t("about")),
+        React.createElement("a", {
+          className: "ih-nav-link",
+          href: "#/contact",
+          onClick: function(e) { e.preventDefault(); window.location.hash = "#/contact"; }
+        }, t("contact"))
       )
     ),
 
