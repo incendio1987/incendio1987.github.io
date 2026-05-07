@@ -121,6 +121,22 @@
   "heroStickers": [],
   "projects": [
     {
+      "id": "tennis",
+      "title": "tennis",
+      "category": "ILLUSTRATION",
+      "year": "2026",
+      "cover": "assets/projects/tennis/teniscourt.jpg",
+      "contain": false,
+      "featured": false,
+      "template": "gallery",
+      "data": {
+        "images": [
+          "assets/projects/tennis/teniscourt.jpg"
+        ]
+      },
+      "tags": []
+    },
+    {
       "id": "cold-art",
       "title": "cold-art",
       "category": "ILLUSTRATION",
