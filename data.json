@@ -208,7 +208,7 @@
         "price": "25",
         "amount": "25.00",
         "image": "assets/shop/cartel-01.jpg",
-        "sold": false
+        "sold": true
       },
       {
         "id": "cartel-02",
