@@ -544,12 +544,23 @@ function HomeV2() {
     .ih-lang button:hover, .ih-lang button.on { opacity: 1; }\n\
 \n\
     @media (max-width: 768px) {\n\
+      .incendio-home {\n\
+        height: auto;\n\
+        min-height: 100vh;\n\
+        overflow: visible;\n\
+      }\n\
+      .ih-grid-wrap {\n\
+        flex: none;\n\
+        min-height: 50vw;\n\
+        padding: 4px 10px 16px;\n\
+      }\n\
       .ih-header {\n\
         padding: 10px 14px 6px;\n\
         flex-direction: column;\n\
+        align-items: flex-start;\n\
         gap: 4px;\n\
       }\n\
-      .ih-title { font-size: clamp(32px, 11vw, 56px); }\n\
+      .ih-title { font-size: clamp(36px, 12vw, 60px); }\n\
       .ih-title-row-sub { gap: 8px; }\n\
       .ih-subtitle { font-size: 7px; white-space: normal; }\n\
       .ih-nav {\n\
@@ -560,15 +571,13 @@ function HomeV2() {
         width: 100%;\n\
       }\n\
       .ih-nav-link {\n\
-        font-size: 12px;\n\
-        padding: 6px 8px;\n\
-        touch-action: manipulation;\n\
-        -webkit-tap-highlight-color: transparent;\n\
-        min-height: 36px;\n\
-        display: flex;\n\
+        font-size: 13px;\n\
+        padding: 8px 8px;\n\
+        min-height: 44px;\n\
+        display: inline-flex;\n\
         align-items: center;\n\
       }\n\
-      .ih-nav-shop { padding: 6px 10px; min-height: 36px; }\n\
+      .ih-nav-shop { padding: 8px 10px; min-height: 44px; }\n\
       .ih-works-dropdown {\n\
         position: fixed;\n\
         top: auto;\n\
@@ -582,10 +591,13 @@ function HomeV2() {
         z-index: 9999;\n\
       }\n\
       .ih-works-dropdown a {\n\
-        padding: 14px 20px;\n\
+        padding: 16px 20px;\n\
         font-size: 15px;\n\
+        min-height: 44px;\n\
+        display: flex;\n\
+        align-items: center;\n\
+        touch-action: manipulation;\n\
       }\n\
-      .ih-grid-wrap { padding: 2px 10px; }\n\
       .ih-grid { gap: 2px; }\n\
       .cell-name { font-size: 5px; }\n\
       .ih-footer { padding: 8px 14px; }\n\
@@ -639,23 +651,28 @@ function HomeV2() {
         React.createElement("a", {
           className: "ih-nav-link ih-nav-shop",
           href: "#/shop",
-          onClick: function(e) { e.preventDefault(); window.location.hash = "#/shop"; }
+          onClick: function(e) { e.preventDefault(); window.location.hash = "#/shop"; },
+          onTouchEnd: function(e) { e.preventDefault(); window.location.hash = "#/shop"; }
         }, t("shop")),
         React.createElement("div", { className: "ih-works-wrap", ref: worksRef },
           React.createElement("button", {
             className: "ih-nav-link",
             onClick: function() { setWorksOpen(function(o) { return !o; }); },
+            onTouchEnd: function(e) { e.stopPropagation(); }
           }, t("works") + " " + (worksOpen ? "\u25B4" : "\u25BE")),
           React.createElement("div", { className: "ih-works-dropdown" + (worksOpen ? " open" : "") },
             React.createElement("a", {
               href: "#/category/all",
               onClick: function(e) { e.preventDefault(); window.location.hash = "#/category/all"; setWorksOpen(false); },
+              onTouchEnd: function(e) { e.preventDefault(); window.location.hash = "#/category/all"; setWorksOpen(false); }
             }, tweaks.lang === "es" ? "TODOS" : "ALL"),
             categories.map(function(cat) {
+              var slug = "#/category/" + cat.toLowerCase().replace(/[^a-z0-9]/g, "-");
               return React.createElement("a", {
                 key: cat,
-                href: "#/category/" + cat.toLowerCase().replace(/[^a-z0-9]/g, "-"),
-                onClick: function(e) { e.preventDefault(); window.location.hash = "#/category/" + cat.toLowerCase().replace(/[^a-z0-9]/g, "-"); setWorksOpen(false); },
+                href: slug,
+                onClick: function(e) { e.preventDefault(); window.location.hash = slug; setWorksOpen(false); },
+                onTouchEnd: function(e) { e.preventDefault(); window.location.hash = slug; setWorksOpen(false); }
               }, cat);
             })
           )
@@ -663,12 +680,14 @@ function HomeV2() {
         React.createElement("a", {
           className: "ih-nav-link",
           href: "#/about",
-          onClick: function(e) { e.preventDefault(); window.location.hash = "#/about"; }
+          onClick: function(e) { e.preventDefault(); window.location.hash = "#/about"; },
+          onTouchEnd: function(e) { e.preventDefault(); window.location.hash = "#/about"; }
         }, t("about")),
         React.createElement("a", {
           className: "ih-nav-link",
           href: "#/contact",
-          onClick: function(e) { e.preventDefault(); window.location.hash = "#/contact"; }
+          onClick: function(e) { e.preventDefault(); window.location.hash = "#/contact"; },
+          onTouchEnd: function(e) { e.preventDefault(); window.location.hash = "#/contact"; }
         }, t("contact"))
       )
     ),
