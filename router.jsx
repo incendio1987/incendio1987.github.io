@@ -198,38 +198,382 @@ function ContactPage({ pal, lang, setLang, palette, setPalette, siteData }) {
 }
 
 /* ── SHOP ── */
+const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSc4HgVhBrjQMoW2p5-3JuF3RH3wicutIkQ_5euPVw8ZSO_J6A/formResponse";
+const PAYPAL_EMAIL = "312rimini@gmail.com";
+
+function generarOrderId() {
+  return Math.floor(1000000 + Math.random() * 9000000).toString();
+}
+
 function ShopPage({ pal, lang, setLang, palette, setPalette, siteData }) {
   const shop = siteData.shop || {};
-  const items = shop.items || [];
+  const allItems = shop.items || [];
+  const categories = React.useMemo(() => {
+    const cats = ["all"];
+    allItems.forEach(item => { if (item.category && !cats.includes(item.category)) cats.push(item.category); });
+    return cats;
+  }, [allItems]);
+
+  const [activeCat, setActiveCat] = React.useState("all");
+  const [catOpen, setCatOpen] = React.useState(false);
+  const [selected, setSelected] = React.useState(null); // item seleccionado para compra
+  const [step, setStep] = React.useState("grid"); // "grid" | "form" | "sending"
+  const [form, setForm] = React.useState({ nombre: "", direccion: "", email: "" });
+  const [errors, setErrors] = React.useState({});
+
+  const items = activeCat === "all" ? allItems : allItems.filter(i => i.category === activeCat);
+
+  const catLabel = activeCat === "all"
+    ? (lang === "es" ? "TODOS" : "ALL")
+    : activeCat.toUpperCase();
+
+  function openItem(item) {
+    if (item.sold) return;
+    setSelected(item);
+    setForm({ nombre: "", direccion: "", email: "" });
+    setErrors({});
+    setStep("form");
+  }
+
+  function closeForm() {
+    setSelected(null);
+    setStep("grid");
+  }
+
+  function validate() {
+    const e = {};
+    if (!form.nombre.trim()) e.nombre = true;
+    if (!form.direccion.trim()) e.direccion = true;
+    if (!form.email.trim() || !form.email.includes("@")) e.email = true;
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  }
+
+  function handleCompra() {
+    if (!validate()) return;
+    setStep("sending");
+    const orderId = generarOrderId();
+
+    const params = new URLSearchParams();
+    params.append("entry.484459052", form.nombre);
+    params.append("entry.559425642", form.direccion);
+    params.append("entry.1615188299", form.email);
+    params.append("entry.1298772582", selected.id);
+    params.append("entry.1738015936", orderId);
+
+    const sent = navigator.sendBeacon(GOOGLE_FORM_URL, params);
+    if (!sent) {
+      fetch(GOOGLE_FORM_URL, { method: "POST", mode: "no-cors", body: params });
+    }
+
+    setTimeout(() => {
+      const paypalUrl = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=${PAYPAL_EMAIL}&item_name=${encodeURIComponent(selected.id)}&amount=${selected.amount}&currency_code=EUR&custom=${orderId}`;
+      window.location.href = paypalUrl;
+    }, 300);
+  }
+
   const css = `
-    .shop-page .shop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin-top: 32px; }
-    .shop-page .shop-item { border: 1px solid rgba(255,255,255,0.08); overflow: hidden; }
-    .shop-page .shop-item .img { aspect-ratio: 1; background-size: cover; background-position: center; }
-    .shop-page .shop-item .meta { padding: 12px; }
-    .shop-page .shop-item .meta h3 { font-size: 12px; font-weight: 700; letter-spacing: 0.05em; margin: 0 0 4px; }
-    .shop-page .shop-item .meta .price { font-size: 11px; opacity: 0.6; margin: 0 0 10px; }
-    .shop-page .shop-item .meta a { display: inline-block; padding: 6px 12px; background: ${pal.accent1}; color: ${pal.ink}; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; transition: opacity 0.2s; }
-    .shop-page .shop-item .meta a:hover { opacity: 0.85; }
-    .shop-page .empty { font-size: 14px; opacity: 0.5; margin-top: 24px; }
+    .shop-page { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+    .shop-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 40px; flex-wrap: wrap; gap: 16px; }
+    .shop-title { font-size: clamp(36px, 6vw, 72px); font-weight: 700; line-height: 0.9; letter-spacing: -0.04em; text-transform: uppercase; margin: 0; }
+
+    .shop-cat-wrap { position: relative; }
+    .shop-cat-btn {
+      background: none; border: 1px solid rgba(255,255,255,0.15); color: ${pal.paper};
+      font-family: inherit; font-size: 10px; font-weight: 700; letter-spacing: 0.2em;
+      text-transform: uppercase; padding: 8px 14px; cursor: pointer;
+      display: flex; align-items: center; gap: 8px;
+      transition: border-color 0.2s;
+    }
+    .shop-cat-btn:hover { border-color: ${pal.accent1}; color: ${pal.accent1}; }
+    .shop-cat-dropdown {
+      position: absolute; top: calc(100% + 4px); right: 0;
+      background: ${pal.paper}; color: ${pal.ink};
+      min-width: 160px; z-index: 100;
+      opacity: 0; transform: translateY(-4px); pointer-events: none;
+      transition: opacity 0.15s, transform 0.15s;
+    }
+    .shop-cat-dropdown.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .shop-cat-dropdown button {
+      display: block; width: 100%; text-align: left;
+      background: none; border: none; cursor: pointer;
+      font-family: inherit; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 10px 16px; color: ${pal.ink};
+      transition: background 0.1s;
+    }
+    .shop-cat-dropdown button:hover, .shop-cat-dropdown button.active { background: ${pal.accent1}; }
+
+    .shop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 2px;
+    }
+    .shop-card {
+      position: relative; cursor: pointer; overflow: hidden;
+      background: rgba(255,255,255,0.03);
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .shop-card:hover { transform: scale(1.02); z-index: 2; }
+    .shop-card.sold { cursor: default; opacity: 0.45; }
+    .shop-card .card-img {
+      aspect-ratio: 3/4;
+      background-size: cover; background-position: center;
+      background-color: rgba(255,255,255,0.05);
+    }
+    .shop-card .card-meta {
+      padding: 10px 12px 14px;
+      display: flex; justify-content: space-between; align-items: baseline;
+    }
+    .shop-card .card-title {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; margin: 0;
+    }
+    .shop-card .card-price {
+      font-size: 11px; font-weight: 700; color: ${pal.accent1};
+      letter-spacing: 0.04em;
+    }
+    .shop-card .sold-badge {
+      position: absolute; top: 10px; left: 10px;
+      background: ${pal.ink}; color: ${pal.paper};
+      font-size: 8px; font-weight: 700; letter-spacing: 0.25em;
+      padding: 4px 8px; text-transform: uppercase;
+    }
+    .shop-card .buy-hint {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.0);
+      display: flex; align-items: flex-end; justify-content: center;
+      padding-bottom: 16px;
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .shop-card:not(.sold):hover .buy-hint { opacity: 1; }
+    .shop-card .buy-hint span {
+      background: ${pal.accent1}; color: ${pal.ink};
+      font-size: 9px; font-weight: 700; letter-spacing: 0.2em;
+      padding: 6px 16px; text-transform: uppercase;
+    }
+    .shop-empty { font-size: 14px; opacity: 0.4; margin-top: 40px; }
+
+    /* MODAL */
+    .shop-modal-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(0,0,0,0.7);
+      display: flex; align-items: center; justify-content: center;
+      padding: 16px;
+      animation: fadeIn 0.2s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .shop-modal {
+      background: ${pal.bg}; color: ${pal.paper};
+      width: 100%; max-width: 620px; max-height: 90vh;
+      overflow-y: auto; position: relative;
+      border: 1px solid rgba(255,255,255,0.1);
+      animation: slideUp 0.25s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .shop-modal-close {
+      position: absolute; top: 12px; right: 12px;
+      background: none; border: none; color: ${pal.paper};
+      font-size: 18px; cursor: pointer; opacity: 0.5;
+      transition: opacity 0.2s; padding: 4px 8px; z-index: 2;
+    }
+    .shop-modal-close:hover { opacity: 1; }
+    .shop-modal-top {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    }
+    .shop-modal-img {
+      aspect-ratio: 3/4;
+      background-size: cover; background-position: center;
+    }
+    .shop-modal-info {
+      padding: 28px 24px; display: flex; flex-direction: column; gap: 8px;
+    }
+    .shop-modal-info .m-cat {
+      font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; opacity: 0.4;
+    }
+    .shop-modal-info .m-title {
+      font-size: clamp(18px, 3vw, 28px); font-weight: 700;
+      letter-spacing: -0.02em; line-height: 1; margin: 0;
+    }
+    .shop-modal-info .m-price {
+      font-size: 20px; font-weight: 700; color: ${pal.accent1};
+      margin-top: 4px;
+    }
+    .shop-modal-info .m-desc {
+      font-size: 12px; line-height: 1.6; opacity: 0.65; margin-top: 8px;
+    }
+
+    .shop-form { padding: 24px; border-top: 1px solid rgba(255,255,255,0.08); }
+    .shop-form .form-title {
+      font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase;
+      opacity: 0.4; margin-bottom: 16px;
+    }
+    .shop-form .campo { margin-bottom: 14px; }
+    .shop-form label {
+      display: block; font-size: 9px; letter-spacing: 0.2em;
+      text-transform: uppercase; opacity: 0.5; margin-bottom: 5px; font-weight: 700;
+    }
+    .shop-form input, .shop-form textarea {
+      width: 100%; background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: ${pal.paper}; font-family: inherit; font-size: 13px;
+      padding: 10px 12px; outline: none;
+      transition: border-color 0.2s;
+    }
+    .shop-form input:focus, .shop-form textarea:focus {
+      border-color: ${pal.accent1};
+    }
+    .shop-form input.err, .shop-form textarea.err { border-color: #ff4444; }
+    .shop-form textarea { resize: vertical; min-height: 72px; }
+    .shop-form .form-actions {
+      display: flex; gap: 10px; margin-top: 20px; align-items: center;
+    }
+    .shop-form .btn-comprar {
+      background: ${pal.accent1}; color: ${pal.ink};
+      border: none; font-family: inherit; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 12px 24px; cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      flex: 1;
+    }
+    .shop-form .btn-comprar:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+    .shop-form .btn-comprar:disabled { opacity: 0.5; cursor: default; transform: none; }
+    .shop-form .btn-cancel {
+      background: none; border: 1px solid rgba(255,255,255,0.15);
+      color: ${pal.paper}; font-family: inherit; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 12px 16px; cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .shop-form .btn-cancel:hover { border-color: rgba(255,255,255,0.4); }
+    .shop-form .paypal-note {
+      font-size: 9px; opacity: 0.35; letter-spacing: 0.1em;
+      text-align: center; margin-top: 12px;
+    }
+    .shop-sending {
+      padding: 60px 24px; text-align: center;
+      font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; opacity: 0.6;
+    }
+
+    @media (max-width: 600px) {
+      .shop-modal-top { grid-template-columns: 1fr; }
+      .shop-modal-img { aspect-ratio: 4/3; }
+      .shop-grid { grid-template-columns: repeat(2, 1fr); }
+      .shop-page { padding: 32px 14px 60px; }
+    }
   `;
+
   return (
     <PageWrap siteData={siteData} pal={pal} lang={lang} setLang={setLang} palette={palette} setPalette={setPalette} active="shop">
       <style>{css}</style>
-      <div className="page-content shop-page">
-        <h1>{_t("shop", lang)}</h1>
-        {items.length > 0 ? (
-          <div className="shop-grid">{items.map((item, i) => (
-            <div key={i} className="shop-item">
-              <div className="img" style={{ backgroundImage: `url(${item.image})` }} />
-              <div className="meta">
-                <h3>{item.title}</h3>
-                <p className="price">{item.price}</p>
-                {item.buyHref && <a href={item.buyHref} target="_blank" rel="noreferrer">{_t("comprar", lang)}</a>}
+      <div className="shop-page">
+        <div className="shop-header">
+          <h1 className="shop-title">{_t("shop", lang)}</h1>
+          {categories.length > 1 && (
+            <div className="shop-cat-wrap">
+              <button className="shop-cat-btn" onClick={() => setCatOpen(o => !o)}>
+                {catLabel} {catOpen ? "▴" : "▾"}
+              </button>
+              <div className={`shop-cat-dropdown ${catOpen ? "open" : ""}`}>
+                {categories.map(cat => (
+                  <button key={cat}
+                    className={activeCat === cat ? "active" : ""}
+                    onClick={() => { setActiveCat(cat); setCatOpen(false); }}>
+                    {cat === "all" ? (lang === "es" ? "TODOS" : "ALL") : cat.toUpperCase()}
+                  </button>
+                ))}
               </div>
             </div>
-          ))}</div>
-        ) : (<p className="empty">{_t("sin_items", lang)}</p>)}
+          )}
+        </div>
+
+        {items.length === 0 ? (
+          <p className="shop-empty">{_t("sin_items", lang)}</p>
+        ) : (
+          <div className="shop-grid">
+            {items.map((item, i) => (
+              <div key={i}
+                className={`shop-card ${item.sold ? "sold" : ""}`}
+                onClick={() => openItem(item)}>
+                <div className="card-img" style={{ backgroundImage: `url(${item.image})` }} />
+                {item.sold && <div className="sold-badge">SOLD</div>}
+                {!item.sold && (
+                  <div className="buy-hint">
+                    <span>{lang === "es" ? "COMPRAR" : "BUY"}</span>
+                  </div>
+                )}
+                <div className="card-meta">
+                  <p className="card-title">{item.title}</p>
+                  <p className="card-price">{item.sold ? "—" : item.price + "€"}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
+
+      {/* MODAL */}
+      {selected && (
+        <div className="shop-modal-overlay" onClick={e => { if (e.target === e.currentTarget) closeForm(); }}>
+          <div className="shop-modal">
+            <button className="shop-modal-close" onClick={closeForm}>✕</button>
+
+            <div className="shop-modal-top">
+              <div className="shop-modal-img" style={{ backgroundImage: `url(${selected.image})` }} />
+              <div className="shop-modal-info">
+                {selected.category && <div className="m-cat">{selected.category}</div>}
+                <h2 className="m-title">{selected.title}</h2>
+                <div className="m-price">{selected.price}€</div>
+                {selected.description && <p className="m-desc">{selected.description}</p>}
+              </div>
+            </div>
+
+            {step === "sending" ? (
+              <div className="shop-sending">
+                {lang === "es" ? "REDIRIGIENDO A PAYPAL…" : "REDIRECTING TO PAYPAL…"}
+              </div>
+            ) : (
+              <div className="shop-form">
+                <div className="form-title">{lang === "es" ? "DATOS DE ENVÍO" : "SHIPPING INFO"}</div>
+                <div className="campo">
+                  <label>{lang === "es" ? "NOMBRE COMPLETO" : "FULL NAME"}</label>
+                  <input type="text" className={errors.nombre ? "err" : ""}
+                    value={form.nombre}
+                    onChange={e => setForm(f => ({...f, nombre: e.target.value}))}
+                    placeholder={lang === "es" ? "Tu nombre" : "Your name"} />
+                </div>
+                <div className="campo">
+                  <label>{lang === "es" ? "DIRECCIÓN DE ENVÍO" : "SHIPPING ADDRESS"}</label>
+                  <textarea className={errors.direccion ? "err" : ""}
+                    value={form.direccion}
+                    onChange={e => setForm(f => ({...f, direccion: e.target.value}))}
+                    placeholder={lang === "es" ? "Calle, ciudad, CP, país" : "Street, city, ZIP, country"} />
+                </div>
+                <div className="campo">
+                  <label>EMAIL</label>
+                  <input type="email" className={errors.email ? "err" : ""}
+                    value={form.email}
+                    onChange={e => setForm(f => ({...f, email: e.target.value}))}
+                    placeholder={lang === "es" ? "tu@email.com" : "your@email.com"} />
+                </div>
+                <div className="form-actions">
+                  <button className="btn-cancel" onClick={closeForm}>
+                    {lang === "es" ? "CANCELAR" : "CANCEL"}
+                  </button>
+                  <button className="btn-comprar" onClick={handleCompra}>
+                    {lang === "es" ? "PAGAR CON PAYPAL →" : "PAY WITH PAYPAL →"}
+                  </button>
+                </div>
+                <p className="paypal-note">
+                  {lang === "es"
+                    ? "Serás redirigido a PayPal para completar el pago de forma segura."
+                    : "You will be redirected to PayPal to complete the payment securely."}
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </PageWrap>
   );
 }
