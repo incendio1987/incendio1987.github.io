@@ -13,7 +13,12 @@
     "gridDotSize": 4,
     "gridDotColor": "",
     "gridTransition": "cubic-bezier(0.34, 1.56, 0.64, 1)",
-    "titleLetterColors": []
+    "titleLetterColors": [],
+    "subcategories": {
+      "ILLUSTRATION": [
+        "IA"
+      ]
+    }
   },
   "i18n": {
     "es": {
@@ -103,6 +108,14 @@
       "accent1": "#c0392b",
       "accent2": "#1e3a8a",
       "accent3": "#d4a017"
+    },
+    "tennis": {
+      "bg": "#1d1bff",
+      "paper": "#fffaee",
+      "ink": "#0a0a0a",
+      "accent1": "#ffd000",
+      "accent2": "#ff8de0",
+      "accent3": "#5ae3a4"
     }
   },
   "heroStickers": [],
