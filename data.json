@@ -135,22 +135,6 @@
       "amount": "15.00"
     },
     {
-      "id": "best-mom-award",
-      "title": "best mom award",
-      "category": "SHOP",
-      "year": "2026",
-      "cover": "assets/projects/best-mom-award/bestmomaward.jpg",
-      "contain": false,
-      "featured": false,
-      "template": "gallery",
-      "data": {
-        "images": [
-          "assets/projects/best-mom-award/bestmomaward.jpg"
-        ]
-      },
-      "tags": []
-    },
-    {
       "id": "fedaf",
       "title": "fedaf",
       "category": "ILLUSTRATION",
