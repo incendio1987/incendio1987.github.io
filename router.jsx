@@ -108,7 +108,7 @@ function NavBar({ pal, lang, setLang, active }) {
       <nav>
         <a className={active === "work" ? "active" : ""} href="#/">{_t("work", lang)}</a>
         <a className={active === "shop" ? "active" : ""} href="#/shop">{_t("shop", lang)}</a>
-        <a className={active === "about" ? "active" : ""} href="#/about">CONTACT</a>
+        <a className={active === "contact" ? "active" : ""} href="#/contact">CONTACT</a>
       </nav>
       <div className="nav-right">
         <button className={lang === "es" ? "on" : ""} onClick={() => setLang("es")}>ES</button>
@@ -138,52 +138,54 @@ function PageWrap({ pal, lang, setLang, palette, setPalette, active, children, s
   );
 }
 
-/* ── ABOUT + CONTACT (unified) ── */
+/* ── CONTACT (única página, lee todo de data.contact) ── */
 function AboutPage({ pal, lang, setLang, palette, setPalette, siteData }) {
-  const about = siteData.about || {};
-  const contact = siteData.contact || {};
-  const blocks = about.blocks || [];
-  const social = contact.social || [];
+  // AboutPage kept as alias — renders ContactPage
+  return <ContactPage pal={pal} lang={lang} setLang={setLang} palette={palette} setPalette={setPalette} siteData={siteData} />;
+}
+
+function ContactPage({ pal, lang, setLang, palette, setPalette, siteData }) {
+  const c = siteData.contact || {};
+  const social = c.social || [];
+  const skills = c.skills || [];
+  const tools = c.tools || [];
 
   const css = `
-    .about-page { max-width: 720px; margin: 0 auto; padding: 60px 24px 80px; }
+    .contact-page { max-width: 720px; margin: 0 auto; padding: 60px 24px 80px; }
 
-    .about-headline {
+    .contact-headline {
       font-size: clamp(28px, 4vw, 48px);
       font-weight: 700; line-height: 1.05;
-      letter-spacing: -0.03em;
-      margin: 0 0 12px;
+      letter-spacing: -0.03em; margin: 0 0 12px;
     }
-    .about-headline em { font-style: normal; color: ${pal.accent1}; }
+    .contact-headline em { font-style: normal; color: ${pal.accent1}; }
 
-    .about-intro {
+    .contact-intro {
       font-size: 15px; line-height: 1.75;
-      opacity: 0.75; margin: 0 0 40px;
-      max-width: 560px;
+      opacity: 0.75; margin: 0 0 40px; max-width: 560px;
     }
 
-    .about-contact-block {
-      margin-bottom: 40px;
-      padding-bottom: 40px;
+    .contact-block {
+      margin-bottom: 40px; padding-bottom: 40px;
       border-bottom: 1px solid rgba(255,255,255,0.08);
     }
-    .about-email {
+    .contact-email {
       font-size: clamp(13px, 2vw, 18px); font-weight: 700;
       display: inline-block; padding-bottom: 3px;
       border-bottom: 2px solid ${pal.accent1};
       transition: color 0.2s; letter-spacing: -0.01em;
     }
-    .about-email:hover { color: ${pal.accent1}; }
-    .about-social { margin-top: 14px; display: flex; gap: 16px; flex-wrap: wrap; }
-    .about-social a {
+    .contact-email:hover { color: ${pal.accent1}; }
+    .contact-social { margin-top: 14px; display: flex; gap: 16px; flex-wrap: wrap; }
+    .contact-social a {
       font-size: 10px; letter-spacing: 0.2em; opacity: 0.5;
       transition: opacity 0.2s; text-transform: uppercase;
       border-bottom: 1px solid transparent;
     }
-    .about-social a:hover { opacity: 1; color: ${pal.accent1}; border-bottom-color: ${pal.accent1}; }
+    .contact-social a:hover { opacity: 1; color: ${pal.accent1}; border-bottom-color: ${pal.accent1}; }
 
-    .about-section { margin-bottom: 32px; }
-    .about-section-label {
+    .contact-section { margin-bottom: 32px; }
+    .contact-section-label {
       font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase;
       opacity: 0.35; margin-bottom: 12px; font-weight: 700;
     }
@@ -191,84 +193,71 @@ function AboutPage({ pal, lang, setLang, palette, setPalette, siteData }) {
     .tag {
       font-size: 11px; letter-spacing: 0.08em; padding: 5px 10px;
       border: 1px solid rgba(255,255,255,0.1); transition: all 0.2s;
-      cursor: default;
     }
     .tag.link { cursor: pointer; }
     .tag.link:hover { background: ${pal.accent1}; color: ${pal.ink}; border-color: ${pal.accent1}; }
 
     @media (max-width: 600px) {
-      .about-page { padding: 40px 16px 60px; }
+      .contact-page { padding: 40px 16px 60px; }
     }
   `;
 
+  const headline = lang === "es" ? (c.headline_es || "") : (c.headline_en || "");
+  const intro = lang === "es" ? (c.intro_es || "") : (c.intro_en || "");
+
+  function safeHref(href) {
+    if (!href) return "#";
+    if (href.startsWith("http") || href.startsWith("mailto:")) return href;
+    return "https://" + href;
+  }
+
   return (
-    <PageWrap siteData={siteData} pal={pal} lang={lang} setLang={setLang} palette={palette} setPalette={setPalette} active="about">
+    <PageWrap siteData={siteData} pal={pal} lang={lang} setLang={setLang} palette={palette} setPalette={setPalette} active="contact">
       <style>{css}</style>
-      <div className="about-page">
+      <div className="contact-page">
 
-        {/* Headline */}
-        <h1 className="about-headline">
-          {lang === "es"
-            ? <><em>SOY INCENDIO.</em> piropeador de ideas.</>
-            : <><em>I'M INCENDIO.</em> idea whisperer.</>}
-        </h1>
+        {headline && (
+          <h1 className="contact-headline"
+            dangerouslySetInnerHTML={{ __html: headline.replace(/\*(.*?)\*/g, `<em>$1</em>`) }} />
+        )}
 
-        {/* Intro */}
-        <p className="about-intro">
-          {lang === "es"
-            ? "Merodeador de imaginaciones. Si quieres trabajar conmigo, escríbeme."
-            : "Wanderer of imaginations. If you want to work together, reach out."}
-        </p>
+        {intro && <p className="contact-intro">{intro}</p>}
 
-        {/* Contact */}
-        <div className="about-contact-block">
-          {contact.email && (
-            <a className="about-email" href={`mailto:${contact.email}`}>{contact.email}</a>
-          )}
+        <div className="contact-block">
+          {c.email && <a className="contact-email" href={`mailto:${c.email}`}>{c.email}</a>}
           {social.length > 0 && (
-            <div className="about-social">
-              {social.map((s, i) => {
-                var href = s.href || "";
-                if (href && !href.startsWith("http") && !href.startsWith("mailto:")) href = "https://" + href;
-                return <a key={i} href={href} target="_blank" rel="noreferrer">{s.label}</a>;
-              })}
+            <div className="contact-social">
+              {social.map((s, i) => (
+                <a key={i} href={safeHref(s.href)} target="_blank" rel="noreferrer">{s.label}</a>
+              ))}
             </div>
           )}
         </div>
 
-        {/* Skills */}
-        {blocks.filter(b => b.kind === "skills-cloud").map((b, i) => (
-          <div key={i} className="about-section">
-            <div className="about-section-label">{lang === "es" ? "HABILIDADES" : "SKILLS"}</div>
+        {skills.length > 0 && (
+          <div className="contact-section">
+            <div className="contact-section-label">{lang === "es" ? "HABILIDADES" : "SKILLS"}</div>
             <div className="tag-cloud">
-              {(b.items || []).map((s, j) => (
-                <a key={j} className="tag link" href={`#/category/${s.toLowerCase().replace(/[^a-z0-9]/g, '-')}`}>{s}</a>
+              {skills.map((s, i) => (
+                <a key={i} className="tag link"
+                  href={`#/category/${s.toLowerCase().replace(/[^a-z0-9]/g, '-')}`}>{s}</a>
               ))}
             </div>
           </div>
-        ))}
+        )}
 
-        {/* Tools */}
-        {blocks.filter(b => b.kind === "tools").map((b, i) => (
-          <div key={i} className="about-section">
-            <div className="about-section-label">{lang === "es" ? "HERRAMIENTAS" : "TOOLS"}</div>
+        {tools.length > 0 && (
+          <div className="contact-section">
+            <div className="contact-section-label">{lang === "es" ? "HERRAMIENTAS" : "TOOLS"}</div>
             <div className="tag-cloud">
-              {(b.items || []).map((s, j) => (
-                <span key={j} className="tag">{s}</span>
-              ))}
+              {tools.map((s, i) => <span key={i} className="tag">{s}</span>)}
             </div>
           </div>
-        ))}
+        )}
 
       </div>
     </PageWrap>
   );
-}
-
-/* ── CONTACT redirects to about ── */
-function ContactPage({ pal, lang, setLang, palette, setPalette, siteData }) {
-  React.useEffect(() => { window.location.hash = "#/about"; }, []);
-  return null;
 }
 
 /* ── SHOP ── */

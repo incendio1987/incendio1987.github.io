@@ -713,9 +713,9 @@ function HomeV2() {
         ),
         React.createElement("a", {
           className: "ih-nav-link",
-          href: "#/about",
-          onClick: function(e) { e.preventDefault(); window.location.hash = "#/about"; },
-          onTouchEnd: function(e) { e.preventDefault(); window.location.hash = "#/about"; }
+          href: "#/contact",
+          onClick: function(e) { e.preventDefault(); window.location.hash = "#/contact"; },
+          onTouchEnd: function(e) { e.preventDefault(); window.location.hash = "#/contact"; }
         }, "CONTACT")
       )
     ),
