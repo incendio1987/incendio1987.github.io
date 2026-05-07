@@ -121,6 +121,22 @@
   "heroStickers": [],
   "projects": [
     {
+      "id": "dog",
+      "title": "dog",
+      "category": "ILLUSTRATION",
+      "year": "2026",
+      "cover": "assets/projects/dog/perro.jpg",
+      "contain": false,
+      "featured": false,
+      "template": "gallery",
+      "data": {
+        "images": [
+          "assets/projects/dog/perro.jpg"
+        ]
+      },
+      "tags": []
+    },
+    {
       "id": "best-mom-award",
       "title": "best mom award",
       "category": "ILLUSTRATION",
