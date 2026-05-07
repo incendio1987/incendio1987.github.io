@@ -103,14 +103,6 @@
       "accent1": "#c0392b",
       "accent2": "#1e3a8a",
       "accent3": "#d4a017"
-    },
-    "dsad": {
-      "bg": "#ffffff",
-      "paper": "#ffffff",
-      "ink": "#000000",
-      "accent1": "#ff0000",
-      "accent2": "#00ff00",
-      "accent3": "#0000ff"
     }
   },
   "heroStickers": [],
