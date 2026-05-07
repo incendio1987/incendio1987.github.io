@@ -17,50 +17,50 @@
   },
   "i18n": {
     "es": {
-      "about": "ABOUT",
-      "branding": "branding",
-      "buscar": "Buscar proyecto\u2026",
-      "contact": "CONTACT",
-      "cosas_bonitas": "cosas\nbonitas.",
-      "cosas_sub": "selecci\u00f3n personal de mis trabajos favoritos.",
-      "hero_tag_a": "Dise\u00f1o, ilustraci\u00f3n, c\u00f3digo y recorridos visuales",
-      "hero_tag_b": "Si te gusta lo que ves, hablemos.",
       "hola": "HOLA",
-      "ilustracion": "ilustraci\u00f3n",
-      "madrid": "MADRID \u00b7 ES",
-      "paleta": "PALETA",
-      "proyectos": "PROYECTOS",
-      "shop": "shop",
-      "shop_arrow": "SHOP \u2192",
       "soy": "SOY",
-      "todo_archivo": "todo el\narchivo.",
+      "hero_tag_a": "Diseño, ilustración, código y recorridos visuales",
+      "hero_tag_b": "Si te gusta lo que ves, hablemos.",
+      "ultimo": "PENÚLTIMO",
+      "proyectos": "PROYECTOS",
+      "shop_arrow": "SHOP →",
       "trabajos_recientes": "TRABAJOS RECIENTES",
-      "ultimo": "PEN\u00daLTIMO",
+      "cosas_bonitas": "cosas\nbonitas.",
+      "cosas_sub": "selección personal de mis trabajos favoritos.",
+      "todo_archivo": "todo el\narchivo.",
+      "buscar": "Buscar proyecto…",
+      "ilustracion": "ilustración",
       "webdev": "web/dev",
-      "work": "WORK"
+      "branding": "branding",
+      "shop": "shop",
+      "work": "WORK",
+      "about": "ABOUT",
+      "contact": "CONTACT",
+      "paleta": "PALETA",
+      "madrid": "MADRID · ES"
     },
     "en": {
-      "about": "ABOUT",
-      "branding": "branding",
-      "buscar": "Search project\u2026",
-      "contact": "CONTACT",
-      "cosas_bonitas": "cool\nstuff.",
-      "cosas_sub": "personal selection of my favourite works.",
+      "hola": "HELLO",
+      "soy": "I'M",
       "hero_tag_a": "Design, illustration, code & visual travels",
       "hero_tag_b": "If you like what you see, let's talk.",
-      "hola": "HELLO",
-      "ilustracion": "illustration",
-      "madrid": "MADRID \u00b7 ES",
-      "paleta": "PALETTE",
-      "proyectos": "PROJECTS",
-      "shop": "shop",
-      "shop_arrow": "SHOP \u2192",
-      "soy": "I'M",
-      "todo_archivo": "full\narchive.",
-      "trabajos_recientes": "LATEST WORK",
       "ultimo": "LATEST",
+      "proyectos": "PROJECTS",
+      "shop_arrow": "SHOP →",
+      "trabajos_recientes": "LATEST WORK",
+      "cosas_bonitas": "cool\nstuff.",
+      "cosas_sub": "personal selection of my favourite works.",
+      "todo_archivo": "full\narchive.",
+      "buscar": "Search project…",
+      "ilustracion": "illustration",
       "webdev": "web/dev",
-      "work": "WORK"
+      "branding": "branding",
+      "shop": "shop",
+      "work": "WORK",
+      "about": "ABOUT",
+      "contact": "CONTACT",
+      "paleta": "PALETTE",
+      "madrid": "MADRID · ES"
     }
   },
   "palettes": {
@@ -108,6 +108,22 @@
   "heroStickers": [],
   "projects": [
     {
+      "id": "best-mom-award",
+      "title": "best mom award",
+      "category": "SHOP",
+      "year": "2026",
+      "cover": "assets/projects/best-mom-award/bestmomaward.jpg",
+      "contain": false,
+      "featured": false,
+      "template": "gallery",
+      "data": {
+        "images": [
+          "assets/projects/best-mom-award/bestmomaward.jpg"
+        ]
+      },
+      "tags": []
+    },
+    {
       "id": "fedaf",
       "title": "fedaf",
       "category": "ILLUSTRATION",
@@ -141,17 +157,17 @@
     "blocks": [
       {
         "kind": "intro",
-        "text": "Dise\u00f1o, ilustraci\u00f3n & ideitas."
+        "text": "Diseño, ilustración & ideitas."
       },
       {
         "kind": "skills-cloud",
         "items": [
-          "ilustraci\u00f3n",
+          "ilustración",
           "ia generativa",
           "scripts",
-          "v\u00eddeo",
+          "vídeo",
           "carteles",
-          "tipograf\u00eda",
+          "tipografía",
           "web/dev",
           "branding"
         ]
