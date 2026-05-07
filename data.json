@@ -108,6 +108,22 @@
   "heroStickers": [],
   "projects": [
     {
+      "id": "2d-sculptures",
+      "title": "2d sculptures",
+      "category": "ILLUSTRATION",
+      "year": "2026",
+      "cover": "assets/projects/2d-sculptures/sin-título-5.jpg",
+      "contain": false,
+      "featured": false,
+      "template": "gallery",
+      "data": {
+        "images": [
+          "assets/projects/2d-sculptures/sin-título-5.jpg"
+        ]
+      },
+      "tags": []
+    },
+    {
       "id": "tennis",
       "title": "tennis",
       "category": "ILLUSTRATION",
