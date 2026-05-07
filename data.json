@@ -108,6 +108,22 @@
   "heroStickers": [],
   "projects": [
     {
+      "id": "peluche-en-tajmajal",
+      "title": "peluche en tajmajal",
+      "category": "ILLUSTRATION",
+      "year": "2026",
+      "cover": "assets/projects/peluche-en-tajmajal/mencant.jpg",
+      "contain": false,
+      "featured": false,
+      "template": "gallery",
+      "data": {
+        "images": [
+          "assets/projects/peluche-en-tajmajal/mencant.jpg"
+        ]
+      },
+      "tags": []
+    },
+    {
       "id": "nomin",
       "title": "nominá",
       "category": "POSTER",
