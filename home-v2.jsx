@@ -716,7 +716,7 @@ function HomeV2() {
           href: "#/about",
           onClick: function(e) { e.preventDefault(); window.location.hash = "#/about"; },
           onTouchEnd: function(e) { e.preventDefault(); window.location.hash = "#/about"; }
-        }, t("about"))
+        }, "CONTACT")
       )
     ),
 

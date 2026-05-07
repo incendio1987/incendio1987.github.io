@@ -108,7 +108,7 @@ function NavBar({ pal, lang, setLang, active }) {
       <nav>
         <a className={active === "work" ? "active" : ""} href="#/">{_t("work", lang)}</a>
         <a className={active === "shop" ? "active" : ""} href="#/shop">{_t("shop", lang)}</a>
-        <a className={active === "about" ? "active" : ""} href="#/about">{_t("about", lang)}</a>
+        <a className={active === "about" ? "active" : ""} href="#/about">CONTACT</a>
       </nav>
       <div className="nav-right">
         <button className={lang === "es" ? "on" : ""} onClick={() => setLang("es")}>ES</button>
