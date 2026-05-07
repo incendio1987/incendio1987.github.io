@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>INCENDIO · cold-art</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: #1d1bff; font-family: "Space Mono", "Courier New", monospace; }
+  </style>
+</head>
+<body>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+
+  <script type="text/babel" src="../project-entry.jsx"></script>
+
+  <div id="root"></div>
+
+  <script type="text/babel" data-presets="react">
+    const PROJECT = /*PROJECT-DATA-BEGIN*/{
+    "id": "cold-art",
+    "title": "cold-art",
+    "category": "ILLUSTRATION",
+    "year": "2026",
+    "cover": "../assets/projects/cold-art/u5572652617_on_a_vast_snow-covered_hillside_under_a_pale_90s__2445dbdb-e274-4142-8061-b9e8b35ddc13_1.jpg",
+    "contain": false,
+    "featured": false,
+    "template": "gallery",
+    "tags": [],
+    "images": [
+        "../assets/projects/cold-art/u5572652617_on_a_vast_snow-covered_hillside_under_a_pale_90s__2445dbdb-e274-4142-8061-b9e8b35ddc13_1.jpg"
+    ]
+}/*PROJECT-DATA-END*/;
+
+    ReactDOM.createRoot(document.getElementById("root")).render(
+      <window.ProjectEntry data={PROJECT} palette="electric" />
+    );
+  </script>
+</body>
+</html>
