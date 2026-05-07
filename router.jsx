@@ -10,9 +10,13 @@ async function loadSiteData() {
   if (window.__INCENDIO_DATA) return window.__INCENDIO_DATA;
   try {
     const resp = await fetch("data.json");
-    window.__INCENDIO_DATA = await resp.json();
+    if (!resp.ok) throw new Error("HTTP " + resp.status);
+    const text = await resp.text();
+    // Guard against GitHub Pages returning an HTML 404 page
+    if (!text.trim().startsWith("{")) throw new Error("Not JSON");
+    window.__INCENDIO_DATA = JSON.parse(text);
   } catch (e) {
-    console.warn("Could not load data.json");
+    console.warn("Could not load data.json:", e.message);
     window.__INCENDIO_DATA = {};
   }
   return window.__INCENDIO_DATA;
@@ -173,9 +177,9 @@ function ContactPage({ pal, lang, setLang, palette, setPalette, siteData }) {
   const css = `
     .contact-page .email-link { font-size: clamp(16px, 2.5vw, 28px); font-weight: 700; display: inline-block; padding-bottom: 4px; border-bottom: 2px solid ${pal.accent1}; transition: color 0.2s; letter-spacing: -0.01em; }
     .contact-page .email-link:hover { color: ${pal.accent1}; }
-    .contact-page .social-list { margin-top: 32px; display: flex; flex-direction: column; gap: 8px; }
-    .contact-page .social-link { font-size: 12px; letter-spacing: 0.1em; opacity: 0.6; transition: opacity 0.2s, color 0.2s; }
-    .contact-page .social-link:hover { opacity: 1; color: ${pal.accent1}; }
+    .contact-page .social { margin-top: 40px; display: flex; flex-direction: column; gap: 8px; }
+    .contact-page .social a { font-size: 12px; letter-spacing: 0.15em; opacity: 0.6; transition: opacity 0.2s; text-transform: uppercase; }
+    .contact-page .social a:hover { opacity: 1; color: ${pal.accent1}; }
   `;
   return (
     <PageWrap siteData={siteData} pal={pal} lang={lang} setLang={setLang} palette={palette} setPalette={setPalette} active="contact">
@@ -183,7 +187,11 @@ function ContactPage({ pal, lang, setLang, palette, setPalette, siteData }) {
       <div className="page-content contact-page">
         <h1>{_t("contact", lang)}</h1>
         {contact.email && <a className="email-link" href={`mailto:${contact.email}`}>{contact.email}</a>}
-        {social.length > 0 && (<div className="social-list">{social.map((s, i) => (<a key={i} className="social-link" href={s.href} target="_blank" rel="noreferrer">{s.label}</a>))}</div>)}
+        {social.length > 0 && (
+          <div className="social">
+            {social.map((s, i) => <a key={i} href={s.href} target="_blank" rel="noreferrer">{s.label}</a>)}
+          </div>
+        )}
       </div>
     </PageWrap>
   );
@@ -194,16 +202,15 @@ function ShopPage({ pal, lang, setLang, palette, setPalette, siteData }) {
   const shop = siteData.shop || {};
   const items = shop.items || [];
   const css = `
-    .shop-page .shop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
-    .shop-page .shop-card { border: 1px solid rgba(255,255,255,0.08); transition: border-color 0.2s; overflow: hidden; }
-    .shop-page .shop-card:hover { border-color: rgba(255,255,255,0.2); }
-    .shop-page .shop-card .img { aspect-ratio: 1; background-size: cover; background-position: center; }
-    .shop-page .shop-card .info { padding: 12px; }
-    .shop-page .shop-card .info .title { font-size: 12px; font-weight: 700; letter-spacing: 0.05em; }
-    .shop-page .shop-card .info .price { font-size: 11px; opacity: 0.5; margin-top: 4px; }
-    .shop-page .shop-card .info .buy { display: inline-block; margin-top: 8px; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; padding: 4px 10px; border: 1px solid ${pal.accent1}; color: ${pal.accent1}; transition: all 0.2s; }
-    .shop-page .shop-card .info .buy:hover { background: ${pal.accent1}; color: ${pal.ink}; }
-    .shop-page .empty { font-size: 14px; opacity: 0.5; }
+    .shop-page .shop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin-top: 32px; }
+    .shop-page .shop-item { border: 1px solid rgba(255,255,255,0.08); overflow: hidden; }
+    .shop-page .shop-item .img { aspect-ratio: 1; background-size: cover; background-position: center; }
+    .shop-page .shop-item .meta { padding: 12px; }
+    .shop-page .shop-item .meta h3 { font-size: 12px; font-weight: 700; letter-spacing: 0.05em; margin: 0 0 4px; }
+    .shop-page .shop-item .meta .price { font-size: 11px; opacity: 0.6; margin: 0 0 10px; }
+    .shop-page .shop-item .meta a { display: inline-block; padding: 6px 12px; background: ${pal.accent1}; color: ${pal.ink}; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; transition: opacity 0.2s; }
+    .shop-page .shop-item .meta a:hover { opacity: 0.85; }
+    .shop-page .empty { font-size: 14px; opacity: 0.5; margin-top: 24px; }
   `;
   return (
     <PageWrap siteData={siteData} pal={pal} lang={lang} setLang={setLang} palette={palette} setPalette={setPalette} active="shop">
@@ -211,13 +218,13 @@ function ShopPage({ pal, lang, setLang, palette, setPalette, siteData }) {
       <div className="page-content shop-page">
         <h1>{_t("shop", lang)}</h1>
         {items.length > 0 ? (
-          <div className="shop-grid">{items.map(item => (
-            <div key={item.id} className="shop-card">
-              {item.image && <div className="img" style={{ backgroundImage: `url(${item.image})` }} />}
-              <div className="info">
-                <div className="title">{item.title}</div>
-                {item.price && <div className="price">{item.price}</div>}
-                {item.buyHref && <a className="buy" href={item.buyHref} target="_blank" rel="noreferrer">{_t("comprar", lang)}</a>}
+          <div className="shop-grid">{items.map((item, i) => (
+            <div key={i} className="shop-item">
+              <div className="img" style={{ backgroundImage: `url(${item.image})` }} />
+              <div className="meta">
+                <h3>{item.title}</h3>
+                <p className="price">{item.price}</p>
+                {item.buyHref && <a href={item.buyHref} target="_blank" rel="noreferrer">{_t("comprar", lang)}</a>}
               </div>
             </div>
           ))}</div>
@@ -341,11 +348,17 @@ function IncendioRouter() {
   const [siteData, setSiteData] = React.useState(null);
 
   React.useEffect(() => {
+    // Add a hard timeout — never stay on loading more than 3 seconds
+    const timeout = setTimeout(() => {
+      if (!window.__INCENDIO_DATA) window.__INCENDIO_DATA = {};
+      setSiteData(window.__INCENDIO_DATA || {});
+    }, 3000);
+
     loadSiteData().then(data => {
+      clearTimeout(timeout);
       setSiteData(data);
       if (data.site && data.site.defaultLang) setLang(data.site.defaultLang);
       if (data.site && data.site.defaultPalette) setPalette(data.site.defaultPalette);
-      /* Dynamic Google Font loading */
       var font = (data.site && data.site.fontFamily) ? data.site.fontFamily : "Space Mono";
       if (font && font !== "Space Mono") {
         var link = document.createElement("link");
@@ -354,6 +367,8 @@ function IncendioRouter() {
         document.head.appendChild(link);
       }
     });
+
+    return () => clearTimeout(timeout);
   }, []);
 
   React.useEffect(() => {
