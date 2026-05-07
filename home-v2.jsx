@@ -332,7 +332,7 @@ function HomeV2() {
     }\n\
     .ih-nav-link:hover { opacity: 1; color: var(--a1); }\n\
 \n\
-    /* SHOP — animated gradient border */\n\
+    /* SHOP animated gradient border */\n\
     .ih-nav-shop {\n\
       position: relative;\n\
       opacity: 1 !important;\n\
@@ -341,7 +341,7 @@ function HomeV2() {
       z-index: 0;\n\
     }\n\
     .ih-nav-shop::before {\n\
-      content: "";\n\
+      content: '';\n\
       position: absolute;\n\
       inset: 0;\n\
       border-radius: 2px;\n\
