@@ -121,6 +121,22 @@
   "heroStickers": [],
   "projects": [
     {
+      "id": "familias",
+      "title": "familias",
+      "category": "ILLUSTRATION",
+      "year": "2026",
+      "cover": "assets/projects/familias/u5572652617_foto_de_familia_onrica_-ar_34_-profile_s571xkj__5f046c3c-b7ce-48ec-893f-a71634654a92_3.jpg",
+      "contain": false,
+      "featured": false,
+      "template": "gallery",
+      "data": {
+        "images": [
+          "assets/projects/familias/u5572652617_foto_de_familia_onrica_-ar_34_-profile_s571xkj__5f046c3c-b7ce-48ec-893f-a71634654a92_3.jpg"
+        ]
+      },
+      "tags": []
+    },
+    {
       "id": "abecedario",
       "title": "abecedario",
       "category": "SHOP",
