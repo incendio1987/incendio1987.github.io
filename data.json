@@ -121,6 +121,22 @@
   "heroStickers": [],
   "projects": [
     {
+      "id": "nomina",
+      "title": "nomina",
+      "category": "ILLUSTRATION",
+      "year": "2026",
+      "cover": "assets/projects/nomina/nomina.jpg",
+      "contain": false,
+      "featured": false,
+      "template": "gallery",
+      "data": {
+        "images": [
+          "assets/projects/nomina/nomina.jpg"
+        ]
+      },
+      "tags": []
+    },
+    {
       "id": "pretzel",
       "title": "pretzel",
       "category": "ILLUSTRATION",
