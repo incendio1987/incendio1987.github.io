@@ -121,6 +121,22 @@
   "heroStickers": [],
   "projects": [
     {
+      "id": "cold-art",
+      "title": "cold-art",
+      "category": "ILLUSTRATION",
+      "year": "2026",
+      "cover": "assets/projects/cold-art/u5572652617_on_a_vast_snow-covered_hillside_under_a_pale_90s__2445dbdb-e274-4142-8061-b9e8b35ddc13_1.jpg",
+      "contain": false,
+      "featured": false,
+      "template": "gallery",
+      "data": {
+        "images": [
+          "assets/projects/cold-art/u5572652617_on_a_vast_snow-covered_hillside_under_a_pale_90s__2445dbdb-e274-4142-8061-b9e8b35ddc13_1.jpg"
+        ]
+      },
+      "tags": []
+    },
+    {
       "id": "puentes",
       "title": "puentes",
       "category": "ILLUSTRATION",
