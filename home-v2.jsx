@@ -245,7 +245,8 @@ function HomeV2() {
       display: flex; flex-direction: column;\n\
       overflow: hidden;\n\
     }\n\
-    .incendio-home a { color: inherit; text-decoration: none; }\n\
+    .incendio-home a { color: inherit; text-decoration: none; touch-action: manipulation; }\n\
+    .incendio-home button { touch-action: manipulation; }\n\
 \n\
     .ih-header {\n\
       padding: 16px 20px 8px;\n\
@@ -544,20 +545,30 @@ function HomeV2() {
 \n\
     @media (max-width: 768px) {\n\
       .ih-header {\n\
-        padding: 12px 14px 6px;\n\
+        padding: 10px 14px 6px;\n\
         flex-direction: column;\n\
-        gap: 6px;\n\
+        gap: 4px;\n\
       }\n\
-      .ih-title { font-size: clamp(40px, 14vw, 72px); }\n\
+      .ih-title { font-size: clamp(32px, 11vw, 56px); }\n\
       .ih-title-row-sub { gap: 8px; }\n\
       .ih-subtitle { font-size: 7px; white-space: normal; }\n\
       .ih-nav {\n\
         flex-direction: row;\n\
         align-items: center;\n\
-        gap: 8px;\n\
+        gap: 4px;\n\
         flex-wrap: wrap;\n\
+        width: 100%;\n\
       }\n\
-      .ih-nav-link { font-size: 14px; }\n\
+      .ih-nav-link {\n\
+        font-size: 12px;\n\
+        padding: 6px 8px;\n\
+        touch-action: manipulation;\n\
+        -webkit-tap-highlight-color: transparent;\n\
+        min-height: 36px;\n\
+        display: flex;\n\
+        align-items: center;\n\
+      }\n\
+      .ih-nav-shop { padding: 6px 10px; min-height: 36px; }\n\
       .ih-works-dropdown {\n\
         position: fixed;\n\
         top: auto;\n\
