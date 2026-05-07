@@ -121,6 +121,22 @@
   "heroStickers": [],
   "projects": [
     {
+      "id": "cxs",
+      "title": "cxs",
+      "category": "ILLUSTRATION",
+      "year": "2026",
+      "cover": "assets/projects/cxs/u5572652617_httpss.mj.runm5jalnvhomm_paseando_en_la_carroza_-_edec0817-9649-4168-bf98-dcc5553a60dc_2.jpg",
+      "contain": false,
+      "featured": false,
+      "template": "gallery",
+      "data": {
+        "images": [
+          "assets/projects/cxs/u5572652617_httpss.mj.runm5jalnvhomm_paseando_en_la_carroza_-_edec0817-9649-4168-bf98-dcc5553a60dc_2.jpg"
+        ]
+      },
+      "tags": []
+    },
+    {
       "id": "cold-art",
       "title": "cold-art",
       "category": "ILLUSTRATION",
