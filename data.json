@@ -161,11 +161,11 @@
     }
   ],
   "about": {
-    "headline": "soy INCENDIO. piropeo ideas.",
+    "headline": "soy INCENDIO. dj aeropuerto",
     "blocks": [
       {
         "kind": "intro",
-        "text": "Diseño, ilustración & ideitas."
+        "text": "puchero de ideas"
       },
       {
         "kind": "skills-cloud",
@@ -196,7 +196,14 @@
   },
   "contact": {
     "email": "incendio1987@protonmail.com",
-    "social": []
+    "social": [
+      {
+        "network": "instagram",
+        "label": "Instagram",
+        "icon": "📷",
+        "href": "incendio1987"
+      }
+    ]
   },
   "shop": {
     "items": [
