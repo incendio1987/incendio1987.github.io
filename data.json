@@ -121,6 +121,22 @@
   "heroStickers": [],
   "projects": [
     {
+      "id": "pretzel",
+      "title": "pretzel",
+      "category": "ILLUSTRATION",
+      "year": "2026",
+      "cover": "assets/projects/pretzel/pretzel.jpg",
+      "contain": false,
+      "featured": false,
+      "template": "gallery",
+      "data": {
+        "images": [
+          "assets/projects/pretzel/pretzel.jpg"
+        ]
+      },
+      "tags": []
+    },
+    {
       "id": "tennis",
       "title": "tennis",
       "category": "ILLUSTRATION",
