@@ -121,6 +121,22 @@
   "heroStickers": [],
   "projects": [
     {
+      "id": "peluche-paseando-por-el-tajmajal",
+      "title": "peluche paseando por el tajmajal",
+      "category": "ILLUSTRATION",
+      "year": "2026",
+      "cover": "assets/projects/peluche-paseando-por-el-tajmajal/mencant.jpg",
+      "contain": false,
+      "featured": false,
+      "template": "gallery",
+      "data": {
+        "images": [
+          "assets/projects/peluche-paseando-por-el-tajmajal/mencant.jpg"
+        ]
+      },
+      "tags": []
+    },
+    {
       "id": "dog",
       "title": "dog",
       "category": "ILLUSTRATION",
