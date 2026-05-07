@@ -235,353 +235,354 @@ function HomeV2() {
     }, 800);
   };
 
-  var css = "\n\
-    .incendio-home {\n\
-      --bg: " + pal.bg + "; --paper: " + pal.paper + "; --ink: " + pal.ink + ";\n\
-      --a1: " + pal.accent1 + "; --a2: " + pal.accent2 + "; --a3: " + pal.accent3 + ";\n\
-      width: 100%; height: 100vh;\n\
-      background: var(--bg); color: var(--paper);\n\
-      font-family: '" + fontFamily + "', 'Courier New', monospace;\n\
-      display: flex; flex-direction: column;\n\
-      overflow: hidden;\n\
-    }\n\
-    .incendio-home a { color: inherit; text-decoration: none; }\n\
-\n\
-    .ih-header {\n\
-      padding: 16px 20px 8px;\n\
-      display: flex;\n\
-      flex-direction: column;\n\
-      align-items: flex-start;\n\
-      gap: 0;\n\
-      flex-shrink: 0;\n\
-    }\n\
-    .ih-brand { flex-shrink: 0; }\n\
-\n\
-    .ih-title {\n\
-      font-size: clamp(52px, 11vw, 130px);\n\
-      font-weight: 700;\n\
-      line-height: 0.82;\n\
-      letter-spacing: -0.05em;\n\
-      margin: 0;\n\
-      text-transform: uppercase;\n\
-      cursor: default;\n\
-    }\n\
-    .ih-title-row { display: block; }\n\
-\n\
-    /* Second row: 1987 + subtitle inline */\n\
-    .ih-title-row-sub {\n\
-      display: flex;\n\
-      align-items: baseline;\n\
-      gap: 12px;\n\
-    }\n\
-    .ih-title-row-sub .ih-year-letters {\n\
-      display: inline;\n\
-    }\n\
-\n\
-    .ih-title-letter {\n\
-      display: inline-block;\n\
-      transition: color 0.3s ease;\n\
-      cursor: crosshair;\n\
-    }\n\
-    .ih-title-letter.touched {\n\
-      animation: letterPop 0.8s ease-out forwards;\n\
-    }\n\
-    @keyframes letterPop {\n\
-      0% { transform: scale(1); }\n\
-      20% { transform: scale(1.1); }\n\
-      100% { transform: scale(1); }\n\
-    }\n\
-\n\
-    .ih-subtitle {\n\
-      font-size: clamp(8px, 1vw, 11px);\n\
-      font-weight: 400;\n\
-      letter-spacing: 0.04em;\n\
-      opacity: 0.35;\n\
-      line-height: 1.3;\n\
-      white-space: nowrap;\n\
-      flex-shrink: 1;\n\
-      min-width: 0;\n\
-      overflow: hidden;\n\
-      text-overflow: ellipsis;\n\
-    }\n\
-\n\
-    .ih-nav {\n\
-      display: flex;\n\
-      flex-direction: row;\n\
-      align-items: center;\n\
-      gap: 4px;\n\
-      padding-top: 6px;\n\
-      padding-left: 2px;\n\
-      flex-wrap: wrap;\n\
-    }\n\
-    .ih-nav-link {\n\
-      font-size: clamp(12px, 2vw, 16px);\n\
-      font-weight: 700;\n\
-      letter-spacing: 0.08em;\n\
-      text-transform: uppercase;\n\
-      opacity: 0.65;\n\
-      transition: opacity 0.2s, color 0.2s;\n\
-      cursor: pointer;\n\
-      background: none;\n\
-      border: none;\n\
-      color: var(--paper);\n\
-      font-family: inherit;\n\
-      padding: 2px 8px;\n\
-      text-align: left;\n\
-      line-height: 1.2;\n\
-    }\n\
-    .ih-nav-link:hover { opacity: 1; color: var(--a1); }\n\
-\n\
-    /* SHOP animated gradient border */\n\
-    .ih-nav-shop {\n\
-      position: relative;\n\
-      opacity: 1 !important;\n\
-      padding: 3px 10px;\n\
-      color: var(--paper) !important;\n\
-      z-index: 0;\n\
-    }\n\
-    .ih-nav-shop::before {\n\
-      content: '';\n\
-      position: absolute;\n\
-      inset: 0;\n\
-      border-radius: 2px;\n\
-      padding: 1.5px;\n\
-      background: linear-gradient(90deg, var(--a1), var(--a2), var(--a3), var(--a1));\n\
-      background-size: 300% 100%;\n\
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);\n\
-      -webkit-mask-composite: xor;\n\
-      mask-composite: exclude;\n\
-      animation: shopBorderRoll 2.5s linear infinite;\n\
-      pointer-events: none;\n\
-    }\n\
-    @keyframes shopBorderRoll {\n\
-      0% { background-position: 0% 50%; }\n\
-      100% { background-position: 300% 50%; }\n\
-    }\n\
-    .ih-nav-shop:hover { color: var(--a1) !important; }\n\
-\n\
-    .ih-works-wrap { position: relative; }\n\
-    .ih-works-dropdown {\n\
-      position: absolute;\n\
-      top: calc(100% + 2px);\n\
-      right: 0;\n\
-      background: var(--paper);\n\
-      color: var(--ink);\n\
-      padding: 4px 0;\n\
-      min-width: 180px;\n\
-      z-index: 200;\n\
-      opacity: 0;\n\
-      transform: translateY(-4px);\n\
-      pointer-events: none;\n\
-      transition: opacity 0.2s, transform 0.2s;\n\
-    }\n\
-    .ih-works-dropdown.open {\n\
-      opacity: 1;\n\
-      transform: translateY(0);\n\
-      pointer-events: auto;\n\
-    }\n\
-    .ih-works-dropdown a {\n\
-      display: block;\n\
-      padding: 8px 16px;\n\
-      font-size: 12px;\n\
-      letter-spacing: 0.1em;\n\
-      text-transform: uppercase;\n\
-      color: var(--ink);\n\
-      font-weight: 700;\n\
-      transition: background 0.15s;\n\
-    }\n\
-    .ih-works-dropdown a:hover { background: var(--a1); }\n\
-\n\
-    .ih-grid-wrap {\n\
-      flex: 1;\n\
-      padding: 4px 20px;\n\
-      display: flex;\n\
-      flex-direction: column;\n\
-      justify-content: center;\n\
-      min-height: 0;\n\
-    }\n\
-    .ih-grid {\n\
-      display: grid;\n\
-      grid-template-columns: repeat(" + COLS + ", 1fr);\n\
-      grid-template-rows: repeat(" + ROWS + ", 1fr);\n\
-      gap: 3px;\n\
-      width: 100%;\n\
-      max-width: 760px;\n\
-      margin: 0 auto;\n\
-    }\n\
-\n\
-    .grid-cell {\n\
-      position: relative;\n\
-      overflow: hidden;\n\
-      cursor: pointer;\n\
-      border: 1px solid rgba(255,255,255,0.05);\n\
-      aspect-ratio: 1;\n\
-      display: flex;\n\
-      align-items: center;\n\
-      justify-content: center;\n\
-      transition: border-color 0.3s;\n\
-    }\n\
-    .grid-cell.hovered { border-color: rgba(255,255,255,0.15); }\n\
-    .grid-cell.empty { cursor: default; opacity: 0.12; }\n\
-\n\
-    .cell-dot {\n\
-      width: " + gridDotSize + "px; height: " + gridDotSize + "px;\n\
-      background: " + (gridDotColor || "var(--paper)") + ";\n\
-      opacity: 0.55;\n\
-      animation: dotPulse 2.4s ease-in-out var(--pulse-delay, 0s) infinite;\n\
-      transition: transform 0.5s " + gridTransition + ",\n\
-                  background 0.4s,\n\
-                  opacity 0.3s;\n\
-    }\n\
-    @keyframes dotPulse {\n\
-      0%, 100% { opacity: 0.55; transform: scale(1); }\n\
-      50% { opacity: 0.9; transform: scale(1.45); }\n\
-    }\n\
-    .grid-cell.hovered .cell-dot {\n\
-      opacity: 0;\n\
-      transform: rotate(90deg) scale(0);\n\
-      animation: none;\n\
-    }\n\
-    .grid-cell:not(.hovered):not(.open) .cell-dot {\n\
-      transform: rotate(0deg) scale(1);\n\
-    }\n\
-    .grid-cell.open .cell-dot {\n\
-      opacity: 0;\n\
-      transform: rotate(180deg) scale(0);\n\
-      animation: none;\n\
-    }\n\
-\n\
-    .cell-name {\n\
-      position: absolute;\n\
-      bottom: 0; left: 0; right: 0;\n\
-      font-size: 6px;\n\
-      font-weight: 700;\n\
-      letter-spacing: 0.06em;\n\
-      text-transform: uppercase;\n\
-      text-align: center;\n\
-      color: var(--paper);\n\
-      background: linear-gradient(transparent, rgba(0,0,0,0.55));\n\
-      padding: 6px 3px 3px;\n\
-      pointer-events: none;\n\
-      animation: nameIn 0.15s ease-out;\n\
-      line-height: 1.2;\n\
-      overflow: hidden;\n\
-      text-overflow: ellipsis;\n\
-      white-space: nowrap;\n\
-      z-index: 2;\n\
-    }\n\
-    @keyframes nameIn {\n\
-      from { opacity: 0; transform: translateY(2px); }\n\
-      to { opacity: 0.75; transform: translateY(0); }\n\
-    }\n\
-\n\
-    .cell-thumb {\n\
-      position: absolute;\n\
-      inset: 0;\n\
-      animation: thumbIn 0.3s ease-out forwards;\n\
-    }\n\
-    @keyframes thumbIn {\n\
-      from { opacity: 0; transform: scale(0.7) rotate(3deg); }\n\
-      to { opacity: 1; transform: scale(1) rotate(0deg); }\n\
-    }\n\
-    .cell-img {\n\
-      position: absolute;\n\
-      inset: 0;\n\
-      background-image: var(--cell-bg);\n\
-      background-size: cover;\n\
-      background-position: center;\n\
-      transition: transform 0.3s ease;\n\
-    }\n\
-    .grid-cell.open:hover .cell-img {\n\
-      transform: scale(1.06);\n\
-    }\n\
-\n\
-    .ih-pagination {\n\
-      display: flex;\n\
-      justify-content: center;\n\
-      align-items: center;\n\
-      gap: 18px;\n\
-      padding: 8px 20px;\n\
-      font-size: 9px;\n\
-      letter-spacing: 0.15em;\n\
-      font-weight: 700;\n\
-      flex-shrink: 0;\n\
-    }\n\
-    .ih-page-btn {\n\
-      background: none;\n\
-      border: 1px solid rgba(255,255,255,0.1);\n\
-      color: var(--paper);\n\
-      font-family: inherit;\n\
-      font-size: 11px;\n\
-      padding: 4px 10px;\n\
-      cursor: pointer;\n\
-      transition: all 0.2s;\n\
-    }\n\
-    .ih-page-btn:hover:not(:disabled) {\n\
-      background: var(--a1); color: var(--ink); border-color: var(--a1);\n\
-    }\n\
-    .ih-page-btn:disabled { opacity: 0.12; cursor: default; }\n\
-    .ih-page-num { font-variant-numeric: tabular-nums; opacity: 0.3; }\n\
-\n\
-    .ih-footer {\n\
-      padding: 10px 20px;\n\
-      display: flex;\n\
-      justify-content: space-between;\n\
-      align-items: center;\n\
-      font-size: 7px;\n\
-      letter-spacing: 0.2em;\n\
-      font-weight: 400;\n\
-      text-transform: uppercase;\n\
-      opacity: 0.2;\n\
-      flex-shrink: 0;\n\
-    }\n\
-    .ih-lang {\n\
-      display: flex; gap: 4px;\n\
-    }\n\
-    .ih-lang button {\n\
-      background: none; border: none; cursor: pointer;\n\
-      font-family: inherit; font-size: 8px; letter-spacing: 0.15em;\n\
-      color: var(--paper); opacity: 0.5; transition: opacity 0.2s;\n\
-      padding: 2px 4px; font-weight: 700;\n\
-    }\n\
-    .ih-lang button:hover, .ih-lang button.on { opacity: 1; }\n\
-\n\
-    @media (max-width: 768px) {\n\
-      .ih-header {\n\
-        padding: 12px 14px 6px;\n\
-      }\n\
-      .ih-title { font-size: clamp(40px, 14vw, 72px); }\n\
-      .ih-title-row-sub { gap: 8px; }\n\
-      .ih-subtitle { font-size: 7px; white-space: normal; }\n\
-      .ih-nav {\n\
-        flex-direction: row;\n\
-        align-items: center;\n\
-        gap: 4px;\n\
-        flex-wrap: wrap;\n\
-      }\n\
-      .ih-nav-link { font-size: 12px; }\n\
-      .ih-works-dropdown {\n\
-        position: fixed;\n\
-        top: auto;\n\
-        bottom: 0;\n\
-        left: 0;\n\
-        right: 0;\n\
-        min-width: 100%;\n\
-        padding: 12px 0;\n\
-        padding-bottom: calc(12px + env(safe-area-inset-bottom));\n\
-        border-top: 2px solid var(--a1);\n\
-        z-index: 9999;\n\
-      }\n\
-      .ih-works-dropdown a {\n\
-        padding: 14px 20px;\n\
-        font-size: 15px;\n\
-      }\n\
-      .ih-grid-wrap { padding: 2px 10px; }\n\
-      .ih-grid { gap: 2px; }\n\
-      .cell-name { font-size: 5px; }\n\
-      .ih-footer { padding: 8px 14px; }\n\
-    }\n\
+  var css = `
+    .incendio-home {
+      --bg: ${pal.bg}; --paper: ${pal.paper}; --ink: ${pal.ink};
+      --a1: ${pal.accent1}; --a2: ${pal.accent2}; --a3: ${pal.accent3};
+      width: 100%; height: 100vh;
+      background: var(--bg); color: var(--paper);
+      font-family: '${fontFamily}', 'Courier New', monospace;
+      display: flex; flex-direction: column;
+      overflow: hidden;
+    }
+    .incendio-home a { color: inherit; text-decoration: none; }
+
+    .ih-header {
+      padding: 16px 20px 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+      flex-shrink: 0;
+    }
+    .ih-brand { flex-shrink: 0; }
+
+    .ih-title {
+      font-size: clamp(52px, 11vw, 130px);
+      font-weight: 700;
+      line-height: 0.82;
+      letter-spacing: -0.05em;
+      margin: 0;
+      text-transform: uppercase;
+      cursor: default;
+    }
+    .ih-title-row { display: block; }
+
+    /* Second row: 1987 + subtitle inline */
+    .ih-title-row-sub {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+    .ih-title-row-sub .ih-year-letters {
+      display: inline;
+    }
+
+    .ih-title-letter {
+      display: inline-block;
+      transition: color 0.3s ease;
+      cursor: crosshair;
+    }
+    .ih-title-letter.touched {
+      animation: letterPop 0.8s ease-out forwards;
+    }
+    @keyframes letterPop {
+      0% { transform: scale(1); }
+      20% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .ih-subtitle {
+      font-size: clamp(8px, 1vw, 11px);
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      opacity: 0.35;
+      line-height: 1.3;
+      white-space: nowrap;
+      flex-shrink: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .ih-nav {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 4px;
+      padding-top: 6px;
+      padding-left: 2px;
+      flex-wrap: wrap;
+    }
+    .ih-nav-link {
+      font-size: clamp(12px, 2vw, 16px);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.65;
+      transition: opacity 0.2s, color 0.2s;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: var(--paper);
+      font-family: inherit;
+      padding: 2px 8px;
+      text-align: left;
+      line-height: 1.2;
+    }
+    .ih-nav-link:hover { opacity: 1; color: var(--a1); }
+
+    /* SHOP animated gradient border */
+    .ih-nav-shop {
+      position: relative;
+      opacity: 1 !important;
+      padding: 3px 10px;
+      color: var(--paper) !important;
+      z-index: 0;
+    }
+    .ih-nav-shop::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 2px;
+      padding: 1.5px;
+      background: linear-gradient(90deg, var(--a1), var(--a2), var(--a3), var(--a1));
+      background-size: 300% 100%;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      animation: shopBorderRoll 2.5s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes shopBorderRoll {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 300% 50%; }
+    }
+    .ih-nav-shop:hover { color: var(--a1) !important; }
+
+    .ih-works-wrap { position: relative; }
+    .ih-works-dropdown {
+      position: absolute;
+      top: calc(100% + 2px);
+      right: 0;
+      background: var(--paper);
+      color: var(--ink);
+      padding: 4px 0;
+      min-width: 180px;
+      z-index: 200;
+      opacity: 0;
+      transform: translateY(-4px);
+      pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .ih-works-dropdown.open {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .ih-works-dropdown a {
+      display: block;
+      padding: 8px 16px;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink);
+      font-weight: 700;
+      transition: background 0.15s;
+    }
+    .ih-works-dropdown a:hover { background: var(--a1); }
+
+    .ih-grid-wrap {
+      flex: 1;
+      padding: 4px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 0;
+    }
+    .ih-grid {
+      display: grid;
+      grid-template-columns: repeat(${COLS}, 1fr);
+      grid-template-rows: repeat(${ROWS}, 1fr);
+      gap: 3px;
+      width: 100%;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .grid-cell {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.05);
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.3s;
+    }
+    .grid-cell.hovered { border-color: rgba(255,255,255,0.15); }
+    .grid-cell.empty { cursor: default; opacity: 0.12; }
+
+    .cell-dot {
+      width: ${gridDotSize}px; height: ${gridDotSize}px;
+      background: " + (gridDotColor || "var(--paper)") + ";
+      opacity: 0.55;
+      animation: dotPulse 2.4s ease-in-out var(--pulse-delay, 0s) infinite;
+      transition: transform 0.5s ${gridTransition},
+                  background 0.4s,
+                  opacity 0.3s;
+    }
+    @keyframes dotPulse {
+      0%, 100% { opacity: 0.55; transform: scale(1); }
+      50% { opacity: 0.9; transform: scale(1.45); }
+    }
+    .grid-cell.hovered .cell-dot {
+      opacity: 0;
+      transform: rotate(90deg) scale(0);
+      animation: none;
+    }
+    .grid-cell:not(.hovered):not(.open) .cell-dot {
+      transform: rotate(0deg) scale(1);
+    }
+    .grid-cell.open .cell-dot {
+      opacity: 0;
+      transform: rotate(180deg) scale(0);
+      animation: none;
+    }
+
+    .cell-name {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      font-size: 6px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-align: center;
+      color: var(--paper);
+      background: linear-gradient(transparent, rgba(0,0,0,0.55));
+      padding: 6px 3px 3px;
+      pointer-events: none;
+      animation: nameIn 0.15s ease-out;
+      line-height: 1.2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      z-index: 2;
+    }
+    @keyframes nameIn {
+      from { opacity: 0; transform: translateY(2px); }
+      to { opacity: 0.75; transform: translateY(0); }
+    }
+
+    .cell-thumb {
+      position: absolute;
+      inset: 0;
+      animation: thumbIn 0.3s ease-out forwards;
+    }
+    @keyframes thumbIn {
+      from { opacity: 0; transform: scale(0.7) rotate(3deg); }
+      to { opacity: 1; transform: scale(1) rotate(0deg); }
+    }
+    .cell-img {
+      position: absolute;
+      inset: 0;
+      background-image: var(--cell-bg);
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.3s ease;
+    }
+    .grid-cell.open:hover .cell-img {
+      transform: scale(1.06);
+    }
+
+    .ih-pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 18px;
+      padding: 8px 20px;
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .ih-page-btn {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--paper);
+      font-family: inherit;
+      font-size: 11px;
+      padding: 4px 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .ih-page-btn:hover:not(:disabled) {
+      background: var(--a1); color: var(--ink); border-color: var(--a1);
+    }
+    .ih-page-btn:disabled { opacity: 0.12; cursor: default; }
+    .ih-page-num { font-variant-numeric: tabular-nums; opacity: 0.3; }
+
+    .ih-footer {
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 7px;
+      letter-spacing: 0.2em;
+      font-weight: 400;
+      text-transform: uppercase;
+      opacity: 0.2;
+      flex-shrink: 0;
+    }
+    .ih-lang {
+      display: flex; gap: 4px;
+    }
+    .ih-lang button {
+      background: none; border: none; cursor: pointer;
+      font-family: inherit; font-size: 8px; letter-spacing: 0.15em;
+      color: var(--paper); opacity: 0.5; transition: opacity 0.2s;
+      padding: 2px 4px; font-weight: 700;
+    }
+    .ih-lang button:hover, .ih-lang button.on { opacity: 1; }
+
+    @media (max-width: 768px) {
+      .ih-header {
+        padding: 12px 14px 6px;
+      }
+      .ih-title { font-size: clamp(40px, 14vw, 72px); }
+      .ih-title-row-sub { gap: 8px; }
+      .ih-subtitle { font-size: 7px; white-space: normal; }
+      .ih-nav {
+        flex-direction: row;
+        align-items: center;
+        gap: 4px;
+        flex-wrap: wrap;
+      }
+      .ih-nav-link { font-size: 12px; }
+      .ih-works-dropdown {
+        position: fixed;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        min-width: 100%;
+        padding: 12px 0;
+        padding-bottom: calc(12px + env(safe-area-inset-bottom));
+        border-top: 2px solid var(--a1);
+        z-index: 9999;
+      }
+      .ih-works-dropdown a {
+        padding: 14px 20px;
+        font-size: 15px;
+      }
+      .ih-grid-wrap { padding: 2px 10px; }
+      .ih-grid { gap: 2px; }
+      .cell-name { font-size: 5px; }
+      .ih-footer { padding: 8px 14px; }
+    }
   ";
+  `
 
   /* Render title letters */
   function renderLetters(text, startIndex) {
