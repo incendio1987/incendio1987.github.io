@@ -121,6 +121,29 @@
   "heroStickers": [],
   "projects": [
     {
+      "id": "editorial-manga-production",
+      "title": "Editorial Manga Production",
+      "category": "BRANDING",
+      "year": "2026",
+      "cover": "assets/projects/editorial-manga-production/doslunas-1.jpg",
+      "contain": false,
+      "featured": false,
+      "template": "gallery",
+      "data": {
+        "images": [
+          "assets/projects/editorial-manga-production/doslunas-1.jpg",
+          "assets/projects/editorial-manga-production/doslunas-2.jpg",
+          "assets/projects/editorial-manga-production/doslunas-3.jpg",
+          "assets/projects/editorial-manga-production/doslunas-4.jpg",
+          "assets/projects/editorial-manga-production/doslunas-5.jpg",
+          "assets/projects/editorial-manga-production/doslunas-6.jpg",
+          "assets/projects/editorial-manga-production/doslunas-7.jpg",
+          "assets/projects/editorial-manga-production/doslunas-8.jpg"
+        ]
+      },
+      "tags": []
+    },
+    {
       "id": "2luinas",
       "title": "NarrativeConceptComic",
       "category": "BRANDING",
