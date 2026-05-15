@@ -121,6 +121,30 @@
   "heroStickers": [],
   "projects": [
     {
+      "id": "children-s-book-portfolio-sample",
+      "title": "Children’s Book Portfolio Sample",
+      "category": "BRANDING",
+      "year": "2026",
+      "cover": "assets/projects/children-s-book-portfolio-sample/children’s-book-portfolio-sample-1.jpg",
+      "contain": false,
+      "featured": false,
+      "template": "gallery",
+      "data": {
+        "images": [
+          "assets/projects/children-s-book-portfolio-sample/children’s-book-portfolio-sample-1.jpg",
+          "assets/projects/children-s-book-portfolio-sample/children’s-book-portfolio-sample-2.jpg",
+          "assets/projects/children-s-book-portfolio-sample/children’s-book-portfolio-sample-3.jpg",
+          "assets/projects/children-s-book-portfolio-sample/children’s-book-portfolio-sample-4.jpg",
+          "assets/projects/children-s-book-portfolio-sample/children’s-book-portfolio-sample-5.jpg",
+          "assets/projects/children-s-book-portfolio-sample/children’s-book-portfolio-sample-6.jpg",
+          "assets/projects/children-s-book-portfolio-sample/children’s-book-portfolio-sample-7.jpg",
+          "assets/projects/children-s-book-portfolio-sample/children’s-book-portfolio-sample-8.jpg",
+          "assets/projects/children-s-book-portfolio-sample/children’s-book-portfolio-sample-9.jpg"
+        ]
+      },
+      "tags": []
+    },
+    {
       "id": "visual-identity-clean-exploration",
       "title": "visual identity clean exploration",
       "category": "BRANDING",
