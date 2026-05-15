@@ -121,6 +121,32 @@
   "heroStickers": [],
   "projects": [
     {
+      "id": "2luinas",
+      "title": "2luinas",
+      "category": "BRANDING",
+      "year": "2026",
+      "cover": "assets/projects/2luinas/2luinas-1.jpg",
+      "contain": false,
+      "featured": false,
+      "template": "gallery",
+      "data": {
+        "images": [
+          "assets/projects/2luinas/2luinas-1.jpg",
+          "assets/projects/2luinas/2luinas-2.jpg",
+          "assets/projects/2luinas/2luinas-3.jpg",
+          "assets/projects/2luinas/2luinas-4.jpg",
+          "assets/projects/2luinas/2luinas-5.jpg",
+          "assets/projects/2luinas/2luinas-6.jpg",
+          "assets/projects/2luinas/2luinas-7.jpg",
+          "assets/projects/2luinas/2luinas-8.jpg",
+          "assets/projects/2luinas/2luinas-9.jpg",
+          "assets/projects/2luinas/2luinas-10.jpg",
+          "assets/projects/2luinas/2luinas-11.jpg"
+        ]
+      },
+      "tags": []
+    },
+    {
       "id": "lifestyle-magazine",
       "title": "lifestyle magazine",
       "category": "BRANDING",
