@@ -121,6 +121,34 @@
   "heroStickers": [],
   "projects": [
     {
+      "id": "visual-identity-clean-exploration",
+      "title": "visual identity clean exploration",
+      "category": "BRANDING",
+      "year": "2026",
+      "cover": "assets/projects/visual-branding-exploration/visual-identity-explorations-1.jpg",
+      "contain": false,
+      "featured": false,
+      "template": "gallery",
+      "data": {
+        "images": [
+          "assets/projects/visual-branding-exploration/visual-identity-explorations-1.jpg",
+          "assets/projects/visual-identity-clean-exploration/visual-identity-explorations-1.jpg",
+          "assets/projects/visual-identity-clean-exploration/visual-identity-explorations-2.jpg",
+          "assets/projects/visual-identity-clean-exploration/visual-identity-explorations-3.jpg",
+          "assets/projects/visual-identity-clean-exploration/visual-identity-explorations-4.jpg",
+          "assets/projects/visual-identity-clean-exploration/visual-identity-explorations-5.jpg",
+          "assets/projects/visual-identity-clean-exploration/visual-identity-explorations-6.jpg",
+          "assets/projects/visual-identity-clean-exploration/visual-identity-explorations-7.jpg",
+          "assets/projects/visual-identity-clean-exploration/visual-identity-explorations-8.jpg",
+          "assets/projects/visual-identity-clean-exploration/visual-identity-explorations-9.jpg",
+          "assets/projects/visual-identity-clean-exploration/visual-identity-explorations-10.jpg",
+          "assets/projects/visual-identity-clean-exploration/visual-identity-explorations-11.jpg",
+          "assets/projects/visual-identity-clean-exploration/visual-identity-explorations-12.jpg"
+        ]
+      },
+      "tags": []
+    },
+    {
       "id": "editorial-manga-production",
       "title": "Editorial Manga Production",
       "category": "BRANDING",
