@@ -9,7 +9,7 @@ window.__INCENDIO_DATA = null;
 async function loadSiteData() {
   if (window.__INCENDIO_DATA) return window.__INCENDIO_DATA;
   try {
-    const resp = await fetch("data.json");
+    const resp = await fetch("data.json?v=" + Date.now());
     if (!resp.ok) throw new Error("HTTP " + resp.status);
     const text = await resp.text();
     // Guard against GitHub Pages returning an HTML 404 page
