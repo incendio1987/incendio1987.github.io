@@ -205,7 +205,7 @@
       "cover": "assets/projects/editorial-manga-production/doslunas-1.jpg",
       "contain": false,
       "featured": false,
-      "template": "gallery",
+      "template": "slideshow",
       "data": {
         "images": [
           "assets/projects/editorial-manga-production/doslunas-1.jpg",
