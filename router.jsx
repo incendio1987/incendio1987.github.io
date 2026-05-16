@@ -715,6 +715,8 @@ function ProjectDetailPage({ pal, lang, setLang, palette, setPalette, siteData, 
       if (!td.image) defaults.image = cover; break;
     case "gallery":
       if (!td.images || td.images.length === 0) defaults.images = cover ? [cover] : []; break;
+    case "slideshow":
+      if (!td.images || td.images.length === 0) defaults.images = cover ? [cover] : []; break;
     case "object-text":
       if (!td.image) defaults.image = cover; break;
     case "long-read":

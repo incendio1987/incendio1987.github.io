@@ -124,40 +124,86 @@ function ProjectEntry({ data, palette = "electric" }) {
 
     .pe-tags { position: absolute; left: -9999px; opacity: 0; pointer-events: none; }
 
-    /* ───── LIGHTBOX ───── */
+    /* ── LIGHTBOX ── */
     .pe-lightbox {
       position: fixed; inset: 0; z-index: 9999;
-      background: rgba(0,0,0,0.85);
+      background: rgba(0,0,0,0.88);
       display: flex; align-items: center; justify-content: center;
       animation: peLbIn 0.2s ease;
       cursor: zoom-out;
     }
     @keyframes peLbIn { from { opacity: 0; } to { opacity: 1; } }
     .pe-lightbox .lb-close {
-      position: absolute; top: 20px; right: 28px;
-      width: 40px; height: 40px;
-      background: var(--paper); color: var(--ink);
-      border: 2px solid var(--ink);
-      font-size: 22px; font-weight: 900;
+      position: absolute; top: 18px; right: 24px;
+      width: 38px; height: 38px;
+      background: transparent; color: #fff;
+      border: 2px solid rgba(255,255,255,0.4);
+      font-size: 20px; font-weight: 700;
       display: flex; align-items: center; justify-content: center;
       cursor: pointer; z-index: 10;
-      font-family: inherit;
-      transition: background 0.2s, color 0.2s;
+      font-family: inherit; transition: border-color 0.2s;
     }
-    .pe-lightbox .lb-close:hover { background: var(--ink); color: var(--paper); }
-    .pe-lightbox .lb-card {
-      max-width: min(92vw, 900px); max-height: 90vh;
-      display: flex; align-items: center; justify-content: center;
-      animation: peLbPop 0.3s cubic-bezier(0.34,1.4,0.64,1);
+    .pe-lightbox .lb-close:hover { border-color: #fff; }
+    .pe-lightbox .lb-inner {
+      max-width: min(92vw, 1000px); max-height: 90vh;
+      animation: peLbPop 0.25s cubic-bezier(0.34,1.3,0.64,1);
       cursor: default;
     }
-    @keyframes peLbPop { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-    .pe-lightbox .lb-card img {
+    @keyframes peLbPop { from { transform: scale(0.94); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .pe-lightbox .lb-inner img {
       max-width: 100%; max-height: 90vh;
       object-fit: contain; display: block;
     }
-
     .pe-gallery .item { cursor: pointer; }
+
+    /* ── SLIDESHOW ── */
+    .pe-slideshow { padding: 40px 24px 80px; max-width: 1200px; margin: 0 auto; }
+    .pe-slideshow .ss-main {
+      position: relative; width: 100%;
+      aspect-ratio: 16/10; background: rgba(0,0,0,0.3);
+      overflow: hidden; display: flex; align-items: center; justify-content: center;
+    }
+    .pe-slideshow .ss-main img {
+      max-width: 100%; max-height: 100%;
+      object-fit: contain; display: block;
+      transition: opacity 0.3s ease;
+    }
+    .pe-slideshow .ss-arr {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 44px; height: 44px;
+      background: rgba(0,0,0,0.45); color: #fff;
+      border: 1px solid rgba(255,255,255,0.2);
+      font-size: 20px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 5;
+      font-family: inherit; transition: background 0.2s;
+    }
+    .pe-slideshow .ss-arr:hover { background: rgba(0,0,0,0.7); }
+    .pe-slideshow .ss-arr.prev { left: 12px; }
+    .pe-slideshow .ss-arr.next { right: 12px; }
+    .pe-slideshow .ss-counter {
+      position: absolute; bottom: 12px; right: 16px;
+      font-size: 10px; letter-spacing: 0.15em; opacity: 0.6;
+      background: rgba(0,0,0,0.5); padding: 4px 10px;
+    }
+    .pe-slideshow .ss-strip {
+      display: flex; gap: 4px; margin-top: 8px;
+      overflow-x: auto; padding: 4px 0;
+      scrollbar-width: thin;
+    }
+    .pe-slideshow .ss-strip::-webkit-scrollbar { height: 4px; }
+    .pe-slideshow .ss-strip::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); }
+    .pe-slideshow .ss-thumb {
+      flex: 0 0 auto; width: 80px; height: 56px;
+      overflow: hidden; cursor: pointer;
+      opacity: 0.4; transition: opacity 0.2s;
+      border: 2px solid transparent;
+    }
+    .pe-slideshow .ss-thumb.active { opacity: 1; border-color: var(--a1); }
+    .pe-slideshow .ss-thumb:hover { opacity: 0.8; }
+    .pe-slideshow .ss-thumb img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
 
     @media (max-width: 768px) {
       .pe-head { padding: 48px 16px 32px; }
@@ -211,32 +257,26 @@ const TEMPLATES = {
       {data.caption && <p className="caption">{data.caption}</p>}
     </section>
   ),
-  "gallery": function GalleryTemplate({ data }) {
+  "gallery": function GalleryTpl({ data }) {
     const [lbSrc, setLbSrc] = React.useState(null);
-
     React.useEffect(() => {
-      const handler = (e) => { if (e.key === "Escape") setLbSrc(null); };
-      document.addEventListener("keydown", handler);
-      return () => document.removeEventListener("keydown", handler);
+      const h = (e) => { if (e.key === "Escape") setLbSrc(null); };
+      document.addEventListener("keydown", h);
+      return () => document.removeEventListener("keydown", h);
     }, []);
-
     return (
       <>
         <section className="pe-gallery">
           {(data.images || []).map((img, i) => {
             const src = typeof img === "string" ? img : img.src;
             const variant = typeof img === "object" ? img.variant : "";
-            return (
-              <div key={i} className={`item ${variant || ""}`} onClick={() => setLbSrc(src)}>
-                <img src={src} alt={`${data.title} ${i + 1}`} />
-              </div>
-            );
+            return (<div key={i} className={`item ${variant || ""}`} onClick={() => setLbSrc(src)}><img src={src} alt={`${data.title} ${i + 1}`} /></div>);
           })}
         </section>
         {lbSrc && (
           <div className="pe-lightbox" onClick={() => setLbSrc(null)}>
             <button className="lb-close" onClick={() => setLbSrc(null)}>✕</button>
-            <div className="lb-card" onClick={e => e.stopPropagation()}>
+            <div className="lb-inner" onClick={e => e.stopPropagation()}>
               <img src={lbSrc} alt={data.title} />
             </div>
           </div>
@@ -284,6 +324,44 @@ const TEMPLATES = {
       {data.caption && <p className="caption">{data.caption}</p>}
     </section>
   ),
+  "slideshow": function SlideshowTpl({ data }) {
+    const imgs = (data.images || []).map(img => typeof img === "string" ? img : img.src);
+    const [idx, setIdx] = React.useState(0);
+    const stripRef = React.useRef(null);
+    const len = imgs.length;
+    const go = (dir) => setIdx((prev) => (prev + dir + len) % len);
+    React.useEffect(() => {
+      const h = (e) => { if (e.key === "ArrowLeft") go(-1); else if (e.key === "ArrowRight") go(1); };
+      document.addEventListener("keydown", h);
+      return () => document.removeEventListener("keydown", h);
+    }, [len]);
+    React.useEffect(() => {
+      if (stripRef.current) {
+        const thumb = stripRef.current.children[idx];
+        if (thumb) thumb.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+      }
+    }, [idx]);
+    if (len === 0) return null;
+    return (
+      <section className="pe-slideshow">
+        <div className="ss-main">
+          <img src={imgs[idx]} alt={`${data.title} ${idx + 1}`} key={idx} />
+          {len > 1 && <button className="ss-arr prev" onClick={() => go(-1)}>‹</button>}
+          {len > 1 && <button className="ss-arr next" onClick={() => go(1)}>›</button>}
+          <span className="ss-counter">{idx + 1} / {len}</span>
+        </div>
+        {len > 1 && (
+          <div className="ss-strip" ref={stripRef}>
+            {imgs.map((src, i) => (
+              <div key={i} className={`ss-thumb ${i === idx ? "active" : ""}`} onClick={() => setIdx(i)}>
+                <img src={src} alt={`thumb ${i + 1}`} />
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+    );
+  },
 };
 
 window.ProjectEntry = ProjectEntry;
