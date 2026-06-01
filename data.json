@@ -121,6 +121,20 @@
   "heroStickers": [],
   "projects": [
     {
+      "id": "dont-rush",
+      "title": "dont rush",
+      "category": "ILLUSTRATION",
+      "year": "2026",
+      "cover": "assets/projects/dont-rush/dontrush.jpg",
+      "contain": false,
+      "featured": false,
+      "template": "single-image",
+      "data": {
+        "image": "assets/projects/dont-rush/dontrush.jpg"
+      },
+      "tags": []
+    },
+    {
       "id": "peluche-paseando-por-el-tajmajal",
       "title": "peluche paseando por el tajmajal",
       "category": "ILLUSTRATION",
