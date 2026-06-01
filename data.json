@@ -121,34 +121,6 @@
   "heroStickers": [],
   "projects": [
     {
-      "id": "lifestyle-magazine",
-      "title": "lifestyle magazine",
-      "category": "BRANDING",
-      "year": "2026",
-      "cover": "assets/projects/lifestyle-magazine/lifestyle-13.jpg",
-      "contain": false,
-      "featured": false,
-      "template": "gallery",
-      "data": {
-        "images": [
-          "assets/projects/lifestyle-magazine/lifestyle-13.jpg",
-          "assets/projects/lifestyle-magazine/lifestyle-1.jpg",
-          "assets/projects/lifestyle-magazine/lifestyle-2.jpg",
-          "assets/projects/lifestyle-magazine/lifestyle-3.jpg",
-          "assets/projects/lifestyle-magazine/lifestyle-4.jpg",
-          "assets/projects/lifestyle-magazine/lifestyle-5.jpg",
-          "assets/projects/lifestyle-magazine/lifestyle-6.jpg",
-          "assets/projects/lifestyle-magazine/lifestyle-7.jpg",
-          "assets/projects/lifestyle-magazine/lifestyle-8.jpg",
-          "assets/projects/lifestyle-magazine/lifestyle-9.jpg",
-          "assets/projects/lifestyle-magazine/lifestyle-10.jpg",
-          "assets/projects/lifestyle-magazine/lifestyle-11.jpg",
-          "assets/projects/lifestyle-magazine/lifestyle-12.jpg"
-        ]
-      },
-      "tags": []
-    },
-    {
       "id": "peluche-paseando-por-el-tajmajal",
       "title": "peluche paseando por el tajmajal",
       "category": "ILLUSTRATION",
