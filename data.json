@@ -121,56 +121,6 @@
   "heroStickers": [],
   "projects": [
     {
-      "id": "creature-design-portfolio",
-      "title": "Creature Design Portfolio",
-      "category": "BRANDING",
-      "year": "2026",
-      "cover": "assets/projects/creature-design-portfolio/creature-design-portfolio-1.jpg",
-      "contain": false,
-      "featured": false,
-      "template": "gallery",
-      "data": {
-        "images": [
-          "assets/projects/creature-design-portfolio/creature-design-portfolio-1.jpg",
-          "assets/projects/creature-design-portfolio/creature-design-portfolio-2.jpg",
-          "assets/projects/creature-design-portfolio/creature-design-portfolio-3.jpg",
-          "assets/projects/creature-design-portfolio/creature-design-portfolio-4.jpg",
-          "assets/projects/creature-design-portfolio/creature-design-portfolio-5.jpg",
-          "assets/projects/creature-design-portfolio/creature-design-portfolio-6.jpg",
-          "assets/projects/creature-design-portfolio/creature-design-portfolio-7.jpg",
-          "assets/projects/creature-design-portfolio/creature-design-portfolio-8.jpg",
-          "assets/projects/creature-design-portfolio/creature-design-portfolio-9.jpg",
-          "assets/projects/creature-design-portfolio/creature-design-portfolio-10.jpg",
-          "assets/projects/creature-design-portfolio/creature-design-portfolio-11.jpg"
-        ]
-      },
-      "tags": []
-    },
-    {
-      "id": "children-s-book-portfolio-sample",
-      "title": "Children’s Book Portfolio Sample",
-      "category": "BRANDING",
-      "year": "2026",
-      "cover": "assets/projects/children-s-book-portfolio-sample/children’s-book-portfolio-sample-1.jpg",
-      "contain": false,
-      "featured": false,
-      "template": "gallery",
-      "data": {
-        "images": [
-          "assets/projects/children-s-book-portfolio-sample/children’s-book-portfolio-sample-1.jpg",
-          "assets/projects/children-s-book-portfolio-sample/children’s-book-portfolio-sample-2.jpg",
-          "assets/projects/children-s-book-portfolio-sample/children’s-book-portfolio-sample-3.jpg",
-          "assets/projects/children-s-book-portfolio-sample/children’s-book-portfolio-sample-4.jpg",
-          "assets/projects/children-s-book-portfolio-sample/children’s-book-portfolio-sample-5.jpg",
-          "assets/projects/children-s-book-portfolio-sample/children’s-book-portfolio-sample-6.jpg",
-          "assets/projects/children-s-book-portfolio-sample/children’s-book-portfolio-sample-7.jpg",
-          "assets/projects/children-s-book-portfolio-sample/children’s-book-portfolio-sample-8.jpg",
-          "assets/projects/children-s-book-portfolio-sample/children’s-book-portfolio-sample-9.jpg"
-        ]
-      },
-      "tags": []
-    },
-    {
       "id": "visual-identity-clean-exploration",
       "title": "visual identity clean exploration",
       "category": "BRANDING",
