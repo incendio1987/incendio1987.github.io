@@ -121,6 +121,25 @@
   "heroStickers": [],
   "projects": [
     {
+      "id": "zumito-sano",
+      "title": "zumito sano",
+      "category": "BRANDING",
+      "year": "2026",
+      "cover": "assets/projects/zumito-sano/chatgpt-image-12-jun-2026,-13_36_40.jpg",
+      "contain": false,
+      "featured": false,
+      "template": "gallery",
+      "data": {
+        "images": [
+          "assets/projects/zumito-sano/chatgpt-image-12-jun-2026,-13_36_40.jpg",
+          "assets/projects/zumito-sano/chatgpt-image-12-jun-2026,-13_49_32.jpg",
+          "assets/projects/zumito-sano/chatgpt-image-12-jun-2026,-13_41_46.jpg",
+          "assets/projects/zumito-sano/chatgpt-image-12-jun-2026,-13_33_45.jpg"
+        ]
+      },
+      "tags": []
+    },
+    {
       "id": "dont-rush",
       "title": "dont rush",
       "category": "ILLUSTRATION",
